@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TAEL — Private capital. Programmable returns.</title>
+    <meta
+      name="description"
+      content="Invite-only project financing protocol routing stablecoin liquidity into Chinese consumer-product launches."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="home" class="noise">
+    <div class="page-shell">
+      <header class="artifact-bar">
+        <div class="artifact-left">
+          <div class="artifact-logo">兩</div>
+          <div>
+            <div class="artifact-brandline">
+              <strong>TAEL</strong>
+              <span>兩 · Private capital. Programmable returns.</span>
+            </div>
+            <p class="artifact-note">Invite-only project financing protocol. Content is illustrative and unverified.</p>
+          </div>
+        </div>
+        <div class="artifact-actions">
+          <div class="wallet-chip">
+            <span class="wallet-label">INVITED AS</span>
+            <strong>#4729</strong>
+          </div>
+          <div class="wallet-chip wallet-chip-balance">
+            <span>Wallet</span>
+            <strong id="wallet-balance">$1,000,000 USDT</strong>
+          </div>
+          <button class="header-help mono" id="header-education" aria-label="How PT and YT work">?</button>
+        </div>
+      </header>
+
+      <div id="live-ticker"></div>
+      <div id="urgency-banner"></div>
+
+      <main class="content-frame">
+        <section class="hero-sheet">
+          <div class="hero-copy">
+            <p class="eyebrow">Private project financing protocol</p>
+            <h1>Deals that behave like a <em class="hero-emphasis">private credit book</em>, not a <em class="hero-deemphasis">public dashboard</em>.</h1>
+            <p class="lead">
+              TAEL routes global stablecoin liquidity into Chinese consumer launches executed by named brands and KOL partnerships, then splits exposure into principal and yield layers.
+            </p>
+            <div class="hero-marginalia" id="hero-asof">as of -- HKT</div>
+          </div>
+
+          <div class="hero-metrics">
+            <article class="hero-metric">
+              <span>Total AUM</span>
+              <strong id="stat-aum">$9.3M</strong>
+              <small>5 active deals</small>
+            </article>
+            <article class="hero-metric">
+              <span>Active deals</span>
+              <strong id="stat-active">5</strong>
+              <small>allocations live</small>
+            </article>
+            <article class="hero-metric">
+              <span>Avg target APY</span>
+              <strong id="stat-apy">11.9%</strong>
+              <small>weighted across book</small>
+            </article>
+            <article class="hero-metric">
+              <span>Next closing</span>
+              <strong id="stat-close">14h 20m</strong>
+              <small>Perfect Diary window</small>
+            </article>
+          </div>
+        </section>
+
+        <nav class="tab-strip">
+          <button class="nav-link active" data-section="markets">Markets</button>
+          <button class="nav-link" data-section="portfolio">Portfolio</button>
+          <button class="nav-link" data-section="exchange">YT Exchange</button>
+          <button class="nav-link" data-section="desk">OTC Desk</button>
+          <button class="nav-link" data-section="account">Account</button>
+        </nav>
+
+        <section id="markets" class="section active">
+          <div class="info-ribbon">
+            <div>
+              <span class="eyebrow">Allocation window</span>
+              <p>Invite-only. First-come-first-served. Capital locks at deal close and routes into the winning OTC desk mandate.</p>
+            </div>
+            <div>
+              <span class="eyebrow">V2 structure</span>
+              <p>Deposits mint PT and YT. PT becomes the stable-backed claim layer. YT is the tradable yield strip.</p>
+            </div>
+          </div>
+          <div id="markets-controls-anchor"></div>
+          <div id="markets-controls" class="markets-controls"></div>
+          <div id="yield-curve-shell"></div>
+
+          <div class="panel-grid home-book-grid">
+            <section class="panel panel-book">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Markets</p>
+                  <h2>Allocation book</h2>
+                </div>
+                <div class="sort-pills">
+                  <button class="sort-pill active" data-sort="closing">Closing soonest</button>
+                  <button class="sort-pill" data-sort="apy">Highest APY</button>
+                  <button class="sort-pill" data-sort="remaining">Smallest remaining</button>
+                </div>
+              </div>
+              <div id="deal-list" class="deal-list"></div>
+            </section>
+
+            <aside class="panel protocol-panel">
+              <p class="eyebrow">How it works</p>
+              <div class="protocol-steps">
+                <div class="protocol-step"><strong>01</strong><span>Deposit stablecoin into a curated vault. Allocation closes at full fill or deadline.</span></div>
+                <div class="protocol-step"><strong>02</strong><span>Mint PT and YT. Principal stays discrete. Yield becomes tradeable.</span></div>
+                <div class="protocol-step"><strong>03</strong><span>Licensed OTC desks bid the mandate on spread, speed, and escrow terms.</span></div>
+                <div class="protocol-step"><strong>04</strong><span>Brand and KOL execute. Revenue returns into the waterfall for PT redemption and YT claims.</span></div>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section id="portfolio" class="section">
+          <div class="panel-grid portfolio-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Portfolio</p>
+                  <h2>Holdings overview</h2>
+                </div>
+              </div>
+              <div class="balance-grid" id="portfolio-summary"></div>
+              <div id="position-list" class="position-list"></div>
+            </section>
+
+            <section class="panel wallet-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">Wallet</p>
+                  <h2>USDT / tUSD</h2>
+                </div>
+              </div>
+              <div id="wallet-actions"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="exchange" class="section">
+          <section class="panel">
+            <div class="panel-head">
+              <div>
+                <p class="eyebrow">YT Exchange</p>
+                <h2>Implied yield market</h2>
+              </div>
+            </div>
+            <div id="exchange-table"></div>
+          </section>
+        </section>
+
+        <section id="desk" class="section">
+          <div class="panel-grid">
+            <section class="panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow">P2P OTC Desk</p>
+                  <h2>Conversion mandates</h2>
+                </div>
+              </div>
+              <div id="desk-list"></div>
+            </section>
+            <section class="panel">
+              <div id="desk-detail"></div>
+            </section>
+          </div>
+        </section>
+
+        <section id="account" class="section">
+          <section class="panel account-panel">
+            <p class="eyebrow">Member profile</p>
+            <h2>Guest allocation profile</h2>
+            <div id="account-view"></div>
+          </section>
+        </section>
+      </main>
+    </div>
+
+    <div class="mobile-nav">
+      <button class="nav-link active" data-section="markets">Markets</button>
+      <button class="nav-link" data-section="portfolio">Portfolio</button>
+      <button class="nav-link" data-section="exchange">Exchange</button>
+      <button class="nav-link" data-section="desk">Desk</button>
+      <button class="nav-link" data-section="account">Account</button>
+    </div>
+
+    <dialog id="action-modal" class="action-modal"></dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>

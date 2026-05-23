@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TAEL Deal</title>
+    <meta
+      name="description"
+      content="TAEL project financing deal detail."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body data-page="deal" class="noise">
+    <div class="page-shell">
+      <header class="artifact-bar detail-global-header">
+        <div class="artifact-left">
+          <a href="./index.html" class="back-link">← Back to markets</a>
+        </div>
+        <div class="artifact-actions">
+          <div class="wallet-chip">
+            <span class="wallet-label">INVITED AS</span>
+            <strong>#4729</strong>
+          </div>
+          <div class="wallet-chip wallet-chip-balance">
+            <span>Wallet</span>
+            <strong id="wallet-balance">$1,000,000 USDT</strong>
+          </div>
+          <button class="header-help mono" id="header-education" aria-label="How PT and YT work">?</button>
+        </div>
+      </header>
+
+      <div id="live-ticker"></div>
+      <div id="urgency-banner"></div>
+
+      <main class="content-frame detail-page-frame">
+        <section id="deal-page-detail" class="detail-page-panel"></section>
+      </main>
+    </div>
+
+    <dialog id="action-modal" class="action-modal"></dialog>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
