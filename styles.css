@@ -1228,6 +1228,11 @@ h3 {
   align-items: start;
 }
 
+/* Hide mobile allocate summary on desktop */
+.mobile-allocate-summary {
+  display: none;
+}
+
 .counterparty-grid {
   grid-template-columns: repeat(2, minmax(0, 1fr));
 }
@@ -2796,6 +2801,37 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  /* Remove floating sort/filter on mobile */
+  .markets-controls {
+    position: static !important;
+    background: transparent;
+    margin: 0 0 12px;
+  }
+
+  .markets-controls.sticky {
+    position: static !important;
+  }
+
+  .markets-controls-inner {
+    background: var(--surface);
+    backdrop-filter: none;
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .sort-cluster,
+  .filter-cluster {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .sort-pills,
+  .filter-pills {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
   .panel-head h2,
   .panel-head h3 {
     line-height: 1.12;
@@ -2981,6 +3017,89 @@ h3 {
   .sticky-ticket {
     margin-top: 12px;
     padding: 16px;
+  }
+
+  /* Mobile deal page - bottom fixed allocate bar */
+  body[data-page="deal"] .detail-side-column {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 50;
+    background: var(--surface);
+    border-top: 1px solid var(--line);
+    padding: 0;
+    gap: 0;
+    max-height: 70vh;
+    overflow-y: auto;
+  }
+
+  body[data-page="deal"] .detail-side-column .sticky-ticket {
+    padding: 16px;
+    margin: 0;
+    border: 0;
+  }
+
+  body[data-page="deal"] .detail-side-column .side-mini-block {
+    display: none;
+  }
+
+  /* Collapsed state for allocate bar */
+  body[data-page="deal"] .detail-side-column.collapsed {
+    max-height: none;
+    overflow: visible;
+  }
+
+  body[data-page="deal"] .detail-side-column.collapsed .sticky-ticket {
+    display: none;
+  }
+
+  body[data-page="deal"] .detail-side-column.collapsed .mobile-allocate-summary {
+    border-bottom: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  /* Expanded state */
+  body[data-page="deal"] .detail-side-column:not(.collapsed) .mobile-allocate-summary {
+    padding: 16px;
+    margin: 0;
+    border-bottom: 1px solid var(--line);
+  }
+
+  /* Mobile allocate summary bar */
+  .mobile-allocate-summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .mobile-allocate-summary .deal-quick-info {
+    display: grid;
+    gap: 2px;
+  }
+
+  .mobile-allocate-summary .deal-quick-info strong {
+    font-size: 13px;
+    color: var(--gold);
+  }
+
+  .mobile-allocate-summary .deal-quick-info span {
+    font-size: 10px;
+    color: var(--ink-faint);
+    letter-spacing: 0.1em;
+  }
+
+  .mobile-allocate-toggle {
+    padding: 10px 14px;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--ink-soft);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    min-height: 44px;
   }
 
   .ticket-stack {
