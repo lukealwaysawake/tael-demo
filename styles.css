@@ -4298,11 +4298,12 @@ body:has(#account.active) .hero-sheet {
   /* Collapsed state - floating button at bottom */
   body[data-page="deal"] .detail-side-column.collapsed {
     max-height: 0;
-    overflow: hidden;
+    overflow: visible;
     border-radius: 0;
     box-shadow: none;
     padding: 0;
     background: transparent;
+    position: relative;
   }
 
   body[data-page="deal"] .detail-side-column.collapsed::before {
