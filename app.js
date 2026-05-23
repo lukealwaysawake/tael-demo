@@ -3,12 +3,17 @@ const deals = [
     id: "philips-liaustin",
     brand: "Philips Greater China",
     brandShort: "Philips",
+    brandRevenue: "$28B",
+    brandValuation: "$42B",
     kol: "@LiAustin选品",
     kolName: "Austin Li",
     kolFollowers: "78.4M",
+    kolAvgViews: "12M",
+    kolImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
     category: "Home electronics",
     product: "Smart air purifier launch",
     productLine: "Air purifier 5,000 unit first batch for Tmall + Douyin livestream bundle",
+    description: "Philips is launching a new air purifier line in China through Austin Li, the top livestreamer with proven conversion in home wellness.",
     status: "FILLING FAST",
     statusClass: "fast",
     risk: "A",
@@ -82,12 +87,17 @@ const deals = [
     id: "anker-techbro",
     brand: "Anker",
     brandShort: "Anker",
+    brandRevenue: "$1.8B",
+    brandValuation: "$5.2B",
     kol: "@TechBro王",
     kolName: "TechBro Wang",
     kolFollowers: "12.1M",
+    kolAvgViews: "3.2M",
+    kolImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=200&q=80",
     category: "Power accessories",
     product: "100W GaN charger",
     productLine: "GaN charger bundle for 618 shopping festival.",
+    description: "Anker's 618 campaign features TechBro Wang promoting a premium GaN charger line to his tech-savvy audience.",
     status: "OPEN",
     statusClass: "open",
     risk: "A",
@@ -158,12 +168,17 @@ const deals = [
     id: "perfectdiary-cherry",
     brand: "Perfect Diary 完美日记",
     brandShort: "Perfect Diary",
+    brandRevenue: "$520M",
+    brandValuation: "$1.4B",
     kol: "@Cherry张",
     kolName: "Cherry Zhang",
     kolFollowers: "9.7M",
+    kolAvgViews: "2.8M",
+    kolImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format&fit=crop&w=200&q=80",
     category: "Beauty",
     product: "Limited lipstick capsule",
     productLine: "Two-color limited capsule timed to creator-exclusive drop.",
+    description: "Perfect Diary is dropping a limited-edition lipstick line exclusively through Cherry Zhang's beauty-focused audience.",
     status: "CLOSING SOON",
     statusClass: "soon",
     risk: "B",
@@ -235,12 +250,17 @@ const deals = [
     id: "xiaomi-smartlife",
     brand: "Xiaomi",
     brandShort: "Xiaomi",
+    brandRevenue: "$51B",
+    brandValuation: "$62B",
     kol: "@SmartLife刘",
     kolName: "Liu SmartLife",
     kolFollowers: "16.2M",
+    kolAvgViews: "4.5M",
+    kolImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
     category: "Home appliance",
     product: "Smart electric kettle",
     productLine: "Smart-life creator bundle targeted at first-home buyers.",
+    description: "Xiaomi's smart home ecosystem expands with Liu SmartLife's first-home buyer audience, focusing on connected kitchen appliances.",
     status: "OPEN",
     statusClass: "open",
     risk: "A",
@@ -311,12 +331,17 @@ const deals = [
     id: "bear-foodie",
     brand: "Bear 小熊",
     brandShort: "Bear",
+    brandRevenue: "$380M",
+    brandValuation: "$1.1B",
     kol: "@Foodie王",
     kolName: "Foodie Wang",
     kolFollowers: "6.4M",
+    kolAvgViews: "1.8M",
+    kolImage: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=200&q=80",
     category: "Kitchenware",
     product: "Mini steamer set",
     productLine: "Already active campaign with existing user position.",
+    description: "Bear's mini steamer campaign is live with Foodie Wang, targeting young urban professionals with compact kitchen solutions.",
     status: "ACTIVE",
     statusClass: "active",
     risk: "B",
@@ -1408,21 +1433,38 @@ function renderDeals() {
     const displayStatusClass = isFilled ? "filled" : deal.statusClass;
     const fillColor = isFilled ? "fill-filled" : deal.statusClass === "active" ? "fill-sage" : deal.statusClass === "soon" ? "fill-amber" : deal.statusClass === "fast" ? "fill-gold" : "fill-cream";
     return '<button class="deal-card status-' + displayStatusClass + ' ' + (deal.id === state.activeDealId ? "active" : "") + ' ' + (isFilled ? "is-filled" : "") + '" data-deal="' + deal.id + '">' +
-      '<div class="deal-card-row">' +
-        '<div class="deal-card-left">' +
-          '<div class="deal-card-title">' +
-            '<span class="serif">' + deal.brandShort + ' <span class="x">×</span> ' + deal.kolName + '</span>' +
-            '<span class="deal-card-meta mono">' + deal.duration + 'd · ' + deal.category + '</span>' +
+      '<div class="deal-card-header">' +
+        '<div class="deal-card-badges"><span class="badge ' + displayStatusClass + '">' + displayStatus + '</span><span class="badge risk">Risk ' + deal.risk + '</span></div>' +
+        '<div class="deal-card-apy"><span class="mono gold">' + pct(animatedApy) + '</span><span class="label">APY</span></div>' +
+      '</div>' +
+      '<div class="deal-card-main">' +
+        '<div class="deal-card-parties">' +
+          '<div class="deal-card-brand">' +
+            '<img src="' + deal.logo + '" alt="' + deal.brandShort + '" class="deal-card-logo" onerror="this.style.display=\'none\'" />' +
+            '<div class="deal-card-brand-info">' +
+              '<span class="brand-name">' + deal.brandShort + '</span>' +
+              '<span class="brand-stats mono">Rev ' + (deal.brandRevenue || "N/A") + ' · Val ' + (deal.brandValuation || "N/A") + '</span>' +
+            '</div>' +
+          '</div>' +
+          '<span class="deal-card-x serif">×</span>' +
+          '<div class="deal-card-kol">' +
+            '<img src="' + (deal.kolImage || "https://via.placeholder.com/40") + '" alt="' + deal.kolName + '" class="deal-card-kol-img" />' +
+            '<div class="deal-card-kol-info">' +
+              '<span class="kol-name">' + deal.kolName + '</span>' +
+              '<span class="kol-stats mono">' + deal.kolFollowers + ' followers · ' + (deal.kolAvgViews || "N/A") + ' avg views</span>' +
+            '</div>' +
           '</div>' +
         '</div>' +
-        '<div class="deal-card-right">' +
-          '<div class="deal-card-apy"><span class="mono gold">' + pct(animatedApy) + '</span><span class="label">APY</span></div>' +
-          '<div class="deal-card-progress">' +
-            '<div class="progress-track"><div class="progress-fill ' + fillColor + '" style="width:' + Math.min(100, animatedProgress) + '%"></div></div>' +
-            '<span class="mono">' + Math.round(animatedProgress) + '% filled</span>' +
-          '</div>' +
-          '<span class="badge ' + displayStatusClass + '">' + displayStatus + '</span>' +
-        '</div>' +
+        '<p class="deal-card-desc">' + (deal.description || deal.thesis.slice(0, 120) + '...') + '</p>' +
+      '</div>' +
+      '<div class="deal-card-footer">' +
+        '<div class="deal-card-stat"><span>Duration</span><strong class="mono">' + deal.duration + 'd</strong></div>' +
+        '<div class="deal-card-stat"><span>Target</span><strong class="mono">' + money(deal.target) + '</strong></div>' +
+        '<div class="deal-card-stat"><span>Filled</span><strong class="mono">' + Math.round(animatedProgress) + '%</strong></div>' +
+        '<div class="deal-card-stat"><span>' + (isFilled ? "Status" : "Closes") + '</span><strong class="mono" style="' + (isClosingSoon ? 'color:var(--rust);' : '') + (isFilled ? 'color:var(--sage);' : '') + '">' + (isFilled ? "Complete" : closeLabel) + '</strong></div>' +
+      '</div>' +
+      '<div class="deal-card-progress-bar">' +
+        '<div class="progress-track"><div class="progress-fill ' + fillColor + '" style="width:' + Math.min(100, animatedProgress) + '%"></div></div>' +
       '</div>' +
     '</button>';
   }).join("");
