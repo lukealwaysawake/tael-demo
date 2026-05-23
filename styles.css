@@ -585,19 +585,21 @@ html[lang="zh"] .step-labels {
 .trust-logos {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 28px;
   flex-wrap: wrap;
 }
 
-.trust-logos img {
-  height: 34px;
-  width: auto;
-  filter: brightness(0) invert(0.85);
-  opacity: 0.7;
+.trust-logo-text {
+  font-family: 'Inter', sans-serif;
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  opacity: 0.6;
   transition: opacity 200ms ease;
 }
 
-.trust-logos img:hover {
+.trust-logo-text:hover {
   opacity: 1;
 }
 
