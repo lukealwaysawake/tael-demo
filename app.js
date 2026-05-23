@@ -1400,16 +1400,19 @@ function renderDeals() {
   }
   el.innerHTML = sortDeals(deals).map((deal, idx) => {
     const progress = Math.round((deal.filled / deal.target) * 100);
+    const isFilled = deal.filled >= deal.target;
     const animatedProgress = getAnimatedValue("deal-" + deal.id + "-filledpct", progress, { entryMs: 1400, delayMs: idx * 120 });
     const animatedApy = getAnimatedValue("deal-" + deal.id + "-apy", deal.apy, { entryMs: 1100, delayMs: idx * 120 });
     const remaining = deal.target - deal.filled;
     const closeLabel = deal.status === "ACTIVE" ? "LIVE" : formatCountdown(deal);
     const isClosingSoon = deal.status === "CLOSING SOON";
-    const fillColor = deal.statusClass === "active" ? "fill-sage" : deal.statusClass === "soon" ? "fill-amber" : deal.statusClass === "fast" ? "fill-gold" : "fill-cream";
-    return '<button class="deal-card status-' + deal.statusClass + ' ' + (deal.id === state.activeDealId ? "active" : "") + '" data-deal="' + deal.id + '">' +
+    const displayStatus = isFilled ? "FILLED" : deal.status;
+    const displayStatusClass = isFilled ? "filled" : deal.statusClass;
+    const fillColor = isFilled ? "fill-filled" : deal.statusClass === "active" ? "fill-sage" : deal.statusClass === "soon" ? "fill-amber" : deal.statusClass === "fast" ? "fill-gold" : "fill-cream";
+    return '<button class="deal-card status-' + displayStatusClass + ' ' + (deal.id === state.activeDealId ? "active" : "") + ' ' + (isFilled ? "is-filled" : "") + '" data-deal="' + deal.id + '">' +
       '<div class="deal-top">' +
         '<div class="deal-badges">' +
-          '<span class="badge ' + deal.statusClass + '">' + deal.status + '</span>' +
+          '<span class="badge ' + displayStatusClass + '">' + displayStatus + '</span>' +
           '<span class="badge risk">Risk ' + deal.risk + '</span>' +
         '</div>' +
         '<span class="deal-chevron mono" style="font-size:14px;color:var(--ink-faint);">›</span>' +
@@ -1422,13 +1425,13 @@ function renderDeals() {
         '<div class="deal-stat"><span>APY</span><strong class="mono gold" style="color:var(--gold);">' + pct(animatedApy) + '</strong></div>' +
         '<div class="deal-stat"><span>LOCK</span><strong class="mono">' + deal.duration + 'd</strong></div>' +
         '<div class="deal-stat"><span>FILLED</span><strong class="mono">' + Math.round(animatedProgress) + '%</strong></div>' +
-        '<div class="deal-stat"><span>CLOSES IN</span><strong class="mono" style="' + (isClosingSoon ? 'color:var(--rust);' : '') + '">' + closeLabel + '</strong></div>' +
+        '<div class="deal-stat"><span>' + (isFilled ? "STATUS" : "CLOSES IN") + '</span><strong class="mono" style="' + (isClosingSoon ? 'color:var(--rust);' : '') + (isFilled ? 'color:var(--sage);' : '') + '">' + (isFilled ? "COMPLETE" : closeLabel) + '</strong></div>' +
       '</div>' +
       '<div style="margin-top:14px;">' +
         '<div class="progress-track"><div class="progress-fill ' + fillColor + '" style="width:' + Math.min(100, animatedProgress) + '%"></div></div>' +
         '<div style="display:flex;justify-content:space-between;margin-top:6px;">' +
           '<span class="mono" style="font-size:10px;color:var(--ink-faint);">' + money(deal.filled) + ' <span style="color:var(--ink-soft);">of</span> ' + money(deal.target) + '</span>' +
-          '<span class="mono" style="font-size:10px;color:var(--ink-faint);">' + money(remaining) + ' remaining</span>' +
+          '<span class="mono" style="font-size:10px;color:' + (isFilled ? 'var(--sage)' : 'var(--ink-faint)') + ';">' + (isFilled ? "Fully funded" : money(remaining) + ' remaining') + '</span>' +
         '</div>' +
       '</div>' +
     '</button>';
@@ -1693,30 +1696,35 @@ function renderDetail() {
   }
 
   const isMobileDetail = pageType === "deal" && window.innerWidth <= 767;
+  const isFilled = deal.filled >= deal.target;
   const closeLabel = deal.status === "ACTIVE" ? "LIVE" : formatCountdown(deal);
+  const displayStatus = isFilled ? "FILLED" : deal.status;
+  const displayStatusClass = isFilled ? "filled" : deal.statusClass;
   const mobileAllocateSummary = isMobileDetail
-    ? '<div class="mobile-allocate-summary"><div class="deal-quick-info"><strong class="mono">' + pct(deal.apy) + ' APY · ' + deal.duration + 'd</strong><span class="mono">Remaining: ' + money(deal.target - deal.filled) + '</span></div><button class="mobile-allocate-toggle mono" id="toggle-allocate-panel">DEPOSIT</button></div>'
+    ? (isFilled 
+        ? '<div class="mobile-allocate-summary filled"><div class="deal-quick-info"><strong class="mono">' + pct(deal.apy) + ' APY · ' + deal.duration + 'd</strong><span class="mono" style="color:var(--sage);">Fully funded</span></div><span class="filled-badge mono">FILLED</span></div>'
+        : '<div class="mobile-allocate-summary"><div class="deal-quick-info"><strong class="mono">' + pct(deal.apy) + ' APY · ' + deal.duration + 'd</strong><span class="mono">Remaining: ' + money(deal.target - deal.filled) + '</span></div><button class="mobile-allocate-toggle mono" id="toggle-allocate-panel">DEPOSIT</button></div>')
     : '';
 
   container.innerHTML =
-    '<div class="detail-shell status-' + deal.statusClass + '">' +
+    '<div class="detail-shell status-' + displayStatusClass + ' ' + (isFilled ? 'is-filled' : '') + '">' +
       (pageType === "deal" ? '<div class="detail-mobile-bar"><button class="mono detail-mobile-back" id="detail-mobile-back">← BACK</button><div class="mono detail-mobile-center">兩 · ' + shortTicker(deal) + '</div><button class="detail-mobile-close" id="detail-mobile-close" aria-label="Close">✕</button></div>' : '') +
       '<div class="detail-header-block">' +
-        '<div class="deal-badges"><span class="badge ' + deal.statusClass + '">' + deal.status + '</span><span class="badge risk">Risk ' + deal.risk + '</span><span class="badge">Tier ' + deal.risk + '</span></div>' +
+        '<div class="deal-badges"><span class="badge ' + displayStatusClass + '">' + displayStatus + '</span><span class="badge risk">Risk ' + deal.risk + '</span><span class="badge">Tier ' + deal.risk + '</span></div>' +
         '<h1 class="detail-title">' + deal.brand + ' <span>×</span> ' + deal.kolName + '</h1>' +
         '<p class="detail-subtitle mono">' + deal.product + ' · ' + deal.category + '</p>' +
         '<div class="watcher-line mono"><span class="watch-dot"></span>' + watcherCountForDeal(deal) + ' members watching</div>' +
       '</div>' +
       '<div class="detail-layout">' +
         '<section class="detail-main-column">' +
-          '<div class="product-render"><img src="' + deal.image + '" alt="' + deal.product + '" /><div class="product-overlay"><div class="brand-inline">' + brandMark(deal, false) + '<strong>' + deal.brandShort + '</strong></div><span class="badge ' + deal.statusClass + '">' + deal.status + '</span></div></div>' +
+          '<div class="product-render"><img src="' + deal.image + '" alt="' + deal.product + '" /><div class="product-overlay"><div class="brand-inline">' + brandMark(deal, false) + '<strong>' + deal.brandShort + '</strong></div><span class="badge ' + displayStatusClass + '">' + displayStatus + '</span></div></div>' +
           '<div class="snippet-stat-grid">' +
             '<article class="snippet-stat-card"><span>TARGET APY</span><strong class="mono">' + pct(deal.apy) + '</strong></article>' +
             '<article class="snippet-stat-card"><span>DURATION</span><strong class="mono">' + deal.duration + ' days</strong></article>' +
             '<article class="snippet-stat-card"><span>MIN TICKET</span><strong class="mono">' + money(deal.minTicket) + '</strong></article>' +
             '<article class="snippet-stat-card"><span>CAP / WALLET</span><strong class="mono">' + money(deal.cap) + '</strong></article>' +
           '</div>' +
-          '<div class="detail-block"><div class="panel-head"><p class="eyebrow">Funding progress</p><strong class="mono">' + progress.toFixed(1) + '%</strong></div><div class="progress-track"><div class="progress-fill" style="width:' + progress + '%"></div></div><div class="funding-line"><span>' + money(deal.filled) + '</span><span>of ' + money(deal.target) + '</span></div><div class="live-fill-block"><div class="live-fill-head mono"><span>Recent fills</span><span class="live-inline"><span class="live-dot"></span>LIVE FEED</span></div><div class="live-fill-list">' + (recentLiveFills.length ? recentLiveFills.map((item) => '<div class="live-fill-row mono"><div class="wallet">' + item.wallet + '<span class="age">' + formatEventAge(item.at) + '</span></div><span class="amount">' + money(item.amount) + '</span></div>').join("") : '<div class="live-fill-row mono"><div class="wallet">No fills yet <span class="age">be first</span></div><span class="amount">—</span></div>') + '</div></div></div>' +
+          '<div class="detail-block"><div class="panel-head"><p class="eyebrow">Funding progress</p><strong class="mono">' + progress.toFixed(1) + '%' + (isFilled ? ' <span style="color:var(--sage);">COMPLETE</span>' : '') + '</strong></div><div class="progress-track"><div class="progress-fill ' + (isFilled ? 'fill-filled' : '') + '" style="width:' + progress + '%"></div></div><div class="funding-line"><span>' + money(deal.filled) + '</span><span>of ' + money(deal.target) + (isFilled ? ' · Fully funded' : '') + '</span></div><div class="live-fill-block"><div class="live-fill-head mono"><span>Recent fills</span><span class="live-inline"><span class="live-dot"></span>LIVE FEED</span></div><div class="live-fill-list">' + (recentLiveFills.length ? recentLiveFills.map((item) => '<div class="live-fill-row mono"><div class="wallet">' + item.wallet + '<span class="age">' + formatEventAge(item.at) + '</span></div><span class="amount">' + money(item.amount) + '</span></div>').join("") : '<div class="live-fill-row mono"><div class="wallet">No fills yet <span class="age">be first</span></div><span class="amount">—</span></div>') + '</div></div></div>' +
           '<div class="detail-block"><p class="eyebrow">Thesis</p><p class="detail-copy">' + deal.thesis + '</p><div class="pull-quote"><p>"Last cycle with ' + deal.kolName + ' moved faster than prior comparable inventory windows. Allocation velocity is the signal here, not the marketing copy."</p><span>— TAEL DEAL DESK · 2026-05-14</span></div></div>' +
           '<div class="asterism mono">* * *</div>' +
           '<div class="detail-block"><p class="eyebrow">Counterparties</p><div class="counterparty-grid"><article class="counterparty-card"><div class="counterparty-label">Brand</div><h4>' + (deal.counterparties[0] || deal.brand) + '</h4><p class="mono">CN · Verified entity</p></article><button class="counterparty-card counterparty-button" type="button" id="open-kol-drawer"><div class="counterparty-label">KOL</div><h4>' + deal.kolName + '</h4><p class="mono">' + deal.kolFollowers + ' followers · ' + deal.heroStat + '</p></button></div></div>' +
@@ -1726,9 +1734,9 @@ function renderDetail() {
         '</section>' +
         '<aside class="detail-side-column">' +
           mobileAllocateSummary +
-          '<div class="sticky-ticket"><p class="eyebrow">Allocate</p>' +
-            ticketBody +
-          '</div>' +
+          (isFilled 
+            ? '<div class="sticky-ticket filled-notice"><p class="eyebrow">Allocation closed</p><div class="filled-message"><div class="filled-icon">✓</div><h3>This deal is fully funded</h3><p>No more allocations are being accepted. Check back for similar opportunities or browse other active deals.</p><a href="./index.html" class="action-button">Browse active deals</a></div></div>'
+            : '<div class="sticky-ticket"><p class="eyebrow">Allocate</p>' + ticketBody + '</div>') +
           '<div class="detail-block side-mini-block"><p class="eyebrow">Recent activity</p><div class="ticket-metrics">' + deal.recentDeposits.slice(0, 4).map((item) => '<div class="ticket-metric"><span>' + item + '</span><strong class="mono">FCFS</strong></div>').join("") + '</div></div>' +
           '<div class="detail-block side-mini-block"><p class="eyebrow">Risk notes</p><div class="ticket-metrics">' + deal.riskNotes.map((item) => '<div class="ticket-metric"><span>' + item + '</span><strong class="mono">' + deal.risk + '</strong></div>').join("") + '</div></div>' +
         '</aside>' +
@@ -1748,13 +1756,24 @@ function renderDetail() {
     // Preserve expanded state across re-renders
     if (!state.mobileAllocateExpanded) {
       sideColumn.classList.add("collapsed");
+      document.body.classList.remove("modal-open");
+    } else {
+      document.body.classList.add("modal-open");
     }
     toggleAllocate.textContent = state.mobileAllocateExpanded ? "CLOSE" : "DEPOSIT";
     toggleAllocate.addEventListener("click", () => {
       state.mobileAllocateExpanded = !state.mobileAllocateExpanded;
       sideColumn.classList.toggle("collapsed", !state.mobileAllocateExpanded);
       toggleAllocate.textContent = state.mobileAllocateExpanded ? "CLOSE" : "DEPOSIT";
+      // Prevent body scroll when modal is expanded
+      document.body.classList.toggle("modal-open", state.mobileAllocateExpanded);
     });
+    // Prevent touch scroll from propagating to body
+    sideColumn.addEventListener("touchmove", (e) => {
+      if (state.mobileAllocateExpanded) {
+        e.stopPropagation();
+      }
+    }, { passive: true });
   }
 
   if (input) {
