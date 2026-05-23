@@ -1321,9 +1321,196 @@ function renderDeals() {
 
   el.querySelectorAll("[data-deal]").forEach((node) => {
     node.addEventListener("click", () => {
-      window.location.href = './deal.html?deal=' + encodeURIComponent(node.dataset.deal);
+      const isMobile = window.innerWidth <= 1120;
+      if (isMobile) {
+        window.location.href = './deal.html?deal=' + encodeURIComponent(node.dataset.deal);
+      } else {
+        state.activeDealId = node.dataset.deal;
+        renderDeals();
+        renderDepositSidebar();
+      }
     });
   });
+
+  renderDepositSidebar();
+}
+
+function renderDepositSidebar() {
+  const container = document.getElementById("deposit-sidebar-content");
+  if (!container) return;
+  
+  const deal = activeDeal();
+  if (!deal) {
+    container.innerHTML = '<div class="sidebar-empty"><div class="sidebar-empty-icon">兩</div><h3>Select an allocation</h3><p>Click on a deal from the list to view details and deposit.</p></div>';
+    return;
+  }
+
+  const progress = Math.round((deal.filled / deal.target) * 100);
+  const projectedYield = state.draftAmount * (deal.apy / 100) * (deal.duration / 365);
+  const tokenCode = deal.brandShort.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
+  const isClosingSoon = deal.status === "CLOSING SOON";
+  const closeLabel = deal.status === "ACTIVE" ? "LIVE" : formatCountdown(deal);
+
+  const stepIdx = { compose: 0, review: 1, sign: 2, confirmed: 3 }[state.depositStep] ?? 0;
+  const steps = [
+    ["compose", "01 · Compose"],
+    ["review", "02 · Review"],
+    ["sign", "03 · Sign"],
+    ["confirmed", "04 · Confirmed"]
+  ];
+  const stepIndicator = '<div class="step-indicator"><div class="step-bars">' + steps.map((item, idx) => '<span class="step-bar ' + (idx < stepIdx ? "done" : idx === stepIdx ? "active" : "upcoming") + '"></span>').join("") + '</div><div class="step-current mono"><span>' + String(stepIdx + 1).padStart(2, "0") + ' · ' + steps[stepIdx][1].split(' · ')[1] + '</span><span>' + (stepIdx + 1) + ' / ' + steps.length + '</span></div></div>';
+
+  const receiptSummary =
+    receiptRow("Deal", deal.brandShort + " × " + deal.kolName) +
+    receiptRow("Principal", money(state.draftAmount), true) +
+    receiptRow("PT to mint", money(state.draftAmount) + " " + tokenLabel("PT", shortTicker(deal))) +
+    receiptRow("YT to mint", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
+    receiptRow("Target APY", pct(deal.apy)) +
+    receiptRow("Locks until", maturityDateStr(deal)) +
+    receiptRow("Projected at maturity", money(state.draftAmount + projectedYield, 2), true);
+
+  let ticketBody = "";
+  if (deal.status === "ACTIVE" || deal.status === "MATURED") {
+    ticketBody = '<div class="detail-callout"><strong>Deal already active</strong><p>This deal is fully funded and in active accrual. Review the position inside Portfolio.</p></div>';
+  } else if (state.depositStep === "compose") {
+    ticketBody =
+      stepIndicator +
+      '<div class="ticket-stack"><div class="ticket-head-row"><div class="funding-line"><span>Amount · USDT</span><strong class="mono">BAL ' + money(wallet.usdt) + '</strong></div><button class="help-chip mono" id="sidebar-ptyt-guide" type="button">? PT / YT</button></div><div class="ticket-amount-row"><span class="mono ticket-currency">$</span><input id="sidebar-deposit-amount" class="ticket-input" type="text" inputmode="numeric" value="' + formatAmountField(state.draftAmount) + '" /><span class="mono ticket-unit">USDT</span></div><div class="quick-picks"><button class="quick-pick" type="button" data-sidebar-quick="25000">$25K</button><button class="quick-pick" type="button" data-sidebar-quick="100000">$100K</button><button class="quick-pick" type="button" data-sidebar-quick="250000">$250K</button></div><div class="ticket-section-line"></div><div class="ticket-receive-card"><div class="ticket-receive-head"><div><div class="eyebrow">You receive</div><div class="serif italic ticket-note">two tokens, one position</div></div></div><div class="ticket-metrics"><div class="ticket-metric"><span>' + tokenLabel("PT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>' + tokenLabel("YT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>Projected yield</span><strong class="mono">' + money(projectedYield, 2) + '</strong></div><div class="ticket-metric"><span>At maturity</span><strong class="mono">' + money(state.draftAmount + projectedYield, 2) + '</strong></div></div></div><button class="action-button" id="sidebar-continue-review">Continue to review</button><p class="ticket-disclaimer">Each deposited dollar produces a principal leg and a yield leg. Review the terms before locking.</p></div>';
+  } else if (state.depositStep === "review") {
+    ticketBody =
+      stepIndicator +
+      '<div class="ticket-stack"><div class="eyebrow">Review terms</div><div class="receipt-card">' + receiptSummary + '</div><div class="ack-list">' +
+      ackRow("sidebar-terms-ack", state.termsAck, "I reviewed the project financing agreement and accept the deal terms.") +
+      ackRow("sidebar-risk-ack", state.riskAck, "I understand principal redemption and realized yield remain subject to deal performance and release terms.") +
+      '</div><div class="review-actions"><button class="secondary-button" id="sidebar-review-back">Back</button><button class="action-button" id="sidebar-sign-lock"' + (!(state.termsAck && state.riskAck) ? ' disabled="disabled"' : '') + '>Sign and lock</button></div></div>';
+  } else if (state.depositStep === "sign") {
+    ticketBody =
+      stepIndicator +
+      '<div class="signing-state"><div class="signing-orbit"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48" cy="48" r="46" fill="none" stroke="rgba(232,224,207,0.12)" stroke-width="1"></circle><circle cx="48" cy="48" r="46" fill="none" stroke="var(--gold)" stroke-width="1" stroke-dasharray="289" stroke-dashoffset="289" class="signing-draw"></circle></svg><div class="signing-glyph serif">兩</div></div><div class="serif italic signing-title">Locking allocation…</div><div class="mono signing-meta">AWAITING RECEIPT</div></div>';
+  } else {
+    ticketBody =
+      stepIndicator +
+      '<div class="ticket-stack fade-up"><div class="receipt-asterism mono">* * *</div><div class="mono receipt-title">ALLOCATION RECEIPT</div><div class="serif italic receipt-ref">Ref. ' + generateRef(deal, state.draftAmount) + '</div><div class="receipt-card">' +
+      receiptRow("Deal", deal.brandShort + " × " + deal.kolName) +
+      receiptRow("Principal", money(state.draftAmount), true) +
+      receiptRow("PT minted", money(state.draftAmount) + " " + tokenLabel("PT", shortTicker(deal))) +
+      receiptRow("YT minted", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
+      receiptRow("Locked at", nowHkt()) +
+      receiptRow("Matures", maturityDateStr(deal)) +
+      '</div><div class="serif italic receipt-foot">A copy of this receipt is reflected in Account → Activity Log.</div><div class="review-actions"><button class="action-button" id="sidebar-view-portfolio">View in portfolio</button><button class="secondary-button" id="sidebar-receipt-close">Close</button></div></div>';
+  }
+
+  container.innerHTML =
+    '<div class="sidebar-deal-header">' +
+      '<div class="sidebar-deal-badges"><span class="badge ' + deal.statusClass + '">' + deal.status + '</span><span class="badge risk">Risk ' + deal.risk + '</span></div>' +
+      '<div class="sidebar-deal-title">' + deal.brandShort + ' <span style="font-style:italic;color:var(--ink-soft);">×</span> ' + deal.kolName + '</div>' +
+      '<div class="sidebar-deal-meta mono">' + deal.product + ' · ' + deal.category + '</div>' +
+    '</div>' +
+    '<div class="sidebar-stats-grid">' +
+      '<div class="sidebar-stat"><span>TARGET APY</span><strong class="mono">' + pct(deal.apy) + '</strong></div>' +
+      '<div class="sidebar-stat"><span>DURATION</span><strong class="mono">' + deal.duration + 'd</strong></div>' +
+      '<div class="sidebar-stat"><span>MIN TICKET</span><strong class="mono">' + money(deal.minTicket) + '</strong></div>' +
+      '<div class="sidebar-stat"><span>CLOSES IN</span><strong class="mono" style="' + (isClosingSoon ? 'color:var(--rust);' : '') + '">' + closeLabel + '</strong></div>' +
+    '</div>' +
+    '<div class="sidebar-progress">' +
+      '<div class="progress-track"><div class="progress-fill" style="width:' + progress + '%"></div></div>' +
+      '<div class="funding-line"><span class="mono">' + money(deal.filled) + '</span><span class="mono">of ' + money(deal.target) + '</span></div>' +
+    '</div>' +
+    '<div class="eyebrow" style="margin-bottom:12px;">Allocate</div>' +
+    ticketBody +
+    '<button class="inline-button" id="sidebar-view-full" style="margin-top:16px;width:100%;">View full deal details →</button>';
+
+  // Bind sidebar events
+  const input = document.getElementById("sidebar-deposit-amount");
+  if (input) {
+    input.addEventListener("input", () => {
+      const value = Number(String(input.value || "").replace(/[^0-9]/g, "") || 0);
+      state.draftAmount = Math.max(Math.min(value, deal.cap), Math.max(0, value));
+      renderDepositSidebar();
+    });
+  }
+
+  container.querySelectorAll("[data-sidebar-quick]").forEach((node) => {
+    node.addEventListener("click", () => {
+      state.draftAmount = Math.min(Number(node.dataset.sidebarQuick), deal.cap, wallet.usdt);
+      renderDepositSidebar();
+    });
+  });
+
+  const ptytGuide = document.getElementById("sidebar-ptyt-guide");
+  if (ptytGuide) ptytGuide.addEventListener("click", () => openEducationModal());
+
+  const continueReview = document.getElementById("sidebar-continue-review");
+  if (continueReview) {
+    continueReview.addEventListener("click", () => {
+      state.depositStep = "review";
+      renderDepositSidebar();
+    });
+  }
+
+  const reviewBack = document.getElementById("sidebar-review-back");
+  if (reviewBack) {
+    reviewBack.addEventListener("click", () => {
+      state.depositStep = "compose";
+      renderDepositSidebar();
+    });
+  }
+
+  const signLock = document.getElementById("sidebar-sign-lock");
+  if (signLock) {
+    signLock.addEventListener("click", () => {
+      if (!(state.termsAck && state.riskAck)) return;
+      state.depositStep = "sign";
+      renderDepositSidebar();
+      setTimeout(() => {
+        if (state.depositStep !== "sign") return;
+        performDeposit(deal.id, state.draftAmount);
+        state.depositStep = "confirmed";
+        renderDepositSidebar();
+      }, 1500);
+    });
+  }
+
+  const termsAck = document.getElementById("sidebar-terms-ack");
+  if (termsAck) {
+    termsAck.addEventListener("change", () => {
+      state.termsAck = termsAck.checked;
+      renderDepositSidebar();
+    });
+  }
+
+  const riskAck = document.getElementById("sidebar-risk-ack");
+  if (riskAck) {
+    riskAck.addEventListener("change", () => {
+      state.riskAck = riskAck.checked;
+      renderDepositSidebar();
+    });
+  }
+
+  const viewPortfolio = document.getElementById("sidebar-view-portfolio");
+  if (viewPortfolio) {
+    viewPortfolio.addEventListener("click", () => {
+      state.activeSection = "portfolio";
+      renderAll();
+    });
+  }
+
+  const receiptClose = document.getElementById("sidebar-receipt-close");
+  if (receiptClose) {
+    receiptClose.addEventListener("click", () => {
+      state.depositStep = "compose";
+      state.riskAck = false;
+      state.termsAck = false;
+      renderDepositSidebar();
+    });
+  }
+
+  const viewFull = document.getElementById("sidebar-view-full");
+  if (viewFull) {
+    viewFull.addEventListener("click", () => {
+      window.location.href = './deal.html?deal=' + encodeURIComponent(deal.id);
+    });
+  }
 }
 
 function metricRows(items) {

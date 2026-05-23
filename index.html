@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>TAEL — Private capital. Programmable returns.</title>
     <meta
       name="description"
@@ -90,8 +90,8 @@
           <div id="markets-controls" class="markets-controls"></div>
           <div id="yield-curve-shell"></div>
 
-          <div class="panel-grid home-book-grid">
-            <section class="panel panel-book">
+          <div class="markets-split-layout">
+            <section class="panel panel-book markets-list-panel">
               <div class="panel-head">
                 <div>
                   <p class="eyebrow serif-italic">Live ledger</p>
@@ -109,6 +109,10 @@
                 <p class="how-it-works-body">You deposit stablecoin into a curated deal. The vault converts to local fiat via the OTC Desk and wires to the brand's escrow. The KOL executes the launch. Revenue returns and your position pays out. Each deposit mints PT (principal, 1:1 redeemable) and YT (yield, tradeable). Hold both to maturity, or trade YT on the in-house exchange.</p>
               </div>
             </section>
+
+            <aside class="markets-deposit-sidebar" id="markets-deposit-sidebar">
+              <div id="deposit-sidebar-content"></div>
+            </aside>
           </div>
         </section>
 

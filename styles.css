@@ -612,6 +612,133 @@ h3 {
   grid-template-columns: 1fr;
 }
 
+/* Markets split layout - deal list + deposit sidebar */
+.markets-split-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 420px;
+  gap: 20px;
+  align-items: start;
+}
+
+.markets-list-panel {
+  min-width: 0;
+}
+
+.markets-deposit-sidebar {
+  position: sticky;
+  top: 100px;
+  padding: 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  max-height: calc(100vh - 120px);
+  overflow-y: auto;
+}
+
+.markets-deposit-sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.markets-deposit-sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.markets-deposit-sidebar::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 2px;
+}
+
+.sidebar-deal-header {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sidebar-deal-badges {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.sidebar-deal-title {
+  font-family: 'Instrument Serif', serif;
+  font-size: 22px;
+  color: var(--ink);
+  line-height: 1.15;
+}
+
+.sidebar-deal-meta {
+  font-size: 11px;
+  color: var(--ink-soft);
+  letter-spacing: 0.03em;
+}
+
+.sidebar-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.sidebar-stat {
+  padding: 10px;
+  border: 1px solid var(--line);
+  background: rgba(10, 9, 8, 0.6);
+}
+
+.sidebar-stat span {
+  display: block;
+  font-size: 9px;
+  color: var(--ink-faint);
+  letter-spacing: 0.14em;
+  margin-bottom: 4px;
+}
+
+.sidebar-stat strong {
+  font-size: 14px;
+  color: var(--gold);
+}
+
+.sidebar-progress {
+  margin-bottom: 16px;
+}
+
+.sidebar-progress .funding-line {
+  font-size: 10px;
+}
+
+.sidebar-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 40px 20px;
+  min-height: 300px;
+}
+
+.sidebar-empty-icon {
+  font-family: 'Instrument Serif', serif;
+  font-size: 48px;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
+}
+
+.sidebar-empty h3 {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: var(--ink-soft);
+  margin-bottom: 8px;
+}
+
+.sidebar-empty p {
+  font-size: 12px;
+  color: var(--ink-faint);
+  max-width: 28ch;
+  line-height: 1.5;
+}
+
 .portfolio-grid {
   grid-template-columns: minmax(0, 1.1fr) 380px;
 }
@@ -2532,6 +2659,14 @@ h3 {
   .account-shell {
     grid-template-columns: 1fr;
   }
+
+  .markets-split-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .markets-deposit-sidebar {
+    display: none;
+  }
 }
 
 @media (max-width: 900px) {
@@ -2757,9 +2892,54 @@ h3 {
   }
 
   .mobile-nav .nav-link {
-    padding: 10px 0 8px;
+    padding: 12px 4px 10px;
     font-size: 11px;
     letter-spacing: 0.04em;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Improved touch targets */
+  .deal-card {
+    padding: 18px 16px;
+    min-height: 44px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .deal-card:active {
+    background: var(--surface-2);
+    transform: scale(0.99);
+    transition: transform 100ms ease-out;
+  }
+
+  .sort-pill,
+  .filter-pill {
+    min-height: 44px;
+    padding: 12px 14px;
+  }
+
+  .quick-pick {
+    min-height: 44px;
+    padding: 10px 14px;
+  }
+
+  .action-button,
+  .secondary-button,
+  .inline-button {
+    min-height: 48px;
+    padding: 14px 18px;
+  }
+
+  /* Improved checkbox touch targets */
+  .ack-row {
+    padding: 14px 0;
+  }
+
+  .ack-row input[type="checkbox"] {
+    width: 22px;
+    height: 22px;
   }
 }
 
@@ -2959,7 +3139,28 @@ h3 {
   }
 
   .deal-card {
-    padding: 16px;
+    padding: 18px 16px;
+  }
+
+  .deal-card:active {
+    transform: scale(0.98);
+  }
+
+  /* Mobile-friendly input - prevents iOS zoom */
+  .ticket-input {
+    font-size: 16px;
+  }
+
+  /* Larger touch targets on mobile */
+  .mobile-nav .nav-link {
+    min-height: 48px;
+    padding: 14px 4px 12px;
+  }
+
+  .action-button,
+  .secondary-button {
+    min-height: 52px;
+    font-size: 13px;
   }
 
   .deal-bottom {
