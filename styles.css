@@ -564,7 +564,9 @@ html[lang="zh"] .step-labels {
   flex-direction: column;
   gap: 24px;
   opacity: 0.5;
-  flex-shrink: 0;
+  flex-shrink: 1;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .trust-label {
@@ -585,18 +587,20 @@ html[lang="zh"] .step-labels {
 .trust-logos {
   display: flex;
   align-items: center;
-  gap: 28px;
+  gap: 20px;
   flex-wrap: wrap;
+  max-width: 280px;
 }
 
 .trust-logo-text {
   font-family: 'Inter', sans-serif;
-  font-size: 18px;
+  font-size: 14px;
   font-weight: 600;
   letter-spacing: -0.02em;
   color: var(--ink);
   opacity: 0.6;
   transition: opacity 200ms ease;
+  white-space: nowrap;
 }
 
 .trust-logo-text:hover {
@@ -628,17 +632,40 @@ html[lang="zh"] .step-labels {
 @media (max-width: 768px) {
   .hero-main {
     flex-direction: column;
-    gap: 32px;
+    gap: 24px;
+  }
+  
+  .hero-copy {
+    max-width: 100%;
+  }
+  
+  .hero-copy h1 {
+    font-size: 28px;
   }
   
   .hero-trust {
     flex-direction: row;
-    gap: 32px;
+    gap: 24px;
     opacity: 0.4;
   }
   
+  .trust-logos {
+    max-width: 140px;
+    gap: 12px;
+  }
+  
+  .trust-logo-text {
+    font-size: 11px;
+  }
+  
   .trust-faces {
-    max-width: 150px;
+    max-width: 120px;
+    gap: 4px;
+  }
+  
+  .trust-faces img {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -1260,6 +1287,19 @@ body:has(#account.active) .hero-sheet {
 
 /* Mobile: adjust deal card layout */
 @media (max-width: 640px) {
+  .deal-card {
+    padding: 16px;
+  }
+  
+  .deal-card-header {
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  
+  .deal-card-apy .gold {
+    font-size: 20px;
+  }
+  
   .deal-card-parties {
     flex-direction: column;
     align-items: stretch;
@@ -1280,8 +1320,38 @@ body:has(#account.active) .hero-sheet {
     border-bottom: none;
   }
   
+  .deal-card-logo,
+  .deal-card-kol-img {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .brand-name,
+  .kol-name {
+    font-size: 13px;
+  }
+  
+  .brand-stats,
+  .kol-stats {
+    font-size: 9px;
+  }
+  
+  .deal-card-desc {
+    font-size: 12px;
+    -webkit-line-clamp: 3;
+  }
+  
   .deal-card-footer {
     grid-template-columns: repeat(2, 1fr);
+    gap: 8px;
+  }
+  
+  .deal-card-stat span {
+    font-size: 8px;
+  }
+  
+  .deal-card-stat strong {
+    font-size: 12px;
   }
 }
 
