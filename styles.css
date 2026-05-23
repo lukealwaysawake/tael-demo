@@ -104,6 +104,22 @@ a {
   padding: 0 16px 16px;
 }
 
+/* Desktop: centered container with elegant side margins */
+@media (min-width: 1024px) {
+  .page-shell {
+    padding: 0 48px 48px;
+    background: linear-gradient(
+      90deg,
+      var(--bg) 0%,
+      var(--bg) calc(50% - 560px),
+      transparent calc(50% - 560px),
+      transparent calc(50% + 560px),
+      var(--bg) calc(50% + 560px),
+      var(--bg) 100%
+    );
+  }
+}
+
 .artifact-bar-inner,
 .artifact-left,
 .artifact-actions,
@@ -120,7 +136,7 @@ a {
 
 .artifact-bar {
   display: block;
-  max-width: 1380px;
+  max-width: 1120px;
   margin: 0 auto;
   padding: 14px 0 0;
   border: none;
@@ -129,6 +145,15 @@ a {
   position: sticky;
   top: 0;
   z-index: 40;
+}
+
+/* Desktop: add subtle side borders to header */
+@media (min-width: 1024px) {
+  .artifact-bar {
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding: 14px 24px 0;
+  }
 }
 
 .artifact-bar-inner {
@@ -271,16 +296,36 @@ html[lang="zh"] .step-labels {
 }
 
 .content-frame {
-  max-width: 1380px;
+  max-width: 1120px;
   margin: 0 auto;
   padding-top: 40px;
   padding-bottom: 96px;
 }
 
+/* Desktop: add side borders for contained look */
+@media (min-width: 1024px) {
+  .content-frame {
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    padding-left: 24px;
+    padding-right: 24px;
+    background: var(--bg);
+    min-height: calc(100vh - 100px);
+  }
+}
+
 .live-ticker-shell,
 .urgency-shell {
-  max-width: 1380px;
+  max-width: 1120px;
   margin: 0 auto;
+}
+
+/* Desktop: ticker borders */
+@media (min-width: 1024px) {
+  .live-ticker-shell {
+    border-left: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+  }
 }
 
 .live-ticker-shell {
@@ -1431,6 +1476,28 @@ body:has(#account.active) .hero-sheet {
   margin-bottom: 18px;
 }
 
+/* Exchange stat cards enhancement */
+.exchange-stat-grid .snippet-stat-card {
+  background: linear-gradient(165deg, rgba(201, 169, 106, 0.06) 0%, rgba(20, 17, 15, 0.92) 50%);
+  border: 1px solid var(--gold-dim);
+  position: relative;
+  overflow: hidden;
+}
+
+.exchange-stat-grid .snippet-stat-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201, 169, 106, 0.3), transparent);
+}
+
+.exchange-stat-grid .snippet-stat-card strong {
+  color: var(--gold);
+}
+
 .position-card {
   padding: 18px;
   border: 1px solid var(--line);
@@ -1450,6 +1517,22 @@ body:has(#account.active) .hero-sheet {
   border: 1px solid var(--line);
   background: rgba(20, 17, 15, 0.92);
   overflow-x: auto;
+  padding: 16px;
+  border-radius: 4px;
+}
+
+.data-table-card .table-head {
+  padding: 0 20px 14px;
+  background: rgba(201, 169, 106, 0.02);
+  border-radius: 4px 4px 0 0;
+  margin: -16px -16px 8px;
+  padding-top: 14px;
+}
+
+.data-table-card .table-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .desk-card-list {
@@ -2539,6 +2622,57 @@ body:has(#account.active) .hero-sheet {
 .desk-card,
 .document-row {
   width: 100%;
+}
+
+/* Enhanced exchange rows */
+.exchange-row {
+  padding: 16px 20px;
+  margin: 4px 0;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: rgba(201, 169, 106, 0.02);
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.exchange-row::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--gold);
+  opacity: 0;
+  transition: opacity 0.25s;
+  border-radius: 4px 0 0 4px;
+}
+
+.exchange-row:hover {
+  border-color: var(--gold-dim);
+  background: rgba(201, 169, 106, 0.06);
+  transform: translateX(4px);
+}
+
+.exchange-row:hover::before {
+  opacity: 1;
+}
+
+.exchange-row .brand-inline {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.exchange-row .brand-inline .brand-mark {
+  width: 32px;
+  height: 32px;
+  font-size: 13px;
+}
+
+/* Highlight APY on hover */
+.exchange-row:hover > div:nth-child(2) {
+  color: var(--gold);
 }
 
 .desk-detail-card {
