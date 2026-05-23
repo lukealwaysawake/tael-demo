@@ -169,14 +169,14 @@ a {
 /* Desktop: centered container with elegant side margins */
 @media (min-width: 1024px) {
   .page-shell {
-    padding: 0 58px 48px;
+    padding: 0 80px 48px;
     background: linear-gradient(
       90deg,
       var(--bg) 0%,
-      var(--bg) calc(50% - 540px),
-      transparent calc(50% - 540px),
-      transparent calc(50% + 540px),
-      var(--bg) calc(50% + 540px),
+      var(--bg) calc(50% - 500px),
+      transparent calc(50% - 500px),
+      transparent calc(50% + 500px),
+      var(--bg) calc(50% + 500px),
       var(--bg) 100%
     );
   }
@@ -1023,107 +1023,177 @@ body:has(#account.active) .hero-sheet {
   margin-bottom: 0;
 }
 
-/* Simplified 2-line deal card layout */
-.deal-card-row {
+/* ===== Enhanced Deal Card with Logos & Stats ===== */
+.deal-card-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 16px;
 }
 
-.deal-card-left {
-  flex: 1;
-  min-width: 0;
-}
-
-.deal-card-title {
+.deal-card-badges {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.deal-card-title .serif {
-  font-family: 'Instrument Serif', serif;
-  font-size: 18px;
-  color: var(--ink);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.deal-card-title .serif .x {
-  font-style: italic;
-  color: var(--ink-faint);
-}
-
-.deal-card-meta {
-  font-size: 11px;
-  color: var(--ink-faint);
-  letter-spacing: 0.02em;
-}
-
-.deal-card-right {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-shrink: 0;
+  gap: 8px;
 }
 
 .deal-card-apy {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 2px;
+  text-align: right;
 }
 
 .deal-card-apy .gold {
-  font-size: 18px;
+  display: block;
+  font-size: 24px;
+  font-weight: 600;
   color: var(--gold);
+  line-height: 1;
 }
 
 .deal-card-apy .label {
   font-size: 9px;
   color: var(--ink-faint);
   letter-spacing: 0.1em;
+  margin-top: 4px;
 }
 
-.deal-card-progress {
+.deal-card-main {
+  margin-bottom: 16px;
+}
+
+.deal-card-parties {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 4px;
-  width: 100px;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
 }
 
-.deal-card-progress .progress-track {
-  width: 100%;
+.deal-card-brand,
+.deal-card-kol {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
 }
 
-.deal-card-progress .mono {
+.deal-card-logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: var(--surface-2);
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.deal-card-kol-img {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.deal-card-brand-info,
+.deal-card-kol-info {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.brand-name,
+.kol-name {
+  display: block;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.brand-stats,
+.kol-stats {
+  display: block;
   font-size: 10px;
   color: var(--ink-faint);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 2px;
 }
 
-.deal-card-right .badge {
-  min-width: 80px;
+.deal-card-x {
+  color: var(--ink-faint);
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.deal-card-desc {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.deal-card-footer {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+  margin-bottom: 12px;
+}
+
+.deal-card-stat {
   text-align: center;
-  justify-content: center;
 }
 
-/* Mobile: stack vertically */
+.deal-card-stat span {
+  display: block;
+  font-size: 9px;
+  color: var(--ink-faint);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.deal-card-stat strong {
+  display: block;
+  font-size: 13px;
+  color: var(--ink);
+}
+
+.deal-card-progress-bar .progress-track {
+  height: 4px;
+}
+
+/* Mobile: adjust deal card layout */
 @media (max-width: 640px) {
-  .deal-card-row {
+  .deal-card-parties {
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 10px;
   }
   
-  .deal-card-right {
-    justify-content: space-between;
+  .deal-card-x {
+    display: none;
   }
   
-  .deal-card-progress {
-    width: 80px;
+  .deal-card-brand,
+  .deal-card-kol {
+    padding: 8px 0;
+    border-bottom: 1px solid var(--line);
+  }
+  
+  .deal-card-kol {
+    border-bottom: none;
+  }
+  
+  .deal-card-footer {
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
