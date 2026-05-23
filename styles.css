@@ -169,14 +169,14 @@ a {
 /* Desktop: centered container with elegant side margins */
 @media (min-width: 1024px) {
   .page-shell {
-    padding: 0 20px 48px;
+    padding: 0 58px 48px;
     background: linear-gradient(
       90deg,
       var(--bg) 0%,
-      var(--bg) calc(50% - 600px),
-      transparent calc(50% - 600px),
-      transparent calc(50% + 600px),
-      var(--bg) calc(50% + 600px),
+      var(--bg) calc(50% - 540px),
+      transparent calc(50% - 540px),
+      transparent calc(50% + 540px),
+      var(--bg) calc(50% + 540px),
       var(--bg) 100%
     );
   }
