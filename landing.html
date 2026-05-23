@@ -28,34 +28,8 @@
 
     <!-- ===== HERO ===== -->
     <section class="hero">
-      <!-- 3D Rotating Cube + ASCII Background -->
-      <div class="hero-visual" aria-hidden="true">
-        <div class="hero-ascii-bg" id="heroAscii"></div>
-        <div class="hero-3d-scene">
-          <div class="cube-wrapper">
-            <div class="cube">
-              <div class="cube-face cube-front"><span class="mono">PT</span></div>
-              <div class="cube-face cube-back"><span class="mono">YT</span></div>
-              <div class="cube-face cube-right"><span class="serif" style="font-size:28px">兩</span></div>
-              <div class="cube-face cube-left"><span class="mono" style="font-size:12px">TAEL</span></div>
-              <div class="cube-face cube-top"><span class="mono" style="font-size:10px">YIELD</span></div>
-              <div class="cube-face cube-bottom"><span class="mono" style="font-size:10px">DEALS</span></div>
-            </div>
-          </div>
-          <!-- Orbiting ring -->
-          <div class="orbit-ring"></div>
-          <div class="orbit-dot dot-1"></div>
-          <div class="orbit-dot dot-2"></div>
-          <div class="orbit-dot dot-3"></div>
-        </div>
-        <!-- Floating data particles -->
-        <div class="hero-particles">
-          <span class="particle p1 mono">$8.6M</span>
-          <span class="particle p2 mono">11.9%</span>
-          <span class="particle p3 mono">0 DEF</span>
-          <span class="particle p4 mono">PT:YT</span>
-        </div>
-      </div>
+      <!-- Canvas Particle Network -->
+      <canvas id="heroCanvas" class="hero-canvas" aria-hidden="true"></canvas>
 
       <div class="hero-grid">
         <div class="hero-left">
@@ -597,35 +571,225 @@
       }
       if (window.innerWidth <= 600) setTimeout(animateBars, 1000);
 
-      // ===== ASCII Background Animation =====
+      // ===== Hero Canvas: Particle Network + Geometric Form =====
       (function() {
-        const asciiEl = document.getElementById('heroAscii');
-        if (!asciiEl) return;
-        const chars = '.:;+=xX$&#@';
-        const cols = Math.floor(window.innerWidth / 10);
-        const rows = Math.floor(window.innerHeight / 16);
-        let frame = 0;
+        const canvas = document.getElementById('heroCanvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        let W, H, cx, cy, time = 0;
+        const gold = [201, 169, 106];
+        const isMob = window.innerWidth <= 600;
 
-        function renderAscii() {
-          let output = '';
-          for (let y = 0; y < rows; y++) {
-            for (let x = 0; x < cols; x++) {
-              const cx = cols / 2, cy = rows / 2;
-              const dx = x - cx, dy = y - cy;
-              const dist = Math.sqrt(dx * dx + dy * dy);
-              const wave = Math.sin(dist * 0.3 - frame * 0.04) * 0.5 + 0.5;
-              const ripple = Math.sin(x * 0.15 + frame * 0.02) * Math.cos(y * 0.15 + frame * 0.03);
-              const val = (wave + ripple * 0.3) * 0.5 + 0.25;
-              const idx = Math.floor(Math.max(0, Math.min(1, val)) * (chars.length - 1));
-              output += chars[idx];
-            }
-            output += '\n';
-          }
-          asciiEl.textContent = output;
-          frame++;
-          requestAnimationFrame(renderAscii);
+        function resize() {
+          W = canvas.parentElement.offsetWidth;
+          H = canvas.parentElement.offsetHeight;
+          canvas.width = W * dpr;
+          canvas.height = H * dpr;
+          canvas.style.width = W + 'px';
+          canvas.style.height = H + 'px';
+          ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+          cx = isMob ? W * 0.5 : W * 0.62;
+          cy = H * 0.38;
         }
-        renderAscii();
+        resize();
+        window.addEventListener('resize', resize);
+
+        // Nodes for the network
+        const nodeCount = isMob ? 35 : 65;
+        const nodes = [];
+        const spread = isMob ? 140 : 220;
+        for (let i = 0; i < nodeCount; i++) {
+          const angle = Math.random() * Math.PI * 2;
+          const r = Math.random() * spread + 30;
+          nodes.push({
+            x: Math.cos(angle) * r,
+            y: Math.sin(angle) * r,
+            vx: (Math.random() - 0.5) * 0.15,
+            vy: (Math.random() - 0.5) * 0.15,
+            size: Math.random() * 2 + 0.5,
+            alpha: Math.random() * 0.5 + 0.2,
+            pulse: Math.random() * Math.PI * 2
+          });
+        }
+
+        // Icosahedron-like vertices (20-sided feel)
+        const phi = (1 + Math.sqrt(5)) / 2;
+        const icoVerts = [
+          [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
+          [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
+          [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1]
+        ].map(v => {
+          const l = Math.sqrt(v[0]*v[0] + v[1]*v[1] + v[2]*v[2]);
+          return v.map(c => c / l);
+        });
+
+        const icoEdges = [
+          [0,1],[0,5],[0,7],[0,10],[0,11],[1,5],[1,7],[1,8],[1,9],
+          [2,3],[2,4],[2,6],[2,10],[2,11],[3,4],[3,6],[3,8],[3,9],
+          [4,5],[4,9],[4,11],[5,9],[5,11],[6,7],[6,8],[6,10],
+          [7,8],[7,10],[8,9],[10,11]
+        ];
+
+        const geoSize = isMob ? 55 : 85;
+
+        function project(v3, t) {
+          // Rotate Y
+          const cosY = Math.cos(t * 0.3);
+          const sinY = Math.sin(t * 0.3);
+          let x = v3[0] * cosY - v3[2] * sinY;
+          let z = v3[0] * sinY + v3[2] * cosY;
+          let y = v3[1];
+          // Rotate X slightly
+          const cosX = Math.cos(t * 0.15 + 0.3);
+          const sinX = Math.sin(t * 0.15 + 0.3);
+          const y2 = y * cosX - z * sinX;
+          const z2 = y * sinX + z * cosX;
+          // Perspective
+          const perspective = 3;
+          const scale = perspective / (perspective + z2);
+          return { x: x * scale * geoSize, y: y2 * scale * geoSize, z: z2, s: scale };
+        }
+
+        // Flowing data labels
+        const labels = ['$12.4M', '11.9%', '0 DEF', 'PT', 'YT', '47'];
+        const floaters = labels.map((txt, i) => ({
+          txt, angle: (i / labels.length) * Math.PI * 2,
+          r: isMob ? 110 : 170,
+          speed: 0.08 + Math.random() * 0.04,
+          yOff: (Math.random() - 0.5) * 60
+        }));
+
+        function draw() {
+          ctx.clearRect(0, 0, W, H);
+          time += 0.008;
+
+          // --- Background grid (subtle) ---
+          ctx.strokeStyle = `rgba(${gold.join(',')}, 0.015)`;
+          ctx.lineWidth = 0.5;
+          const gridSize = 60;
+          for (let x = cx % gridSize; x < W; x += gridSize) {
+            ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke();
+          }
+          for (let y = cy % gridSize; y < H; y += gridSize) {
+            ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke();
+          }
+
+          // --- Particle network ---
+          const connectDist = isMob ? 70 : 100;
+          for (let i = 0; i < nodes.length; i++) {
+            const n = nodes[i];
+            n.x += n.vx;
+            n.y += n.vy;
+            n.pulse += 0.02;
+            // soft boundary
+            if (Math.abs(n.x) > spread + 40) n.vx *= -1;
+            if (Math.abs(n.y) > spread + 40) n.vy *= -1;
+
+            const sx = cx + n.x;
+            const sy = cy + n.y;
+            const pulseAlpha = n.alpha * (0.6 + 0.4 * Math.sin(n.pulse));
+
+            // Draw node
+            ctx.beginPath();
+            ctx.arc(sx, sy, n.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${gold.join(',')}, ${pulseAlpha})`;
+            ctx.fill();
+
+            // Draw connections
+            for (let j = i + 1; j < nodes.length; j++) {
+              const m = nodes[j];
+              const dx = n.x - m.x, dy = n.y - m.y;
+              const dist = Math.sqrt(dx*dx + dy*dy);
+              if (dist < connectDist) {
+                const lineAlpha = (1 - dist / connectDist) * 0.12;
+                ctx.beginPath();
+                ctx.moveTo(sx, sy);
+                ctx.lineTo(cx + m.x, cy + m.y);
+                ctx.strokeStyle = `rgba(${gold.join(',')}, ${lineAlpha})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+              }
+            }
+          }
+
+          // --- Geometric form (icosahedron wireframe) ---
+          const projected = icoVerts.map(v => project(v, time));
+
+          // Draw edges
+          for (const [a, b] of icoEdges) {
+            const pa = projected[a], pb = projected[b];
+            const avgZ = (pa.z + pb.z) / 2;
+            const edgeAlpha = 0.08 + (avgZ + 1) * 0.12;
+            ctx.beginPath();
+            ctx.moveTo(cx + pa.x, cy + pa.y);
+            ctx.lineTo(cx + pb.x, cy + pb.y);
+            ctx.strokeStyle = `rgba(${gold.join(',')}, ${Math.max(0.04, edgeAlpha)})`;
+            ctx.lineWidth = avgZ > 0 ? 1.2 : 0.6;
+            ctx.stroke();
+          }
+
+          // Draw vertices
+          for (const p of projected) {
+            const vAlpha = 0.3 + (p.z + 1) * 0.25;
+            const vSize = 1.5 + p.s * 1.5;
+            ctx.beginPath();
+            ctx.arc(cx + p.x, cy + p.y, vSize, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${gold.join(',')}, ${Math.max(0.15, vAlpha)})`;
+            ctx.fill();
+            // Glow on front vertices
+            if (p.z > 0.3) {
+              ctx.beginPath();
+              ctx.arc(cx + p.x, cy + p.y, vSize + 3, 0, Math.PI * 2);
+              ctx.fillStyle = `rgba(${gold.join(',')}, 0.06)`;
+              ctx.fill();
+            }
+          }
+
+          // --- Center glow ---
+          const grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, geoSize * 1.2);
+          grad.addColorStop(0, `rgba(${gold.join(',')}, 0.04)`);
+          grad.addColorStop(1, 'rgba(201, 169, 106, 0)');
+          ctx.fillStyle = grad;
+          ctx.fillRect(cx - geoSize * 2, cy - geoSize * 2, geoSize * 4, geoSize * 4);
+
+          // --- Orbiting ring ---
+          ctx.beginPath();
+          ctx.ellipse(cx, cy, isMob ? 100 : 160, isMob ? 28 : 45, time * 0.15, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${gold.join(',')}, 0.06)`;
+          ctx.lineWidth = 0.8;
+          ctx.stroke();
+
+          // Orbital dots
+          for (let i = 0; i < 3; i++) {
+            const a = time * (0.4 + i * 0.15) + i * 2.1;
+            const ox = cx + Math.cos(a) * (isMob ? 100 : 160) * Math.cos(time * 0.15) - Math.sin(a) * (isMob ? 28 : 45) * Math.sin(time * 0.15);
+            const oy = cy + Math.cos(a) * (isMob ? 100 : 160) * Math.sin(time * 0.15) + Math.sin(a) * (isMob ? 28 : 45) * Math.cos(time * 0.15);
+            ctx.beginPath();
+            ctx.arc(ox, oy, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${gold.join(',')}, ${0.4 + 0.3 * Math.sin(time * 2 + i)})`;
+            ctx.fill();
+            ctx.beginPath();
+            ctx.arc(ox, oy, 6, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${gold.join(',')}, 0.06)`;
+            ctx.fill();
+          }
+
+          // --- Floating labels ---
+          ctx.font = '500 9px "JetBrains Mono", monospace';
+          for (const f of floaters) {
+            const a = f.angle + time * f.speed;
+            const fx = cx + Math.cos(a) * f.r;
+            const fy = cy + Math.sin(a) * (f.r * 0.35) + f.yOff;
+            const fAlpha = 0.15 + 0.15 * Math.sin(time * 1.5 + f.angle);
+            ctx.fillStyle = `rgba(${gold.join(',')}, ${fAlpha})`;
+            ctx.textAlign = 'center';
+            ctx.fillText(f.txt, fx, fy);
+          }
+
+          requestAnimationFrame(draw);
+        }
+        draw();
       })();
 
       initReveal();
