@@ -1098,32 +1098,7 @@ a { text-decoration: none; color: inherit; }
   .hero-btn { width: 100%; justify-content: center; padding: 16px 24px; }
   .hero-scroll { bottom: 24px; }
 
-  /* Hero visual mobile */
-  .hero-visual { opacity: 1; }
-  .hero-ascii-bg { opacity: 0.03; font-size: 8px; }
-  .hero-3d-scene {
-    top: 30%;
-    right: 50%;
-    transform: translate(50%, -50%);
-    width: 180px;
-    height: 180px;
-  }
-  .cube { width: 80px; height: 80px; }
-  .cube-face { width: 80px; height: 80px; font-size: 14px; }
-  .cube-front  { transform: translateZ(40px); }
-  .cube-back   { transform: rotateY(180deg) translateZ(40px); }
-  .cube-right  { transform: rotateY(90deg) translateZ(40px); }
-  .cube-left   { transform: rotateY(-90deg) translateZ(40px); }
-  .cube-top    { transform: rotateX(90deg) translateZ(40px); }
-  .cube-bottom { transform: rotateX(-90deg) translateZ(40px); }
-  .cube-face span { font-size: inherit !important; }
-  .orbit-ring { width: 140px; height: 140px; margin: -70px 0 0 -70px; }
-  .orbit-dot { width: 4px; height: 4px; }
-  .particle { font-size: 8px; }
-  .p1 { top: 15%; right: 10%; }
-  .p2 { top: 22%; right: 60%; }
-  .p3 { top: 45%; right: 8%; }
-  .p4 { top: 38%; right: 55%; }
+  /* Hero canvas handles its own mobile sizing via JS */
 
   .marquee-content { font-size: 9px; gap: 24px; }
 
