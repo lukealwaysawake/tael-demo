@@ -218,25 +218,35 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
+  gap: 6px;
+}
+
+.metric-value-row {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
 }
 
 .metric-num {
-  font-size: 36px;
+  font-size: 40px;
   color: var(--gold);
   letter-spacing: -0.02em;
+  font-weight: 500;
+  min-width: 2ch;
+  text-align: right;
 }
 
 .metric-unit {
-  font-size: 14px;
+  font-size: 16px;
   color: var(--gold);
-  margin-left: -4px;
+  opacity: 0.7;
 }
 
 .metric-label {
   font-size: 9px;
   letter-spacing: 0.2em;
   color: var(--ink-faint);
+  margin-top: 2px;
 }
 
 .metric-divider {
@@ -755,15 +765,23 @@ body {
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 28px;
+    gap: 24px 40px;
+  }
+
+  .metric-value-row {
+    gap: 2px;
   }
 
   .metric-num {
-    font-size: 28px;
+    font-size: 32px;
   }
 
   .metric-unit {
-    font-size: 12px;
+    font-size: 14px;
+  }
+
+  .metric-label {
+    font-size: 8px;
   }
 
   .metric-divider {
