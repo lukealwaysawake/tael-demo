@@ -412,23 +412,19 @@ const activityLog = [];
 
 const state = {
   activeSection: "markets",
-  activeDealId: deals[0].id,
-  activeDeskId: desks[0].id,
+  activeDealId: null,
+  activeDeskId: null,
   sort: "closing",
-  riskFilter: "all",
-  durationFilter: "all",
-  draftAmount: 50000,
-  pendingAction: null,
+  filterRisk: null,
+  filterDuration: null,
   depositStep: "compose",
-  riskAck: false,
+  draftAmount: 50000,
   termsAck: false,
+  riskAck: false,
   educationSeen: false,
-  educationAutoSeen: false,
-  stickyControls: false,
-  paletteOpen: false,
   paletteQuery: "",
   paletteIndex: 0,
-  expandedPositionId: null
+  mobileAllocateExpanded: false,
 };
 
 const statements = [
@@ -1749,10 +1745,15 @@ function renderDetail() {
   const toggleAllocate = document.getElementById("toggle-allocate-panel");
   const sideColumn = container.querySelector(".detail-side-column");
   if (toggleAllocate && sideColumn) {
-    sideColumn.classList.add("collapsed");
+    // Preserve expanded state across re-renders
+    if (!state.mobileAllocateExpanded) {
+      sideColumn.classList.add("collapsed");
+    }
+    toggleAllocate.textContent = state.mobileAllocateExpanded ? "CLOSE" : "DEPOSIT";
     toggleAllocate.addEventListener("click", () => {
-      sideColumn.classList.toggle("collapsed");
-      toggleAllocate.textContent = sideColumn.classList.contains("collapsed") ? "DEPOSIT" : "CLOSE";
+      state.mobileAllocateExpanded = !state.mobileAllocateExpanded;
+      sideColumn.classList.toggle("collapsed", !state.mobileAllocateExpanded);
+      toggleAllocate.textContent = state.mobileAllocateExpanded ? "CLOSE" : "DEPOSIT";
     });
   }
 
