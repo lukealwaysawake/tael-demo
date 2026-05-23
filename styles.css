@@ -3971,6 +3971,18 @@ body:has(#account.active) .hero-sheet {
     flex-wrap: wrap;
     gap: 4px;
   }
+  
+  .sort-pill {
+    font-size: 10px;
+    letter-spacing: 0.08em;
+  }
+  
+  .filter-pill {
+    padding: 6px 10px;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+  }
+}
 
   .panel-head h2,
   .panel-head h3 {
