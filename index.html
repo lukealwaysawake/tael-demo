@@ -11,7 +11,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;600&family=Noto+Sans+SC:wght@300;400;500&family=Noto+Serif+SC:wght@400;500&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="./styles.css" />
@@ -19,27 +19,36 @@
   <body data-page="home" class="noise">
     <div class="page-shell">
       <header class="artifact-bar">
-        <div class="artifact-left">
-          <div class="artifact-logo">兩</div>
-          <div>
+        <div class="artifact-bar-inner">
+          <div class="artifact-left">
             <div class="artifact-brandline">
-              <strong>TAEL</strong>
-              <span>兩 · Private capital. Programmable returns.</span>
+              <strong>Tael</strong>
+              <span class="mono" style="font-size:10px;letter-spacing:0.16em;color:var(--ink-faint);">兩 · PRIVATE</span>
             </div>
-            <p class="artifact-note">Invite-only project financing protocol. Content is illustrative and unverified.</p>
+          </div>
+          <div class="artifact-actions">
+            <div class="wallet-chip">
+              <span class="wallet-label mono" style="font-size:9px;letter-spacing:0.18em;">INVITED AS</span>
+              <strong class="mono" style="font-size:11px;letter-spacing:0.08em;">#4729</strong>
+            </div>
+            <div class="wallet-chip wallet-chip-balance">
+              <span class="mono" style="font-size:9px;letter-spacing:0.18em;">WALLET</span>
+              <strong id="wallet-balance" class="mono" style="font-size:13px;color:var(--gold);">$1,000,000 USDT</strong>
+            </div>
+            <div class="lang-toggle">
+              <button class="lang-btn active" data-lang="en">EN</button>
+              <span class="lang-sep">·</span>
+              <button class="lang-btn" data-lang="zh">中</button>
+            </div>
           </div>
         </div>
-        <div class="artifact-actions">
-          <div class="wallet-chip">
-            <span class="wallet-label">INVITED AS</span>
-            <strong>#4729</strong>
-          </div>
-          <div class="wallet-chip wallet-chip-balance">
-            <span>Wallet</span>
-            <strong id="wallet-balance">$1,000,000 USDT</strong>
-          </div>
-          <button class="header-help mono" id="header-education" aria-label="How PT and YT work">?</button>
-        </div>
+        <nav class="tab-strip">
+          <button class="nav-link active" data-section="markets">Markets</button>
+          <button class="nav-link" data-section="portfolio">Portfolio</button>
+          <button class="nav-link" data-section="exchange">YT Exchange</button>
+          <button class="nav-link" data-section="desk">OTC Desk</button>
+          <button class="nav-link" data-section="account">Account</button>
+        </nav>
       </header>
 
       <div id="live-ticker"></div>
@@ -48,57 +57,35 @@
       <main class="content-frame">
         <section class="hero-sheet">
           <div class="hero-copy">
-            <p class="eyebrow">Private project financing protocol</p>
-            <h1>Deals that behave like a <em class="hero-emphasis">private credit book</em>, not a <em class="hero-deemphasis">public dashboard</em>.</h1>
-            <p class="lead">
-              TAEL routes global stablecoin liquidity into Chinese consumer launches executed by named brands and KOL partnerships, then splits exposure into principal and yield layers.
-            </p>
-            <div class="hero-marginalia" id="hero-asof">as of -- HKT</div>
+            <p class="eyebrow serif-italic">Open allocations</p>
+            <h1>Private project financing,<br><em class="hero-emphasis">by allocation only.</em></h1>
           </div>
 
           <div class="hero-metrics">
             <article class="hero-metric">
-              <span>Total AUM</span>
+              <span>PLATFORM AUM</span>
               <strong id="stat-aum">$9.3M</strong>
-              <small>5 active deals</small>
+              <small id="stat-active-sub">5 active deals</small>
             </article>
             <article class="hero-metric">
-              <span>Active deals</span>
-              <strong id="stat-active">5</strong>
-              <small>allocations live</small>
+              <span>OPEN</span>
+              <strong id="stat-active">4</strong>
+              <small>allocations</small>
             </article>
             <article class="hero-metric">
-              <span>Avg target APY</span>
+              <span>AVG TARGET APY</span>
               <strong id="stat-apy">11.9%</strong>
-              <small>weighted across book</small>
+              <small>90d weighted</small>
             </article>
             <article class="hero-metric">
-              <span>Next closing</span>
+              <span>NEXT CLOSE</span>
               <strong id="stat-close">14h 20m</strong>
-              <small>Perfect Diary window</small>
+              <small id="stat-close-sub">Perfect Diary window</small>
             </article>
           </div>
         </section>
 
-        <nav class="tab-strip">
-          <button class="nav-link active" data-section="markets">Markets</button>
-          <button class="nav-link" data-section="portfolio">Portfolio</button>
-          <button class="nav-link" data-section="exchange">YT Exchange</button>
-          <button class="nav-link" data-section="desk">OTC Desk</button>
-          <button class="nav-link" data-section="account">Account</button>
-        </nav>
-
         <section id="markets" class="section active">
-          <div class="info-ribbon">
-            <div>
-              <span class="eyebrow">Allocation window</span>
-              <p>Invite-only. First-come-first-served. Capital locks at deal close and routes into the winning OTC desk mandate.</p>
-            </div>
-            <div>
-              <span class="eyebrow">V2 structure</span>
-              <p>Deposits mint PT and YT. PT becomes the stable-backed claim layer. YT is the tradable yield strip.</p>
-            </div>
-          </div>
           <div id="markets-controls-anchor"></div>
           <div id="markets-controls" class="markets-controls"></div>
           <div id="yield-curve-shell"></div>
@@ -107,8 +94,8 @@
             <section class="panel panel-book">
               <div class="panel-head">
                 <div>
-                  <p class="eyebrow">Markets</p>
-                  <h2>Allocation book</h2>
+                  <p class="eyebrow serif-italic">Live ledger</p>
+                  <h2 style="font-size:18px;font-family:'Instrument Serif',serif;font-weight:400;">Allocation book</h2>
                 </div>
                 <div class="sort-pills">
                   <button class="sort-pill active" data-sort="closing">Closing soonest</button>
@@ -116,18 +103,12 @@
                   <button class="sort-pill" data-sort="remaining">Smallest remaining</button>
                 </div>
               </div>
-              <div id="deal-list" class="deal-list"></div>
-            </section>
-
-            <aside class="panel protocol-panel">
-              <p class="eyebrow">How it works</p>
-              <div class="protocol-steps">
-                <div class="protocol-step"><strong>01</strong><span>Deposit stablecoin into a curated vault. Allocation closes at full fill or deadline.</span></div>
-                <div class="protocol-step"><strong>02</strong><span>Mint PT and YT. Principal stays discrete. Yield becomes tradeable.</span></div>
-                <div class="protocol-step"><strong>03</strong><span>Licensed OTC desks bid the mandate on spread, speed, and escrow terms.</span></div>
-                <div class="protocol-step"><strong>04</strong><span>Brand and KOL execute. Revenue returns into the waterfall for PT redemption and YT claims.</span></div>
+              <div id="deal-list" class="deal-list deal-list-shell"></div>
+              <div class="how-it-works-block" id="how-it-works-bottom">
+                <p class="eyebrow">HOW THIS WORKS</p>
+                <p class="how-it-works-body">You deposit stablecoin into a curated deal. The vault converts to local fiat via the OTC Desk and wires to the brand's escrow. The KOL executes the launch. Revenue returns and your position pays out. Each deposit mints PT (principal, 1:1 redeemable) and YT (yield, tradeable). Hold both to maturity, or trade YT on the in-house exchange.</p>
               </div>
-            </aside>
+            </section>
           </div>
         </section>
 
@@ -136,7 +117,7 @@
             <section class="panel">
               <div class="panel-head">
                 <div>
-                  <p class="eyebrow">Portfolio</p>
+                  <p class="eyebrow serif-italic">Your position</p>
                   <h2>Holdings overview</h2>
                 </div>
               </div>
@@ -160,8 +141,8 @@
           <section class="panel">
             <div class="panel-head">
               <div>
-                <p class="eyebrow">YT Exchange</p>
-                <h2>Implied yield market</h2>
+                <p class="eyebrow serif-italic">Yield token market</p>
+                <h2>YT Exchange</h2>
               </div>
             </div>
             <div id="exchange-table"></div>
@@ -173,8 +154,8 @@
             <section class="panel">
               <div class="panel-head">
                 <div>
-                  <p class="eyebrow">P2P OTC Desk</p>
-                  <h2>Conversion mandates</h2>
+                  <p class="eyebrow serif-italic">Fiat conversion marketplace</p>
+                  <h2>OTC Desk</h2>
                 </div>
               </div>
               <div id="desk-list"></div>
@@ -193,6 +174,11 @@
           </section>
         </section>
       </main>
+
+      <footer style="border-top:1px solid var(--line);margin-top:60px;padding:24px 0;text-align:center;">
+        <div style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--ink-faint);font-size:13px;">Tael · 兩</div>
+        <div class="mono" style="font-size:9px;color:var(--ink-faint);letter-spacing:0.16em;margin-top:6px;">PRIVATE · INVITATION ONLY · NOT FOR DISTRIBUTION</div>
+      </footer>
     </div>
 
     <div class="mobile-nav">
