@@ -631,12 +631,12 @@ html[lang="zh"] .step-labels {
 /* Mobile: stack hero */
 @media (max-width: 768px) {
   .hero-sheet {
-    padding: 20px 0 16px;
+    padding: 16px 0 12px;
   }
   
   .hero-main {
     flex-direction: column;
-    gap: 16px;
+    gap: 12px;
   }
   
   .hero-copy {
@@ -644,9 +644,13 @@ html[lang="zh"] .step-labels {
   }
   
   .hero-copy h1 {
-    font-size: 22px;
-    white-space: normal;
-    line-height: 1.2;
+    font-size: 18px;
+    line-height: 1.3;
+  }
+  
+  .hero-line,
+  .hero-emphasis {
+    white-space: nowrap;
   }
   
   .hero-trust {
