@@ -1077,11 +1077,15 @@ function startLiveLoops() {
   liveState.intervalsStarted = true;
   setInterval(() => {
     liveState.tick += 1;
-    renderAll();
+    updateHeaderStats();
+    renderTicker();
+    renderUrgencyBanner();
+    if (state.activeSection === "markets") renderDeals();
   }, 1000);
   setInterval(() => {
     simulateLiveDeposit();
-    renderAll();
+    renderTicker();
+    if (state.activeSection === "markets") renderDeals();
   }, 6000);
 }
 
@@ -1209,7 +1213,8 @@ function renderTicker() {
     return;
   }
   const signature = recent.map((evt) => evt.id).join("|");
-  if (liveState.tickerSignature === signature && el.dataset.tickerReady === "true") {
+  el.dataset.tickerReady = "true";
+  if (liveState.tickerSignature === signature) {
     return;
   }
   const items = [...recent, ...recent].map((evt, idx) => {
@@ -1217,7 +1222,6 @@ function renderTicker() {
     return '<div class="ticker-item mono"><strong>' + evt.wallet + '</strong><span>deposited</span><span class="gold">' + money(evt.amount) + '</span><span>→</span><em>' + (deal ? deal.brandShort : "TAEL") + '</em><span class="time-faint">· ' + formatEventAge(evt.at) + '</span></div>';
   }).join("");
   el.innerHTML = '<div class="live-ticker-shell"><div class="live-label mono"><span class="live-dot"></span><span>LIVE FEED</span></div><div class="ticker-mask"><div class="ticker-track">' + items + '</div></div></div>';
-  el.dataset.tickerReady = "true";
   liveState.tickerSignature = signature;
 }
 
@@ -1278,15 +1282,10 @@ function renderDeals() {
   if (curve) curve.innerHTML = yieldCurveSvg();
   const el = document.getElementById("deal-list");
   if (!el) return;
-  const animateCards = !PLAYED_ANIMATIONS.has("markets-cards");
-  if (animateCards) {
-    PLAYED_ANIMATIONS.add("markets-cards");
-    saveSessionState();
-  }
   el.innerHTML = sortDeals(deals).map((deal, idx) => {
     const progress = Math.round((deal.filled / deal.target) * 100);
-    const animatedProgress = getAnimatedValue("deal-" + deal.id + "-filledpct", progress, { entryMs: 1400, delayMs: idx * 120 });
-    const animatedApy = getAnimatedValue("deal-" + deal.id + "-apy", deal.apy, { entryMs: 1100, delayMs: idx * 120 });
+    const animatedProgress = getAnimatedValue("deal-" + deal.id + "-filledpct", progress, { entryMs: 900, delayMs: idx * 60 });
+    const animatedApy = getAnimatedValue("deal-" + deal.id + "-apy", deal.apy, { entryMs: 700, delayMs: idx * 60 });
     const remaining = deal.target - deal.filled;
     const closeLabel = deal.status === "ACTIVE" ? "LIVE" : formatCountdown(deal);
     const isClosingSoon = deal.status === "CLOSING SOON";
@@ -1324,6 +1323,27 @@ function renderDeals() {
       window.location.href = './deal.html?deal=' + encodeURIComponent(node.dataset.deal);
     });
   });
+}
+
+function updateTicketAmountPreview(deal) {
+  const amt = state.draftAmount;
+  const projectedYield = amt * (deal.apy / 100) * (deal.duration / 365);
+  const setText = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
+  };
+  setText("ticket-pt-val", money(amt));
+  setText("ticket-yt-val", money(amt));
+  setText("ticket-yield-val", money(projectedYield, 2));
+  setText("ticket-maturity-val", money(amt + projectedYield, 2));
+
+  const btn = document.getElementById("continue-review");
+  if (btn) {
+    const valid = amt >= deal.minTicket && amt <= Math.min(deal.cap, wallet.usdt);
+    btn.disabled = !valid;
+    btn.style.opacity = valid ? "" : "0.45";
+    btn.style.cursor = valid ? "" : "not-allowed";
+  }
 }
 
 function metricRows(items) {
@@ -1365,7 +1385,7 @@ function renderDetail() {
   } else if (state.depositStep === "compose") {
     ticketBody =
       stepIndicator +
-      '<div class="ticket-stack"><div class="ticket-head-row"><div class="funding-line"><span>Amount · USDT</span><strong class="mono">BAL ' + money(wallet.usdt) + '</strong></div><button class="help-chip mono" id="ptyt-guide" type="button">? PT / YT</button></div><div class="ticket-amount-row"><span class="mono ticket-currency">$</span><input id="deposit-amount" class="ticket-input" type="text" inputmode="numeric" value="' + formatAmountField(state.draftAmount) + '" /><span class="mono ticket-unit">USDT</span></div><div class="quick-picks"><button class="quick-pick" type="button" data-quick="25000">$25K</button><button class="quick-pick" type="button" data-quick="100000">$100K</button><button class="quick-pick" type="button" data-quick="250000">$250K</button></div><div class="ticket-section-line"></div><div class="ticket-receive-card"><div class="ticket-receive-head"><div><div class="eyebrow">You receive</div><div class="serif italic ticket-note">two tokens, one position</div></div></div><div class="ticket-metrics"><div class="ticket-metric"><span>' + tokenLabel("PT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>' + tokenLabel("YT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>Projected yield</span><strong class="mono">' + money(projectedYield, 2) + '</strong></div><div class="ticket-metric"><span>At maturity</span><strong class="mono">' + money(state.draftAmount + projectedYield, 2) + '</strong></div></div></div><button class="action-button" id="continue-review">Continue to review</button><p class="ticket-disclaimer">Each deposited dollar produces a principal leg and a yield leg. Review the terms before locking the allocation.</p></div>';
+      '<div class="ticket-stack"><div class="ticket-head-row"><div class="funding-line"><span>Amount · USDT</span><strong class="mono">BAL ' + money(wallet.usdt) + '</strong></div><button class="help-chip mono" id="ptyt-guide" type="button">? PT / YT</button></div><div class="ticket-amount-row"><span class="mono ticket-currency">$</span><input id="deposit-amount" class="ticket-input" type="text" inputmode="numeric" value="' + formatAmountField(state.draftAmount) + '" /><span class="mono ticket-unit">USDT</span></div><div class="quick-picks"><button class="quick-pick" type="button" data-quick="25000">$25K</button><button class="quick-pick" type="button" data-quick="100000">$100K</button><button class="quick-pick" type="button" data-quick="250000">$250K</button></div><div class="ticket-section-line"></div><div class="ticket-receive-card"><div class="ticket-receive-head"><div><div class="eyebrow">You receive</div><div class="serif italic ticket-note">two tokens, one position</div></div></div><div class="ticket-metrics"><div class="ticket-metric"><span>' + tokenLabel("PT", tokenCode) + '</span><strong class="mono" id="ticket-pt-val">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>' + tokenLabel("YT", tokenCode) + '</span><strong class="mono" id="ticket-yt-val">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>Projected yield</span><strong class="mono" id="ticket-yield-val">' + money(projectedYield, 2) + '</strong></div><div class="ticket-metric"><span>At maturity</span><strong class="mono" id="ticket-maturity-val">' + money(state.draftAmount + projectedYield, 2) + '</strong></div></div></div><button class="action-button" id="continue-review">Continue to review</button><p class="ticket-disclaimer">Each deposited dollar produces a principal leg and a yield leg. Review the terms before locking the allocation.</p></div>';
   } else if (state.depositStep === "review") {
     ticketBody =
       stepIndicator +
@@ -1435,7 +1455,7 @@ function renderDetail() {
     input.addEventListener("input", () => {
       const value = Number(String(input.value || "").replace(/[^0-9]/g, "") || 0);
       state.draftAmount = Math.max(Math.min(value, deal.cap), Math.max(0, value));
-      renderDetail();
+      updateTicketAmountPreview(deal);
     });
   }
   container.querySelectorAll("[data-quick]").forEach((node) => {
@@ -1459,6 +1479,8 @@ function renderDetail() {
   const continueReview = document.getElementById("continue-review");
   if (continueReview) {
     continueReview.addEventListener("click", () => {
+      if (!state.draftAmount || state.draftAmount < deal.minTicket) return;
+      if (state.draftAmount > wallet.usdt) return;
       state.depositStep = "review";
       renderDetail();
     });
@@ -1517,11 +1539,6 @@ function renderDetail() {
       state.termsAck = false;
       renderDetail();
     });
-  }
-  if (pageType === "deal" && !state.educationAutoSeen) {
-    state.educationAutoSeen = true;
-    saveSessionState();
-    setTimeout(() => openEducationModal(), 120);
   }
 }
 
@@ -1848,6 +1865,8 @@ function renderAll() {
 
 navEls.forEach((node) => {
   node.addEventListener("click", () => {
+    const modal = document.getElementById("action-modal");
+    if (modal && modal.open) modal.close();
     state.activeSection = node.dataset.section;
     renderAll();
   });
@@ -1861,7 +1880,11 @@ sortEls.forEach((node) => {
   });
 });
 
-window.addEventListener("scroll", () => syncStickyControls(), { passive: true });
+let _scrollRaf;
+window.addEventListener("scroll", () => {
+  cancelAnimationFrame(_scrollRaf);
+  _scrollRaf = requestAnimationFrame(() => syncStickyControls());
+}, { passive: true });
 window.addEventListener("keydown", (event) => {
   if ((event.metaKey || event.ctrlKey) && event.shiftKey && event.key.toLowerCase() === "m") {
     event.preventDefault();

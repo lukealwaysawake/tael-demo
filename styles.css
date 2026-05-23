@@ -63,7 +63,7 @@ body {
 }
 
 .fade-up {
-  animation: fadeUp 400ms ease-out forwards;
+  animation: fadeUp 300ms ease-out forwards;
 }
 
 .tael-hover {
@@ -455,9 +455,8 @@ h4,
 }
 
 h1 {
-  font-size: clamp(40px, 7vw, 74px);
-  line-height: 0.96;
-  max-width: 12ch;
+  font-size: clamp(36px, 6vw, 60px);
+  line-height: 1.08;
 }
 
 .hero-emphasis {
@@ -546,8 +545,7 @@ h3 {
   font-family: "JetBrains Mono", monospace;
 }
 
-.tab-strip,
-.mobile-nav {
+.tab-strip {
   display: flex;
   gap: 0;
 }
@@ -651,7 +649,7 @@ h3 {
 .markets-controls.sticky {
   position: sticky;
   top: 12px;
-  z-index: 40;
+  z-index: 39;
 }
 
 .markets-controls-inner {
@@ -1934,7 +1932,7 @@ h3 {
 .secondary-button {
   width: 100%;
   padding: 14px 16px;
-  transition: 180ms ease-out;
+  transition: background 180ms ease-out, color 180ms ease-out, border-color 180ms ease-out, opacity 180ms ease-out;
   text-transform: uppercase;
   letter-spacing: 0.16em;
   font-size: 12px;
@@ -2466,15 +2464,6 @@ h3 {
   }
 }
 
-@keyframes fillGrow {
-  from {
-    transform: scaleX(0);
-  }
-  to {
-    transform: scaleX(1);
-  }
-}
-
 @keyframes pulseLive {
   0% {
     box-shadow: 0 0 0 0 rgba(142, 179, 125, 0.42);
@@ -2508,21 +2497,6 @@ h3 {
   }
 }
 
-@keyframes cardEntry {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.card-entry {
-  opacity: 0;
-  animation: cardEntry 700ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
 
 @media (max-width: 1120px) {
   .panel-grid,
