@@ -1289,17 +1289,34 @@ function renderDeals() {
     const animatedApy = getAnimatedValue("deal-" + deal.id + "-apy", deal.apy, { entryMs: 1100, delayMs: idx * 120 });
     const remaining = deal.target - deal.filled;
     const closeLabel = deal.status === "ACTIVE" ? "LIVE" : formatCountdown(deal);
-    const leftClass = deal.status === "CLOSING SOON" ? "left-rust" : "left-gold";
-    return '<button class="deal-card status-' + deal.statusClass + ' ' + (deal.id === state.activeDealId ? "active" : "") + ' ' + (animateCards ? 'card-entry' : '') + '" style="' + (animateCards ? 'animation-delay:' + (idx * 100) + 'ms' : '') + '" data-deal="' + deal.id + '">' +
-      '<div class="deal-top"><div class="deal-badges"><span class="badge ' + deal.statusClass + '">' + deal.status + '</span><span class="badge risk">Risk ' + deal.risk + '</span></div><span class="deal-chevron mono">→</span></div>' +
-      '<div class="deal-visual"><img class="deal-thumb" src="' + deal.image + '" alt="' + deal.product + '" /><div><div class="eyebrow">' + deal.category + '</div><div class="brand-inline"><div class="kol-monogram">' + kolInitials(deal) + '</div><div class="brand-word">' + deal.brandShort + ' × ' + deal.kolName + '</div></div><div class="watcher-line mono"><span class="watch-dot"></span>' + watcherCountForDeal(deal) + ' members watching</div><div class="meta-row"><span>' + deal.product + '</span></div></div></div>' +
+    const isClosingSoon = deal.status === "CLOSING SOON";
+    const fillColor = deal.statusClass === "active" ? "fill-sage" : deal.statusClass === "soon" ? "fill-amber" : deal.statusClass === "fast" ? "fill-gold" : "fill-cream";
+    return '<button class="deal-card status-' + deal.statusClass + ' ' + (deal.id === state.activeDealId ? "active" : "") + '" data-deal="' + deal.id + '">' +
+      '<div class="deal-top">' +
+        '<div class="deal-badges">' +
+          '<span class="badge ' + deal.statusClass + '">' + deal.status + '</span>' +
+          '<span class="badge risk">Risk ' + deal.risk + '</span>' +
+        '</div>' +
+        '<span class="deal-chevron mono" style="font-size:14px;color:var(--ink-faint);">›</span>' +
+      '</div>' +
+      '<div style="margin:10px 0 4px;">' +
+        '<div class="serif" style="color:#ebe3cd;font-size:clamp(18px,2.5vw,22px);line-height:1.2;">' + deal.brandShort + ' <span style="font-style:italic;color:var(--ink-soft);">×</span> ' + deal.kolName + '</div>' +
+        '<div class="mono" style="font-size:11px;color:var(--ink-soft);margin-top:4px;letter-spacing:0.02em;">' + deal.product + ' · ' + deal.category + '</div>' +
+      '</div>' +
       '<div class="deal-stats">' +
-        '<div class="deal-stat"><span>APY</span><strong class="mono">' + pct(animatedApy) + '</strong></div>' +
+        '<div class="deal-stat"><span>APY</span><strong class="mono gold" style="color:var(--gold);">' + pct(animatedApy) + '</strong></div>' +
         '<div class="deal-stat"><span>LOCK</span><strong class="mono">' + deal.duration + 'd</strong></div>' +
         '<div class="deal-stat"><span>FILLED</span><strong class="mono">' + Math.round(animatedProgress) + '%</strong></div>' +
-        '<div class="deal-stat"><span>CLOSES IN</span><strong class="mono">' + closeLabel + '</strong></div>' +
+        '<div class="deal-stat"><span>CLOSES IN</span><strong class="mono" style="' + (isClosingSoon ? 'color:var(--rust);' : '') + '">' + closeLabel + '</strong></div>' +
       '</div>' +
-      '<div class="deal-bottom"><div class="funding-line"><span class="gmv-label">Expected GMV</span><strong class="mono">' + deal.heroStat.replace("Expected GMV ", "") + '</strong></div><div class="funding-line"><span>' + money(deal.filled) + ' filled of ' + money(deal.target) + '</span><strong class="mono ' + leftClass + '">' + money(remaining) + ' left</strong></div><div class="progress-track"><div class="progress-fill" style="width:' + Math.min(100, animatedProgress) + '%"></div></div></div></button>';
+      '<div style="margin-top:14px;">' +
+        '<div class="progress-track"><div class="progress-fill ' + fillColor + '" style="width:' + Math.min(100, animatedProgress) + '%"></div></div>' +
+        '<div style="display:flex;justify-content:space-between;margin-top:6px;">' +
+          '<span class="mono" style="font-size:10px;color:var(--ink-faint);">' + money(deal.filled) + ' <span style="color:var(--ink-soft);">of</span> ' + money(deal.target) + '</span>' +
+          '<span class="mono" style="font-size:10px;color:var(--ink-faint);">' + money(remaining) + ' remaining</span>' +
+        '</div>' +
+      '</div>' +
+    '</button>';
   }).join("");
 
   el.querySelectorAll("[data-deal]").forEach((node) => {
@@ -1863,6 +1880,13 @@ const headerEducation = document.getElementById("header-education");
 if (headerEducation) {
   headerEducation.addEventListener("click", () => openEducationModal());
 }
+
+document.querySelectorAll(".lang-btn").forEach((btn) => {
+  btn.addEventListener("click", () => {
+    document.documentElement.lang = btn.dataset.lang;
+    document.querySelectorAll(".lang-btn").forEach((b) => b.classList.toggle("active", b === btn));
+  });
+});
 
 loadSessionState();
 loadRuntime();

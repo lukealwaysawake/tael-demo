@@ -7,12 +7,15 @@
   --ink: #e8e0cf;
   --ink-soft: #8a8275;
   --ink-faint: #5f584d;
-  --line: rgba(232, 224, 207, 0.08);
-  --line-strong: rgba(232, 224, 207, 0.16);
+  --line: #2a2620;
+  --line-strong: #3a342d;
   --gold: #c9a55c;
+  --gold-dim: #8e7440;
   --gold-soft: rgba(201, 165, 92, 0.14);
+  --amber: #d4944a;
   --sage: #8eb37d;
   --rust: #c46b6b;
+  --cream: #ebe3cd;
   --shadow: 0 26px 80px rgba(0, 0, 0, 0.34);
 }
 
@@ -27,10 +30,7 @@ html {
 body {
   margin: 0;
   color: var(--ink);
-  background:
-    radial-gradient(circle at top left, rgba(201, 165, 92, 0.12), transparent 22%),
-    radial-gradient(circle at top right, rgba(142, 179, 125, 0.05), transparent 18%),
-    linear-gradient(180deg, #080706 0%, var(--bg) 42%, #0e0c0b 100%);
+  background: linear-gradient(180deg, #080706 0%, var(--bg) 42%, #0e0c0b 100%);
   font-family: "DM Sans", system-ui, sans-serif;
 }
 
@@ -52,9 +52,27 @@ body {
   inset: 0;
   z-index: 100;
   pointer-events: none;
-  opacity: 0.035;
+  opacity: 0.012;
   background-image: url("data:image/svg+xml;utf8,<svg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
   mix-blend-mode: overlay;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-up {
+  animation: fadeUp 400ms ease-out forwards;
+}
+
+.tael-hover {
+  transition: background 200ms ease-out, border-color 200ms ease-out;
+}
+
+.tael-hover:hover {
+  background: var(--surface-2) !important;
+  border-color: var(--line-strong) !important;
 }
 
 button,
@@ -83,10 +101,10 @@ a {
 
 .page-shell {
   min-height: 100vh;
-  padding: 16px;
+  padding: 0 16px 16px;
 }
 
-.artifact-bar,
+.artifact-bar-inner,
 .artifact-left,
 .artifact-actions,
 .panel-head,
@@ -101,12 +119,24 @@ a {
 }
 
 .artifact-bar {
+  display: block;
   max-width: 1380px;
-  margin: 0 auto 20px;
-  padding: 16px 18px;
-  border: 1px solid var(--line);
-  background: rgba(10, 9, 8, 0.94);
-  backdrop-filter: blur(14px);
+  margin: 0 auto;
+  padding: 14px 0 0;
+  border: none;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg);
+  position: sticky;
+  top: 0;
+  z-index: 40;
+}
+
+.artifact-bar-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 12px;
 }
 
 .artifact-left {
@@ -243,6 +273,7 @@ html[lang="zh"] .step-labels {
 .content-frame {
   max-width: 1380px;
   margin: 0 auto;
+  padding-top: 40px;
   padding-bottom: 96px;
 }
 
@@ -394,24 +425,15 @@ html[lang="zh"] .step-labels {
 .metric-card,
 .account-grid article {
   border: 1px solid var(--line);
-  background: rgba(20, 17, 15, 0.92);
+  background: var(--surface);
   box-shadow: none;
 }
 
 .hero-sheet {
-  padding: 34px 32px;
+  padding: 40px 0 36px;
   position: relative;
-  overflow: hidden;
-}
-
-.hero-sheet::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(130deg, rgba(201, 165, 92, 0.07), transparent 36%),
-    linear-gradient(180deg, transparent 0%, rgba(255, 255, 255, 0.015) 100%);
-  pointer-events: none;
+  border: none;
+  background: transparent;
 }
 
 .hero-copy {
@@ -457,11 +479,20 @@ h3 {
 }
 
 .eyebrow {
-  margin: 0 0 14px;
+  margin: 0 0 10px;
   text-transform: uppercase;
   letter-spacing: 0.22em;
   font-size: 10px;
   color: var(--ink-faint);
+}
+
+.eyebrow.serif-italic {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  text-transform: none;
+  letter-spacing: 0;
+  font-size: 14px;
+  color: var(--ink-soft);
 }
 
 .lead {
@@ -472,66 +503,73 @@ h3 {
 }
 
 .hero-marginalia {
-  margin-top: 18px;
-  color: var(--ink-faint);
-  font-family: "Instrument Serif", serif;
-  font-style: italic;
-  font-size: 12px;
+  display: none;
 }
 
 .hero-metrics {
-  margin-top: 34px;
-  padding-top: 0;
-  border-top: 0;
+  margin-top: 32px;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 1px;
   border: 1px solid var(--line);
   background: var(--line);
-  position: relative;
-  z-index: 1;
 }
 
 .hero-metric {
   display: grid;
-  gap: 10px;
-  padding: 18px 16px;
-  min-height: 112px;
+  gap: 8px;
+  padding: 20px 16px;
   border: 0;
-  background: rgba(10, 9, 8, 0.96);
+  background: var(--bg);
 }
 
 .hero-metric span {
-  font-size: 10px;
+  font-size: 9px;
   text-transform: uppercase;
   letter-spacing: 0.18em;
+  font-family: "JetBrains Mono", monospace;
+  color: var(--ink-faint);
 }
 
 .hero-metric strong {
   font-size: 28px;
-  color: #ebe3cd;
+  color: var(--cream, #ebe3cd);
+  font-family: "Instrument Serif", serif;
+  font-weight: 400;
+  line-height: 1;
 }
 
 .hero-metric small {
   color: var(--ink-soft);
-  font-size: 11px;
+  font-size: 10px;
   letter-spacing: 0.04em;
+  font-family: "JetBrains Mono", monospace;
 }
 
 .tab-strip,
 .mobile-nav {
-  display: grid;
-  gap: 8px;
+  display: flex;
+  gap: 0;
 }
 
 .tab-strip {
-  grid-template-columns: repeat(5, max-content);
-  margin: 14px 0 18px;
+  margin: 0 0 -1px;
+  overflow-x: auto;
 }
 
 .nav-link {
-  padding: 12px 16px;
-  transition: 180ms ease-out;
+  padding: 10px 16px;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  border: none;
+  border-bottom: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  transition: color 180ms ease-out, border-color 180ms ease-out;
+  white-space: nowrap;
 }
 
 .nav-link.active,
@@ -539,7 +577,7 @@ h3 {
 .inline-button:hover,
 .back-link:hover {
   color: #ebe3cd;
-  border-color: var(--line-strong);
+  border-bottom-color: var(--ink);
   background: transparent;
 }
 
@@ -571,7 +609,7 @@ h3 {
 }
 
 .home-book-grid {
-  grid-template-columns: minmax(0, 1.2fr) 360px;
+  grid-template-columns: 1fr;
 }
 
 .portfolio-grid {
@@ -588,7 +626,7 @@ h3 {
 
 .section.active {
   display: block;
-  animation: fadeIn 180ms ease-out;
+  animation: fadeUp 300ms ease-out;
 }
 
 .sort-pills,
@@ -695,21 +733,23 @@ h3 {
 
 .deal-list {
   border: 1px solid var(--line);
+  overflow: hidden;
 }
 
 .deal-card {
   position: relative;
-  padding: 18px;
-  border-left: 2px solid transparent;
+  padding: 20px 18px;
   border-bottom: 1px solid var(--line);
-  transition: border-color 180ms ease-out, background 180ms ease-out;
-  background: rgba(20, 17, 15, 0.92);
+  transition: background 200ms ease-out, border-color 200ms ease-out;
+  background: var(--surface);
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
 }
 
 .deal-card:hover,
 .deal-card.active {
-  border-left-color: var(--gold);
-  background: rgba(28, 24, 22, 0.98);
+  background: var(--surface-2);
 }
 
 .deal-card:last-child {
@@ -717,15 +757,8 @@ h3 {
 }
 
 .deal-chevron {
-  color: var(--gold);
+  color: var(--ink-faint);
   font-size: 12px;
-  transform: translateX(0);
-  transition: transform 180ms ease-out;
-}
-
-.deal-card:hover .deal-chevron,
-.deal-card.active .deal-chevron {
-  transform: translateX(5px);
 }
 
 .deal-top,
@@ -926,37 +959,41 @@ h3 {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
   gap: 12px;
-  margin: 14px 0 12px;
+  margin: 14px 0 0;
 }
 
 .deal-stat {
-  padding: 12px 0 2px;
+  padding: 0;
 }
 
 .deal-stat span {
   display: block;
-  margin-bottom: 6px;
-  color: var(--ink-soft);
+  margin-bottom: 4px;
+  color: var(--ink-faint);
   font-size: 9px;
   letter-spacing: 0.16em;
+  font-family: "JetBrains Mono", monospace;
+  text-transform: uppercase;
 }
 
 .deal-stat strong {
   color: var(--ink);
-  font-size: 15px;
+  font-size: 16px;
+  font-family: "JetBrains Mono", monospace;
+  font-variant-numeric: tabular-nums;
 }
 
 .progress-track {
-  height: 6px;
-  background: rgba(255, 255, 255, 0.06);
+  height: 2px;
+  background: var(--line-strong);
   overflow: hidden;
+  position: relative;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #8a6c38, #c9a55c 45%, #ebe3cd 100%);
-  transform-origin: left;
-  animation: fillGrow 700ms ease-out;
+  background: var(--ink);
+  transition: width 600ms ease-out;
 }
 
 .product-render {
@@ -3031,3 +3068,119 @@ h3 {
     scroll-behavior: auto !important;
   }
 }
+
+/* ============ LANG TOGGLE ============ */
+.lang-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  border-left: 1px solid var(--line);
+  padding-left: 12px;
+}
+
+.lang-btn {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  transition: color 150ms;
+}
+
+.lang-btn.active {
+  color: var(--ink);
+}
+
+.lang-sep {
+  color: var(--ink-faint);
+  font-size: 10px;
+}
+
+/* ============ HOW IT WORKS BOTTOM BLOCK ============ */
+.how-it-works-block {
+  margin-top: 48px;
+  padding: 24px 20px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.how-it-works-block .eyebrow {
+  margin-bottom: 12px;
+}
+
+.how-it-works-body {
+  font-family: "Instrument Serif", serif;
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.7;
+  max-width: 720px;
+}
+
+/* ============ LIVE LEDGER HEADER ============ */
+.live-ledger-header {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.live-ledger-title {
+  font-family: "Instrument Serif", serif;
+  color: var(--ink);
+  font-size: 18px;
+  font-weight: 400;
+}
+
+.live-ledger-meta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  color: var(--ink-faint);
+}
+
+/* ============ DOCUMENT ROW HOVER ============ */
+.document-row {
+  transition: background 200ms ease-out;
+}
+
+.document-row:hover {
+  background: var(--surface-2) !important;
+}
+
+/* ============ PROGRESS FILL COLOR OVERRIDES ============ */
+.progress-fill.fill-cream { background: var(--cream, #ebe3cd); }
+.progress-fill.fill-gold { background: var(--gold); }
+.progress-fill.fill-amber { background: var(--amber); }
+.progress-fill.fill-sage { background: var(--sage); }
+
+/* ============ SNIPPET STAT GRID UPDATES ============ */
+.snippet-stat-grid {
+  background: var(--line);
+}
+
+.snippet-stat-card {
+  background: var(--bg);
+}
+
+/* ============ DEAL LIST HEADER ============ */
+.deal-list-shell {
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+
+/* ============ INFO RIBBON SIMPLIFICATION ============ */
+.info-ribbon {
+  display: none;
+}
+
+/* ============ HEADER WALLET CHIP UPDATES ============ */
+.wallet-chip {
+  border-left: 1px solid var(--line);
+  border-top: none;
+  border-bottom: none;
+  border-right: none;
+}
+
