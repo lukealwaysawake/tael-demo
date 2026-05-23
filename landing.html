@@ -68,79 +68,195 @@
       </div>
     </section>
 
-    <!-- ===== WHY TAEL (echo-style: left label + right content + stats) ===== -->
-    <section class="section-why">
-      <div class="section-grid">
-        <div class="section-label" data-reveal>
-          <span class="eyebrow mono">WHY TAEL</span>
-        </div>
-        <div class="section-body" data-reveal data-delay="1">
-          <h2 class="section-title">
-            Real-world commerce deals,<br/>
-            <em class="serif">tokenized for yield.</em>
-          </h2>
-          <p class="section-desc">
-            TAEL underwrites influencer commerce campaigns and structures them into fixed-duration yield products — giving depositors transparent, asset-backed returns.
-          </p>
-          <div class="stats-row">
-            <div class="stat-item" data-reveal data-delay="2">
-              <span class="stat-num" id="stat-tvl">$0</span>
-              <span class="stat-label mono">TVL LOCKED</span>
-            </div>
-            <div class="stat-item" data-reveal data-delay="3">
-              <span class="stat-num" id="stat-apy">0%</span>
-              <span class="stat-label mono">AVG APY</span>
-            </div>
-            <div class="stat-item" data-reveal data-delay="4">
-              <span class="stat-num" id="stat-deals">0</span>
-              <span class="stat-label mono">DEALS CLOSED</span>
-            </div>
-            <div class="stat-item" data-reveal data-delay="5">
-              <span class="stat-num" id="stat-defaults">0</span>
-              <span class="stat-label mono">DEFAULTS</span>
+    <!-- ===== FEATURES (GTE-style bento cards with illustrations) ===== -->
+    <section class="section-features">
+      <div class="features-header" data-reveal>
+        <span class="eyebrow mono">Features</span>
+        <h2 class="features-headline">Where private capital<br/><em class="serif">meets programmable yield.</em></h2>
+      </div>
+
+      <div class="bento-grid">
+        <!-- Card 1: Big - Structured Deals -->
+        <article class="bento-card bento-lg" data-reveal data-delay="1">
+          <div class="bento-text">
+            <h3>Every deal, fully structured.</h3>
+            <p>Curated KOL commerce campaigns, underwritten with inventory collateral and platform receivables.</p>
+          </div>
+          <div class="bento-visual visual-deals">
+            <!-- CSS candlestick / deal chart illustration -->
+            <div class="chart-illustration">
+              <div class="chart-y-axis">
+                <span>$</span>
+              </div>
+              <div class="chart-bars">
+                <div class="chart-bar" style="--h:45%"><div class="bar-fill"></div></div>
+                <div class="chart-bar" style="--h:72%"><div class="bar-fill"></div></div>
+                <div class="chart-bar" style="--h:58%"><div class="bar-fill"></div></div>
+                <div class="chart-bar highlight" style="--h:85%"><div class="bar-fill"></div></div>
+                <div class="chart-bar" style="--h:65%"><div class="bar-fill"></div></div>
+                <div class="chart-bar" style="--h:90%"><div class="bar-fill"></div></div>
+                <div class="chart-bar" style="--h:70%"><div class="bar-fill"></div></div>
+              </div>
+              <div class="chart-line">
+                <svg viewBox="0 0 280 120" fill="none" preserveAspectRatio="none">
+                  <path d="M0 90 Q40 70, 80 55 T160 30 T240 15 T280 10" stroke="var(--gold)" stroke-width="1.5" fill="none" opacity="0.6"/>
+                </svg>
+              </div>
+              <div class="chart-badge mono">STRUCTURED YIELD</div>
             </div>
           </div>
-        </div>
+        </article>
+
+        <!-- Card 2: Small - PT Token -->
+        <article class="bento-card bento-sm" data-reveal data-delay="2">
+          <div class="bento-text">
+            <h3>Principal protected.</h3>
+            <p>PT tokens are redeemable 1:1 at maturity. Your capital is always accounted for.</p>
+          </div>
+          <div class="bento-visual visual-shield">
+            <!-- CSS shield / lock illustration -->
+            <div class="shield-illustration">
+              <div class="shield-shape">
+                <div class="shield-inner">
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                    <path d="M9 12l2 2 4-4" stroke="var(--gold)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="shield-ring ring-1"></div>
+              <div class="shield-ring ring-2"></div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 3: Small - YT Token -->
+        <article class="bento-card bento-sm" data-reveal data-delay="3">
+          <div class="bento-text">
+            <h3>Yield, tokenized.</h3>
+            <p>YT tokens represent tradeable rights to returns. Sell early or hold to maturity.</p>
+          </div>
+          <div class="bento-visual visual-gauge">
+            <!-- CSS speedometer / gauge illustration -->
+            <div class="gauge-illustration">
+              <div class="gauge-track">
+                <div class="gauge-fill"></div>
+              </div>
+              <div class="gauge-needle"></div>
+              <div class="gauge-center">
+                <span class="gauge-val mono">11.9</span>
+                <span class="gauge-unit mono">% APY</span>
+              </div>
+              <div class="gauge-labels mono">
+                <span>0</span>
+                <span>20%</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 4: Medium - Transparent -->
+        <article class="bento-card bento-md" data-reveal data-delay="4">
+          <div class="bento-text">
+            <h3>Fully transparent risk.</h3>
+            <p>Every deal discloses collateral, duration, KOL metrics, and historical performance before allocation.</p>
+          </div>
+          <div class="bento-visual visual-layers">
+            <!-- CSS layered cards illustration -->
+            <div class="layers-illustration">
+              <div class="layer layer-3">
+                <span class="mono">RISK PARAMS</span>
+              </div>
+              <div class="layer layer-2">
+                <span class="mono">COLLATERAL</span>
+              </div>
+              <div class="layer layer-1">
+                <span class="mono">DEAL TERMS</span>
+                <div class="layer-check">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 12l2 2 4-4" stroke="var(--gold)" stroke-width="2" stroke-linecap="round"/></svg>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 5: Medium - Zero Defaults -->
+        <article class="bento-card bento-md" data-reveal data-delay="5">
+          <div class="bento-text">
+            <h3>Zero defaults to date.</h3>
+            <p>47 deals closed, $12.4M in volume, with not a single default. Commerce-backed, performance-proven.</p>
+          </div>
+          <div class="bento-visual visual-record">
+            <!-- CSS track record / checkered flag illustration -->
+            <div class="record-illustration">
+              <div class="record-grid">
+                <div class="rg-cell filled"></div><div class="rg-cell"></div><div class="rg-cell filled"></div><div class="rg-cell"></div><div class="rg-cell filled"></div>
+                <div class="rg-cell"></div><div class="rg-cell filled"></div><div class="rg-cell"></div><div class="rg-cell filled"></div><div class="rg-cell"></div>
+                <div class="rg-cell filled"></div><div class="rg-cell"></div><div class="rg-cell filled"></div><div class="rg-cell"></div><div class="rg-cell filled"></div>
+                <div class="rg-cell"></div><div class="rg-cell filled"></div><div class="rg-cell"></div><div class="rg-cell filled"></div><div class="rg-cell"></div>
+              </div>
+              <div class="record-badge mono">0 DEFAULTS</div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Card 6: Full width - How it works flow -->
+        <article class="bento-card bento-full" data-reveal data-delay="6">
+          <div class="bento-flow">
+            <div class="flow-node">
+              <div class="flow-icon-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><rect x="3" y="11" width="18" height="11" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M7 11V7a5 5 0 0110 0v4" stroke="currentColor" stroke-width="1.5"/></svg>
+              </div>
+              <span class="flow-label mono">DEPOSIT</span>
+              <span class="flow-sublabel">USDT into a deal</span>
+            </div>
+            <div class="flow-connector">
+              <div class="flow-dash"></div>
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M7 3l3 3-3 3" stroke="var(--gold)" stroke-width="1.2" fill="none"/></svg>
+            </div>
+            <div class="flow-node">
+              <div class="flow-icon-wrap">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.5"/><path d="M12 8v4l3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+              </div>
+              <span class="flow-label mono">MINT</span>
+              <span class="flow-sublabel">PT + YT tokens</span>
+            </div>
+            <div class="flow-connector">
+              <div class="flow-dash"></div>
+              <svg width="12" height="12" viewBox="0 0 12 12"><path d="M2 6h8M7 3l3 3-3 3" stroke="var(--gold)" stroke-width="1.2" fill="none"/></svg>
+            </div>
+            <div class="flow-node">
+              <div class="flow-icon-wrap gold-border">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" stroke="var(--gold)" stroke-width="1.5" fill="none"/></svg>
+              </div>
+              <span class="flow-label mono">EARN</span>
+              <span class="flow-sublabel">Structured yield</span>
+            </div>
+          </div>
+        </article>
       </div>
     </section>
 
-    <!-- ===== HOW IT WORKS (echo-style: left label + right product list) ===== -->
-    <section class="section-products">
-      <div class="section-grid">
-        <div class="section-label" data-reveal>
-          <span class="eyebrow mono">HOW IT WORKS</span>
+    <!-- ===== STATS ROW ===== -->
+    <section class="section-stats">
+      <div class="stats-grid" data-reveal>
+        <div class="stat-block">
+          <span class="stat-num" id="stat-tvl">$0</span>
+          <span class="stat-label mono">TVL LOCKED</span>
         </div>
-        <div class="section-body">
-          <div class="product-item" data-reveal data-delay="1">
-            <div class="product-num mono">01</div>
-            <div class="product-content">
-              <h3 class="product-title">Deposit USDT</h3>
-              <p class="product-desc">Choose from curated KOL commerce deals. Each deal is underwritten and structured with clear risk parameters.</p>
-            </div>
-            <div class="product-arrow">
-              <svg width="24" height="24" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-            </div>
-          </div>
-          <div class="product-item" data-reveal data-delay="2">
-            <div class="product-num mono">02</div>
-            <div class="product-content">
-              <h3 class="product-title">Mint PT + YT</h3>
-              <p class="product-desc">Your deposit mints two tokens: Principal Token (1:1 redeemable) and Yield Token (tradeable rights to returns).</p>
-            </div>
-            <div class="product-arrow">
-              <svg width="24" height="24" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-            </div>
-          </div>
-          <div class="product-item" data-reveal data-delay="3">
-            <div class="product-num mono">03</div>
-            <div class="product-content">
-              <h3 class="product-title">Earn Yield</h3>
-              <p class="product-desc">Receive structured returns as the campaign completes. Principal redeemable at maturity; yield accrues in real time.</p>
-            </div>
-            <div class="product-arrow">
-              <svg width="24" height="24" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
-            </div>
-          </div>
+        <div class="stat-divider"></div>
+        <div class="stat-block">
+          <span class="stat-num" id="stat-apy">0%</span>
+          <span class="stat-label mono">AVG APY</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-block">
+          <span class="stat-num" id="stat-deals">0</span>
+          <span class="stat-label mono">DEALS CLOSED</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-block">
+          <span class="stat-num" id="stat-defaults">0</span>
+          <span class="stat-label mono">DEFAULTS</span>
         </div>
       </div>
     </section>
@@ -194,7 +310,7 @@
       </div>
     </section>
 
-    <!-- ===== FOR PROTOCOLS (dark invert section like echo) ===== -->
+    <!-- ===== FOR PROTOCOLS (dark section) ===== -->
     <section class="section-dark">
       <div class="dark-inner">
         <span class="eyebrow mono" data-reveal>FOR PROTOCOLS & BRANDS</span>
@@ -212,7 +328,7 @@
       </div>
     </section>
 
-    <!-- ===== FAQ (echo-style: left title + right accordion) ===== -->
+    <!-- ===== FAQ ===== -->
     <section class="section-faq">
       <div class="section-grid">
         <div class="section-label" data-reveal>
@@ -225,7 +341,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-a">
-              <p>TAEL is a structured yield protocol that underwrites influencer commerce campaigns and tokenizes them into fixed-duration yield products. Depositors earn transparent, asset-backed returns.</p>
+              <p>TAEL is a structured yield protocol that underwrites influencer commerce campaigns and tokenizes them into fixed-duration yield products.</p>
             </div>
           </div>
           <div class="faq-item" data-reveal data-delay="2">
@@ -234,7 +350,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-a">
-              <p>PT (Principal Token) represents your original deposit, redeemable 1:1 at maturity. YT (Yield Token) represents the right to receive yield from the underlying commerce deal and can be traded.</p>
+              <p>PT (Principal Token) represents your original deposit, redeemable 1:1 at maturity. YT (Yield Token) represents the right to receive yield from the underlying commerce deal.</p>
             </div>
           </div>
           <div class="faq-item" data-reveal data-delay="3">
@@ -243,7 +359,7 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-a">
-              <p>Each deal is structured with inventory collateral, platform receivables, and KOL performance guarantees. Risk parameters are transparently disclosed before allocation.</p>
+              <p>Each deal is structured with inventory collateral, platform receivables, and KOL performance guarantees. Risk parameters are transparently disclosed.</p>
             </div>
           </div>
           <div class="faq-item" data-reveal data-delay="4">
@@ -252,14 +368,14 @@
               <span class="faq-icon">+</span>
             </button>
             <div class="faq-a">
-              <p>At maturity, PT holders redeem their principal in full. YT holders receive their accumulated yield. The deal settles based on the actual commerce campaign performance.</p>
+              <p>PT holders redeem their principal in full. YT holders receive accumulated yield. The deal settles based on actual campaign performance.</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===== CTA (echo-style: big text + colored accent) ===== -->
+    <!-- ===== CTA ===== -->
     <section class="section-cta">
       <div class="cta-inner" data-reveal>
         <h2 class="cta-headline">
@@ -273,9 +389,13 @@
       </div>
     </section>
 
-    <!-- ===== FOOTER (echo-style: categorized links) ===== -->
+    <!-- ===== FOOTER ===== -->
     <footer class="footer">
       <div class="footer-grid">
+        <div class="footer-col footer-brand">
+          <span class="logo-mark serif" style="font-size:36px;color:var(--gold)">兩</span>
+          <p class="footer-tagline">Structured yield protocol<br/>for KOL commerce financing.</p>
+        </div>
         <div class="footer-col">
           <span class="footer-col-title mono">Investors</span>
           <a href="./index.html">Browse deals</a>
@@ -286,17 +406,15 @@
           <a href="#">Raise with us</a>
         </div>
         <div class="footer-col">
-          <span class="footer-col-title mono">Resources</span>
-          <a href="#">Support</a>
-          <a href="#">Brand kit</a>
+          <span class="footer-col-title mono">Community</span>
+          <a href="#">Twitter/X</a>
+          <a href="#">Discord</a>
+          <a href="#">Blog</a>
         </div>
         <div class="footer-col">
           <span class="footer-col-title mono">Legal</span>
           <a href="#">Terms</a>
           <a href="#">Privacy</a>
-        </div>
-        <div class="footer-col footer-contact">
-          <a href="#" class="footer-social mono">@taelprotocol</a>
         </div>
       </div>
       <div class="footer-bottom mono">
@@ -322,7 +440,7 @@
                 observer.unobserve(entry.target);
               }
             });
-          }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+          }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
           els.forEach(el => observer.observe(el));
         }
       }
@@ -349,8 +467,7 @@
         countUp(document.getElementById('stat-defaults'), 0, '', '', 0, 800);
       }
 
-      // Run counter when WHY section visible
-      const statsSection = document.querySelector('.section-why');
+      const statsSection = document.querySelector('.section-stats');
       if (statsSection) {
         const statsObs = new IntersectionObserver((entries) => {
           if (entries[0].isIntersecting) {
@@ -360,7 +477,6 @@
         }, { threshold: 0.2 });
         statsObs.observe(statsSection);
       }
-      // Also ensure they fire on mobile
       if (window.innerWidth <= 600) {
         setTimeout(startCounters, 800);
       }
@@ -368,14 +484,40 @@
       // ===== Sticky Nav Bg =====
       const nav = document.getElementById('nav');
       window.addEventListener('scroll', () => {
-        if (window.scrollY > 60) {
-          nav.classList.add('scrolled');
-        } else {
-          nav.classList.remove('scrolled');
-        }
+        nav.classList.toggle('scrolled', window.scrollY > 60);
       }, { passive: true });
 
-      // Init
+      // ===== Animate gauge needle =====
+      function animateGauge() {
+        const needle = document.querySelector('.gauge-needle');
+        if (needle) {
+          setTimeout(() => { needle.style.transform = 'rotate(105deg)'; }, 800);
+        }
+      }
+      const gaugeCard = document.querySelector('.visual-gauge');
+      if (gaugeCard) {
+        const gObs = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) { animateGauge(); gObs.disconnect(); }
+        }, { threshold: 0.3 });
+        gObs.observe(gaugeCard);
+      }
+      if (window.innerWidth <= 600) setTimeout(animateGauge, 1200);
+
+      // ===== Animate chart bars =====
+      function animateBars() {
+        document.querySelectorAll('.chart-bar .bar-fill').forEach((bar, i) => {
+          setTimeout(() => { bar.style.height = '100%'; }, i * 100);
+        });
+      }
+      const chartCard = document.querySelector('.visual-deals');
+      if (chartCard) {
+        const cObs = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) { animateBars(); cObs.disconnect(); }
+        }, { threshold: 0.3 });
+        cObs.observe(chartCard);
+      }
+      if (window.innerWidth <= 600) setTimeout(animateBars, 1000);
+
       initReveal();
     </script>
   </body>
