@@ -169,14 +169,14 @@ a {
 /* Desktop: centered container with elegant side margins */
 @media (min-width: 1024px) {
   .page-shell {
-    padding: 0 80px 48px;
+    padding: 0 136px 48px;
     background: linear-gradient(
       90deg,
       var(--bg) 0%,
-      var(--bg) calc(50% - 500px),
-      transparent calc(50% - 500px),
-      transparent calc(50% + 500px),
-      var(--bg) calc(50% + 500px),
+      var(--bg) calc(50% - 440px),
+      transparent calc(50% - 440px),
+      transparent calc(50% + 440px),
+      var(--bg) calc(50% + 440px),
       var(--bg) 100%
     );
   }
@@ -585,12 +585,12 @@ html[lang="zh"] .step-labels {
 .trust-logos {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 24px;
   flex-wrap: wrap;
 }
 
 .trust-logos img {
-  height: 20px;
+  height: 34px;
   width: auto;
   filter: brightness(0) invert(0.85);
   opacity: 0.7;
@@ -810,26 +810,22 @@ h3 {
   grid-template-columns: 1fr;
 }
 
-/* Markets split layout - deal list + deposit sidebar */
+/* Markets split layout - deal list only (sidebar hidden) */
 .markets-split-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 420px;
-  gap: 20px;
-  align-items: start;
+  display: block;
 }
 
 .markets-list-panel {
   min-width: 0;
+  width: 100%;
 }
 
 .markets-deposit-sidebar {
-  position: sticky;
-  top: 100px;
-  padding: 20px;
-  border: 1px solid var(--line);
-  background: var(--surface);
-  max-height: calc(100vh - 120px);
-  overflow-y: auto;
+  display: none;
+}
+
+.markets-deposit-sidebar.hidden {
+  display: none !important;
 }
 
 .markets-deposit-sidebar::-webkit-scrollbar {
