@@ -756,6 +756,18 @@ h3 {
   animation: fadeUp 300ms ease-out;
 }
 
+/* Hide hero-sheet when not on markets section */
+.hero-sheet {
+  display: block;
+}
+
+body:has(#portfolio.active) .hero-sheet,
+body:has(#exchange.active) .hero-sheet,
+body:has(#desk.active) .hero-sheet,
+body:has(#account.active) .hero-sheet {
+  display: none;
+}
+
 .sort-pills,
 .position-actions,
 .filter-pills,
@@ -2948,28 +2960,33 @@ h3 {
 .mobile-nav {
   display: none;
   position: fixed;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  padding: 8px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 8px 12px calc(8px + env(safe-area-inset-bottom, 0px));
   grid-template-columns: repeat(5, 1fr);
-  border: 1px solid var(--line);
-  background: rgba(20, 17, 15, 0.92);
-  backdrop-filter: blur(14px);
-  box-shadow: none;
+  border-top: 1px solid var(--line);
+  border-left: 0;
+  border-right: 0;
+  border-bottom: 0;
+  background: rgba(15, 13, 11, 0.96);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  z-index: 100;
 }
 
 .mobile-nav .nav-link {
   text-align: center;
-  border-top: 1px solid transparent;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 0;
+  border: none;
   background: transparent;
+  padding: 10px 4px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--ink-faint);
 }
 
 .mobile-nav .nav-link.active {
-  border-top-color: var(--gold);
+  color: var(--gold);
 }
 
 .gmv-label {
@@ -3257,6 +3274,11 @@ h3 {
     display: grid;
   }
 
+  /* Add bottom padding to content for mobile nav */
+  .content-frame {
+    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+  }
+
   .artifact-note {
     display: none;
   }
@@ -3319,25 +3341,6 @@ h3 {
   .urgency-link {
     white-space: nowrap;
     align-self: start;
-  }
-
-  .mobile-nav {
-    left: 8px;
-    right: 8px;
-    bottom: max(8px, env(safe-area-inset-bottom, 0px));
-    padding: 6px 8px calc(14px + env(safe-area-inset-bottom, 0px));
-    min-height: calc(72px + env(safe-area-inset-bottom, 0px));
-    border: 1px solid var(--line);
-  }
-
-  .mobile-nav .nav-link {
-    padding: 12px 4px 10px;
-    font-size: 11px;
-    letter-spacing: 0.04em;
-    min-height: 44px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
 
   /* Improved touch targets */
@@ -3734,10 +3737,10 @@ h3 {
     font-size: 16px;
   }
 
-  /* Larger touch targets on mobile */
+  /* Smaller text on very small screens */
   .mobile-nav .nav-link {
-    min-height: 48px;
-    padding: 14px 4px 12px;
+    font-size: 9px;
+    letter-spacing: 0.06em;
   }
 
   .action-button,
