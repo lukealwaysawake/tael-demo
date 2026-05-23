@@ -1577,6 +1577,12 @@ function renderDetail() {
       '</div><div class="serif italic receipt-foot">A copy of this receipt is reflected in Account → Activity Log.</div><div class="review-actions"><button class="action-button" id="view-portfolio">View in portfolio</button><button class="secondary-button" id="receipt-close">Close</button></div></div>';
   }
 
+  const isMobileDetail = pageType === "deal" && window.innerWidth <= 767;
+  const closeLabel = deal.status === "ACTIVE" ? "LIVE" : formatCountdown(deal);
+  const mobileAllocateSummary = isMobileDetail
+    ? '<div class="mobile-allocate-summary"><div class="deal-quick-info"><strong class="mono">' + pct(deal.apy) + ' APY · ' + deal.duration + 'd</strong><span class="mono">Remaining: ' + money(deal.target - deal.filled) + '</span></div><button class="mobile-allocate-toggle mono" id="toggle-allocate-panel">DEPOSIT</button></div>'
+    : '';
+
   container.innerHTML =
     '<div class="detail-shell status-' + deal.statusClass + '">' +
       (pageType === "deal" ? '<div class="detail-mobile-bar"><button class="mono detail-mobile-back" id="detail-mobile-back">← BACK</button><div class="mono detail-mobile-center">兩 · ' + shortTicker(deal) + '</div><button class="detail-mobile-close" id="detail-mobile-close" aria-label="Close">✕</button></div>' : '') +
@@ -1604,6 +1610,7 @@ function renderDetail() {
           '<div class="detail-block"><p class="eyebrow">OTC desk & timeline</p><div class="ticket-metrics"><div class="ticket-metric"><span>Winning desk</span><strong class="mono">' + deal.otcDesk + '</strong></div><div class="ticket-metric"><span>Escrow path</span><strong class="mono">' + (desk ? desk.collateral : "USDT escrow") + '</strong></div>' + deal.timeline.map((row) => '<div class="ticket-metric"><span>' + row[0] + '</span><strong class="mono">' + row[1] + '</strong></div>').join("") + '</div></div>' +
         '</section>' +
         '<aside class="detail-side-column">' +
+          mobileAllocateSummary +
           '<div class="sticky-ticket"><p class="eyebrow">Allocate</p>' +
             ticketBody +
           '</div>' +
@@ -1618,6 +1625,18 @@ function renderDetail() {
   if (mobileBack) mobileBack.addEventListener("click", () => { window.location.href = "./index.html"; });
   const mobileClose = document.getElementById("detail-mobile-close");
   if (mobileClose) mobileClose.addEventListener("click", () => { window.location.href = "./index.html"; });
+  
+  // Mobile allocate panel toggle
+  const toggleAllocate = document.getElementById("toggle-allocate-panel");
+  const sideColumn = container.querySelector(".detail-side-column");
+  if (toggleAllocate && sideColumn) {
+    sideColumn.classList.add("collapsed");
+    toggleAllocate.addEventListener("click", () => {
+      sideColumn.classList.toggle("collapsed");
+      toggleAllocate.textContent = sideColumn.classList.contains("collapsed") ? "DEPOSIT" : "CLOSE";
+    });
+  }
+
   if (input) {
     input.addEventListener("input", () => {
       const value = Number(String(input.value || "").replace(/[^0-9]/g, "") || 0);
