@@ -28,6 +28,35 @@
 
     <!-- ===== HERO ===== -->
     <section class="hero">
+      <!-- 3D Rotating Cube + ASCII Background -->
+      <div class="hero-visual" aria-hidden="true">
+        <div class="hero-ascii-bg" id="heroAscii"></div>
+        <div class="hero-3d-scene">
+          <div class="cube-wrapper">
+            <div class="cube">
+              <div class="cube-face cube-front"><span class="mono">PT</span></div>
+              <div class="cube-face cube-back"><span class="mono">YT</span></div>
+              <div class="cube-face cube-right"><span class="serif" style="font-size:28px">兩</span></div>
+              <div class="cube-face cube-left"><span class="mono" style="font-size:12px">TAEL</span></div>
+              <div class="cube-face cube-top"><span class="mono" style="font-size:10px">YIELD</span></div>
+              <div class="cube-face cube-bottom"><span class="mono" style="font-size:10px">DEALS</span></div>
+            </div>
+          </div>
+          <!-- Orbiting ring -->
+          <div class="orbit-ring"></div>
+          <div class="orbit-dot dot-1"></div>
+          <div class="orbit-dot dot-2"></div>
+          <div class="orbit-dot dot-3"></div>
+        </div>
+        <!-- Floating data particles -->
+        <div class="hero-particles">
+          <span class="particle p1 mono">$8.6M</span>
+          <span class="particle p2 mono">11.9%</span>
+          <span class="particle p3 mono">0 DEF</span>
+          <span class="particle p4 mono">PT:YT</span>
+        </div>
+      </div>
+
       <div class="hero-grid">
         <div class="hero-left">
           <h1 class="hero-title" data-reveal>
@@ -516,6 +545,37 @@
         cObs.observe(chartCard);
       }
       if (window.innerWidth <= 600) setTimeout(animateBars, 1000);
+
+      // ===== ASCII Background Animation =====
+      (function() {
+        const asciiEl = document.getElementById('heroAscii');
+        if (!asciiEl) return;
+        const chars = '.:;+=xX$&#@';
+        const cols = Math.floor(window.innerWidth / 10);
+        const rows = Math.floor(window.innerHeight / 16);
+        let frame = 0;
+
+        function renderAscii() {
+          let output = '';
+          for (let y = 0; y < rows; y++) {
+            for (let x = 0; x < cols; x++) {
+              const cx = cols / 2, cy = rows / 2;
+              const dx = x - cx, dy = y - cy;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              const wave = Math.sin(dist * 0.3 - frame * 0.04) * 0.5 + 0.5;
+              const ripple = Math.sin(x * 0.15 + frame * 0.02) * Math.cos(y * 0.15 + frame * 0.03);
+              const val = (wave + ripple * 0.3) * 0.5 + 0.25;
+              const idx = Math.floor(Math.max(0, Math.min(1, val)) * (chars.length - 1));
+              output += chars[idx];
+            }
+            output += '\n';
+          }
+          asciiEl.textContent = output;
+          frame++;
+          requestAnimationFrame(renderAscii);
+        }
+        renderAscii();
+      })();
 
       initReveal();
     </script>
