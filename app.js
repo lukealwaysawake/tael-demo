@@ -2017,15 +2017,39 @@ function renderExchange() {
   const animatedApy = getAnimatedValue("exchange-stat-apy", avgApy, { entryMs: 1000, delayMs: 100 });
   const animatedBooks = getAnimatedValue("exchange-stat-books", exchangeRows.length, { entryMs: 900, delayMs: 180 });
   const animatedPositions = getAnimatedValue("exchange-stat-my", positions.filter((position) => position.yt > 0).length, { entryMs: 900, delayMs: 260 });
-  document.getElementById("exchange-table").innerHTML =
-    '<div class="snippet-stat-grid exchange-stat-grid"><article class="snippet-stat-card"><span>TOTAL YT VOL · 24H</span><strong class="mono">' + money(animatedVol) + '</strong></article><article class="snippet-stat-card"><span>AVG IMPLIED APY</span><strong class="mono">' + pct(animatedApy) + '</strong></article><article class="snippet-stat-card"><span>BOOKS</span><strong class="mono">' + Math.round(animatedBooks) + '</strong></article><article class="snippet-stat-card"><span>YOUR YT POSITIONS</span><strong class="mono">' + Math.round(animatedPositions) + '</strong></article></div>' +
-    '<div class="data-table-card"><div class="table-head exchange-grid"><div>Market</div><div>Implied APY</div><div>Bid</div><div>Ask</div><div>24h Vol</div><div>My YT</div></div>' +
+  
+  const isMobile = window.innerWidth <= 720;
+  
+  // Mobile: card-based layout
+  const mobileCards = exchangeRows.map((row) => {
+    const deal = deals.find((item) => item.id === row.dealId);
+    const myYt = myMap.get(row.dealId) || 0;
+    return '<button class="exchange-card status-' + deal.statusClass + '" data-exchange="' + row.dealId + '">' +
+      '<div class="exchange-card-header">' +
+        '<div class="brand-inline">' + brandMark(deal, true) + '<div><strong>' + deal.brandShort + '</strong><span class="meta-sub">' + deal.kolName + '</span></div></div>' +
+        '<div class="exchange-card-apy"><span class="apy-value mono">' + pct(row.impliedApy) + '</span><span class="apy-label mono">APY</span></div>' +
+      '</div>' +
+      '<div class="exchange-card-grid">' +
+        '<div class="exchange-card-stat"><span class="stat-label">Bid</span><span class="stat-value mono">' + row.bid.toFixed(4) + '</span></div>' +
+        '<div class="exchange-card-stat"><span class="stat-label">Ask</span><span class="stat-value mono">' + row.ask.toFixed(4) + '</span></div>' +
+        '<div class="exchange-card-stat"><span class="stat-label">24h Vol</span><span class="stat-value mono">' + money(row.vol24h) + '</span></div>' +
+        '<div class="exchange-card-stat"><span class="stat-label">My YT</span><span class="stat-value mono' + (myYt > 0 ? ' has-position' : '') + '">' + money(myYt) + '</span></div>' +
+      '</div>' +
+    '</button>';
+  }).join("");
+  
+  // Desktop: table layout
+  const desktopTable = '<div class="data-table-card"><div class="table-head exchange-grid"><div>Market</div><div>Implied APY</div><div>Bid</div><div>Ask</div><div>24h Vol</div><div>My YT</div></div>' +
     '<div class="table-body">' +
       exchangeRows.map((row) => {
         const deal = deals.find((item) => item.id === row.dealId);
         return '<button class="exchange-row exchange-grid status-' + deal.statusClass + '" data-exchange="' + row.dealId + '"><div><div class="brand-inline">' + brandMark(deal, true) + '<div>' + deal.brandShort + '</div></div><div class="meta-row"><span>' + deal.kolName + '</span></div></div><div class="mono">' + pct(row.impliedApy) + '</div><div class="mono">' + row.bid.toFixed(4) + '</div><div class="mono">' + row.ask.toFixed(4) + '</div><div class="mono">' + money(row.vol24h) + '</div><div class="mono">' + money(myMap.get(row.dealId) || 0) + '</div></button>';
       }).join("") +
     '</div></div>';
+  
+  document.getElementById("exchange-table").innerHTML =
+    '<div class="snippet-stat-grid exchange-stat-grid"><article class="snippet-stat-card"><span>TOTAL YT VOL · 24H</span><strong class="mono">' + money(animatedVol) + '</strong></article><article class="snippet-stat-card"><span>AVG IMPLIED APY</span><strong class="mono">' + pct(animatedApy) + '</strong></article><article class="snippet-stat-card"><span>BOOKS</span><strong class="mono">' + Math.round(animatedBooks) + '</strong></article><article class="snippet-stat-card"><span>YOUR YT POSITIONS</span><strong class="mono">' + Math.round(animatedPositions) + '</strong></article></div>' +
+    (isMobile ? '<div class="exchange-cards-grid">' + mobileCards + '</div>' : desktopTable);
 
   document.querySelectorAll("[data-exchange]").forEach((node) => {
     node.addEventListener("click", () => {

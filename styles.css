@@ -2675,6 +2675,102 @@ body:has(#account.active) .hero-sheet {
   color: var(--gold);
 }
 
+/* ===== Mobile Exchange Cards ===== */
+.exchange-cards-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.exchange-card {
+  width: 100%;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: linear-gradient(165deg, rgba(201, 169, 106, 0.04) 0%, var(--bg-card) 40%);
+  text-align: left;
+  transition: border-color 0.3s, transform 0.3s;
+}
+
+.exchange-card:hover,
+.exchange-card:active {
+  border-color: var(--gold-dim);
+  transform: translateY(-2px);
+}
+
+.exchange-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.exchange-card-header .brand-inline {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.exchange-card-header .brand-inline strong {
+  display: block;
+  font-size: 15px;
+  color: var(--ink);
+  margin-bottom: 2px;
+}
+
+.exchange-card-header .brand-inline .meta-sub {
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.05em;
+}
+
+.exchange-card-apy {
+  text-align: right;
+}
+
+.exchange-card-apy .apy-value {
+  display: block;
+  font-size: 22px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.exchange-card-apy .apy-label {
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  color: var(--ink-faint);
+}
+
+.exchange-card-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.exchange-card-stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.exchange-card-stat .stat-label {
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--ink-faint);
+  text-transform: uppercase;
+}
+
+.exchange-card-stat .stat-value {
+  font-size: 14px;
+  color: var(--ink-soft);
+}
+
+.exchange-card-stat .stat-value.has-position {
+  color: var(--gold);
+}
+
 .desk-detail-card {
   padding: 24px;
 }
@@ -3311,8 +3407,19 @@ body:has(#account.active) .hero-sheet {
   .metric-grid,
   .balance-grid,
   .account-grid,
-  .snippet-stat-grid,
-  .exchange-grid,
+  .snippet-stat-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  /* Hide desktop exchange table on mobile - cards shown instead */
+  .data-table-card:has(.exchange-grid) {
+    display: none;
+  }
+  
+  .exchange-cards-grid {
+    display: flex;
+  }
+
   .desk-grid {
     grid-template-columns: 1fr 1fr;
   }
@@ -3595,7 +3702,7 @@ body:has(#account.active) .hero-sheet {
     padding: 16px;
   }
 
-  /* Mobile deal page - bottom fixed allocate bar */
+  /* Mobile deal page - full screen modal when expanded */
   body[data-page="deal"] .detail-side-column {
     position: fixed;
     bottom: 0;
@@ -3606,8 +3713,29 @@ body:has(#account.active) .hero-sheet {
     border-top: 1px solid var(--line);
     padding: 0;
     gap: 0;
-    max-height: 70vh;
+    max-height: 85vh;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    border-radius: 16px 16px 0 0;
+    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.4);
+    transition: max-height 0.3s ease, transform 0.3s ease;
+  }
+
+  /* Scroll indicator bar at top */
+  body[data-page="deal"] .detail-side-column::before {
+    content: '';
+    position: sticky;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: block;
+    width: 40px;
+    height: 4px;
+    background: var(--line);
+    border-radius: 2px;
+    margin: 10px auto 6px;
+    z-index: 10;
   }
 
   body[data-page="deal"] .detail-side-column .sticky-ticket {
@@ -3620,10 +3748,16 @@ body:has(#account.active) .hero-sheet {
     display: none;
   }
 
-  /* Collapsed state for allocate bar */
+  /* Collapsed state - minimal bar at bottom */
   body[data-page="deal"] .detail-side-column.collapsed {
-    max-height: none;
-    overflow: visible;
+    max-height: 72px;
+    overflow: hidden;
+    border-radius: 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2);
+  }
+
+  body[data-page="deal"] .detail-side-column.collapsed::before {
+    display: none;
   }
 
   body[data-page="deal"] .detail-side-column.collapsed .sticky-ticket {
