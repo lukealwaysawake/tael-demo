@@ -169,14 +169,14 @@ a {
 /* Desktop: centered container with elegant side margins */
 @media (min-width: 1024px) {
   .page-shell {
-    padding: 0 136px 48px;
+    padding: 0 230px 48px;
     background: linear-gradient(
       90deg,
       var(--bg) 0%,
-      var(--bg) calc(50% - 440px),
-      transparent calc(50% - 440px),
-      transparent calc(50% + 440px),
-      var(--bg) calc(50% + 440px),
+      var(--bg) calc(50% - 380px),
+      transparent calc(50% - 380px),
+      transparent calc(50% + 380px),
+      var(--bg) calc(50% + 380px),
       var(--bg) 100%
     );
   }
@@ -553,7 +553,7 @@ html[lang="zh"] .step-labels {
 }
 
 .hero-copy {
-  max-width: 600px;
+  max-width: 520px;
   position: relative;
   z-index: 1;
   flex-shrink: 0;
@@ -655,9 +655,10 @@ h4,
 }
 
 h1 {
-  font-size: clamp(40px, 7vw, 74px);
-  line-height: 0.96;
-  max-width: 12ch;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.1;
+  max-width: none;
+  white-space: pre-line;
 }
 
 .hero-emphasis {
