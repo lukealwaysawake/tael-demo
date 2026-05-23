@@ -3,167 +3,189 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>TAEL</title>
-    <meta name="description" content="Private capital. Programmable returns." />
+    <title>TAEL - Private Capital, Programmable Returns</title>
+    <meta name="description" content="Structured yield protocol for KOL commerce financing. Deposit. Mint. Earn." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,wght@0,400;0,500;1,400&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./landing.css" />
   </head>
   <body>
-    <!-- Cursor glow effect -->
-    <div class="cursor-glow" id="cursor-glow"></div>
 
     <!-- Navigation -->
-    <header class="nav">
+    <header class="nav" id="nav">
       <div class="nav-inner">
-        <a href="#" class="nav-logo">
-          <span class="logo-mark serif">兩</span>
-        </a>
-        <a href="./index.html" class="nav-cta mono">ENTER</a>
+        <div class="nav-left">
+          <a href="#" class="nav-logo">
+            <span class="logo-mark serif">兩</span>
+            <span class="logo-text mono">TAEL</span>
+          </a>
+          <span class="nav-tag mono">Yield Protocol</span>
+        </div>
+        <a href="./index.html" class="nav-cta mono">Launch App</a>
       </div>
     </header>
 
-    <!-- Hero with ASCII Art -->
+    <!-- ===== HERO ===== -->
     <section class="hero">
-      <div class="hero-ascii" id="ascii-container">
-        <pre class="ascii-art" id="ascii-art"></pre>
-      </div>
-      <div class="hero-content">
-        <h1 class="hero-title glitch-text" data-text="TAEL">TAEL</h1>
-        <p class="hero-tagline">Private capital<br/><em>programmable returns</em></p>
-        <div class="hero-metrics">
-          <div class="metric-item">
-            <div class="metric-value-row">
-              <span class="metric-num mono" id="counter-tvl">$0</span>
-              <span class="metric-unit mono">M</span>
-            </div>
-            <span class="metric-label mono">TVL LOCKED</span>
-          </div>
-          <div class="metric-divider"></div>
-          <div class="metric-item">
-            <div class="metric-value-row">
-              <span class="metric-num mono" id="counter-apy">0</span>
-              <span class="metric-unit mono">%</span>
-            </div>
-            <span class="metric-label mono">AVG APY</span>
-          </div>
-          <div class="metric-divider"></div>
-          <div class="metric-item">
-            <div class="metric-value-row">
-              <span class="metric-num mono" id="counter-defaults">0</span>
-            </div>
-            <span class="metric-label mono">DEFAULTS</span>
-          </div>
+      <div class="hero-grid">
+        <div class="hero-left">
+          <h1 class="hero-title" data-reveal>
+            Structured yield<br/>for KOL commerce
+          </h1>
+        </div>
+        <div class="hero-right" data-reveal data-delay="1">
+          <p class="hero-desc">
+            Deposit into curated influencer commerce deals.<br/>
+            Mint PT + YT tokens. Earn structured returns.
+          </p>
+          <a href="./index.html" class="hero-btn mono">
+            <span>ENTER PROTOCOL</span>
+            <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          </a>
         </div>
       </div>
-      <div class="scroll-indicator">
-        <span class="mono">SCROLL</span>
-        <div class="scroll-line"></div>
+      <div class="hero-scroll" data-reveal data-delay="2">
+        <div class="scroll-line-v"></div>
       </div>
     </section>
 
-    <!-- Marquee Section -->
-    <section class="marquee-section">
-      <div class="marquee">
-        <div class="marquee-content">
-          <span>YIELD INFRASTRUCTURE</span>
-          <span class="marquee-dot"></span>
-          <span>KOL COMMERCE</span>
-          <span class="marquee-dot"></span>
-          <span>STRUCTURED RETURNS</span>
-          <span class="marquee-dot"></span>
-          <span>PT / YT TOKENS</span>
-          <span class="marquee-dot"></span>
-          <span>YIELD INFRASTRUCTURE</span>
-          <span class="marquee-dot"></span>
-          <span>KOL COMMERCE</span>
-          <span class="marquee-dot"></span>
-          <span>STRUCTURED RETURNS</span>
-          <span class="marquee-dot"></span>
-          <span>PT / YT TOKENS</span>
-          <span class="marquee-dot"></span>
+    <!-- ===== MARQUEE ===== -->
+    <section class="marquee-strip">
+      <div class="marquee-track">
+        <div class="marquee-content mono">
+          <span>YIELD INFRASTRUCTURE</span><span class="dot-sep"></span>
+          <span>KOL COMMERCE FINANCING</span><span class="dot-sep"></span>
+          <span>STRUCTURED RETURNS</span><span class="dot-sep"></span>
+          <span>PT / YT TOKENS</span><span class="dot-sep"></span>
+          <span>ZERO DEFAULTS</span><span class="dot-sep"></span>
+          <span>YIELD INFRASTRUCTURE</span><span class="dot-sep"></span>
+          <span>KOL COMMERCE FINANCING</span><span class="dot-sep"></span>
+          <span>STRUCTURED RETURNS</span><span class="dot-sep"></span>
+          <span>PT / YT TOKENS</span><span class="dot-sep"></span>
+          <span>ZERO DEFAULTS</span><span class="dot-sep"></span>
         </div>
       </div>
     </section>
 
-    <!-- How it works - Minimal -->
-    <section class="flow-section">
-      <div class="flow-inner">
-        <div class="flow-step">
-          <span class="flow-num mono">01</span>
-          <div class="flow-icon">
-            <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1" fill="none"/><path d="M24 14v20M14 24h20" stroke="currentColor" stroke-width="1"/></svg>
+    <!-- ===== WHY TAEL (echo-style: left label + right content + stats) ===== -->
+    <section class="section-why">
+      <div class="section-grid">
+        <div class="section-label" data-reveal>
+          <span class="eyebrow mono">WHY TAEL</span>
+        </div>
+        <div class="section-body" data-reveal data-delay="1">
+          <h2 class="section-title">
+            Real-world commerce deals,<br/>
+            <em class="serif">tokenized for yield.</em>
+          </h2>
+          <p class="section-desc">
+            TAEL underwrites influencer commerce campaigns and structures them into fixed-duration yield products — giving depositors transparent, asset-backed returns.
+          </p>
+          <div class="stats-row">
+            <div class="stat-item" data-reveal data-delay="2">
+              <span class="stat-num" id="stat-tvl">$0</span>
+              <span class="stat-label mono">TVL LOCKED</span>
+            </div>
+            <div class="stat-item" data-reveal data-delay="3">
+              <span class="stat-num" id="stat-apy">0%</span>
+              <span class="stat-label mono">AVG APY</span>
+            </div>
+            <div class="stat-item" data-reveal data-delay="4">
+              <span class="stat-num" id="stat-deals">0</span>
+              <span class="stat-label mono">DEALS CLOSED</span>
+            </div>
+            <div class="stat-item" data-reveal data-delay="5">
+              <span class="stat-num" id="stat-defaults">0</span>
+              <span class="stat-label mono">DEFAULTS</span>
+            </div>
           </div>
-          <h3>Deposit</h3>
-          <p>USDT into curated deals</p>
-        </div>
-        <div class="flow-arrow">
-          <svg viewBox="0 0 60 24"><path d="M0 12h52M46 6l8 6-8 6" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-        </div>
-        <div class="flow-step">
-          <span class="flow-num mono">02</span>
-          <div class="flow-icon">
-            <svg viewBox="0 0 48 48"><rect x="8" y="14" width="14" height="20" stroke="currentColor" stroke-width="1" fill="none"/><rect x="26" y="14" width="14" height="20" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-          </div>
-          <h3>Mint</h3>
-          <p>PT + YT tokens</p>
-        </div>
-        <div class="flow-arrow">
-          <svg viewBox="0 0 60 24"><path d="M0 12h52M46 6l8 6-8 6" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-        </div>
-        <div class="flow-step">
-          <span class="flow-num mono">03</span>
-          <div class="flow-icon">
-            <svg viewBox="0 0 48 48"><path d="M14 34V18l10-8 10 8v16" stroke="currentColor" stroke-width="1" fill="none"/></svg>
-          </div>
-          <h3>Earn</h3>
-          <p>Structured returns</p>
         </div>
       </div>
     </section>
 
-    <!-- Live Deals Preview -->
-    <section class="deals-section">
-      <div class="deals-header">
+    <!-- ===== HOW IT WORKS (echo-style: left label + right product list) ===== -->
+    <section class="section-products">
+      <div class="section-grid">
+        <div class="section-label" data-reveal>
+          <span class="eyebrow mono">HOW IT WORKS</span>
+        </div>
+        <div class="section-body">
+          <div class="product-item" data-reveal data-delay="1">
+            <div class="product-num mono">01</div>
+            <div class="product-content">
+              <h3 class="product-title">Deposit USDT</h3>
+              <p class="product-desc">Choose from curated KOL commerce deals. Each deal is underwritten and structured with clear risk parameters.</p>
+            </div>
+            <div class="product-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            </div>
+          </div>
+          <div class="product-item" data-reveal data-delay="2">
+            <div class="product-num mono">02</div>
+            <div class="product-content">
+              <h3 class="product-title">Mint PT + YT</h3>
+              <p class="product-desc">Your deposit mints two tokens: Principal Token (1:1 redeemable) and Yield Token (tradeable rights to returns).</p>
+            </div>
+            <div class="product-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            </div>
+          </div>
+          <div class="product-item" data-reveal data-delay="3">
+            <div class="product-num mono">03</div>
+            <div class="product-content">
+              <h3 class="product-title">Earn Yield</h3>
+              <p class="product-desc">Receive structured returns as the campaign completes. Principal redeemable at maturity; yield accrues in real time.</p>
+            </div>
+            <div class="product-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24"><path d="M7 17L17 7M17 7H7M17 7v10" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== LIVE DEALS ===== -->
+    <section class="section-deals">
+      <div class="deals-head" data-reveal>
         <span class="eyebrow mono">LIVE ALLOCATIONS</span>
-        <div class="live-indicator">
+        <div class="live-badge">
           <span class="live-dot"></span>
           <span class="mono">3 OPEN</span>
         </div>
       </div>
       <div class="deals-grid">
-        <article class="deal-card" data-apy="8.5" data-fill="78">
+        <article class="deal-card" data-reveal data-delay="1">
           <div class="deal-top">
-            <span class="deal-badge mono">CLOSING SOON</span>
-            <span class="deal-apy mono">8.5%</span>
+            <span class="deal-tag mono">CLOSING SOON</span>
+            <span class="deal-apy mono">8.5% APY</span>
           </div>
           <h4 class="deal-name serif">Philips <em>x</em> Austin Li</h4>
-          <div class="deal-bar"><div class="deal-fill" style="--fill: 78%"></div></div>
+          <div class="deal-bar"><div class="deal-fill" style="width:78%"></div></div>
           <div class="deal-meta mono">
             <span>$1.95M / $2.5M</span>
             <span>90d</span>
           </div>
         </article>
-        <article class="deal-card" data-apy="11.2" data-fill="45">
+        <article class="deal-card" data-reveal data-delay="2">
           <div class="deal-top">
-            <span class="deal-badge mono">NEW</span>
-            <span class="deal-apy mono">11.2%</span>
+            <span class="deal-tag mono">NEW</span>
+            <span class="deal-apy mono">11.2% APY</span>
           </div>
           <h4 class="deal-name serif">Anker <em>x</em> Viya</h4>
-          <div class="deal-bar"><div class="deal-fill" style="--fill: 45%"></div></div>
+          <div class="deal-bar"><div class="deal-fill" style="width:45%"></div></div>
           <div class="deal-meta mono">
             <span>$675K / $1.5M</span>
             <span>60d</span>
           </div>
         </article>
-        <article class="deal-card" data-apy="9.8" data-fill="23">
+        <article class="deal-card" data-reveal data-delay="3">
           <div class="deal-top">
-            <span class="deal-badge mono">OPEN</span>
-            <span class="deal-apy mono">9.8%</span>
+            <span class="deal-tag mono">OPEN</span>
+            <span class="deal-apy mono">9.8% APY</span>
           </div>
           <h4 class="deal-name serif">Xiaomi <em>x</em> Li Jiaqi</h4>
-          <div class="deal-bar"><div class="deal-fill" style="--fill: 23%"></div></div>
+          <div class="deal-bar"><div class="deal-fill" style="width:23%"></div></div>
           <div class="deal-meta mono">
             <span>$460K / $2M</span>
             <span>120d</span>
@@ -172,218 +194,189 @@
       </div>
     </section>
 
-    <!-- Token Section -->
-    <section class="token-section">
-      <div class="token-visual">
-        <div class="token-box pt">
-          <span class="token-label mono">PT</span>
-          <span class="token-name">Principal</span>
-          <span class="token-desc">1:1 redeemable</span>
+    <!-- ===== FOR PROTOCOLS (dark invert section like echo) ===== -->
+    <section class="section-dark">
+      <div class="dark-inner">
+        <span class="eyebrow mono" data-reveal>FOR PROTOCOLS & BRANDS</span>
+        <h2 class="dark-title" data-reveal data-delay="1">
+          Giving commerce brands<br/>
+          <em class="serif gold">another option for capital</em>
+        </h2>
+        <p class="dark-desc" data-reveal data-delay="2">
+          Access structured financing for your influencer campaigns. Faster than traditional lending, more transparent than private deals.
+        </p>
+        <a href="#" class="dark-btn mono" data-reveal data-delay="3">
+          <span>CONTACT US</span>
+          <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== FAQ (echo-style: left title + right accordion) ===== -->
+    <section class="section-faq">
+      <div class="section-grid">
+        <div class="section-label" data-reveal>
+          <h2 class="faq-title">Frequently<br/>asked<br/>questions</h2>
         </div>
-        <div class="token-connector">
-          <span class="connector-line"></span>
-          <span class="connector-text mono">YOUR DEPOSIT</span>
-          <span class="connector-line"></span>
-        </div>
-        <div class="token-box yt">
-          <span class="token-label mono">YT</span>
-          <span class="token-name">Yield</span>
-          <span class="token-desc">Tradeable rights</span>
+        <div class="section-body">
+          <div class="faq-item" data-reveal data-delay="1">
+            <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>What is TAEL?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>TAEL is a structured yield protocol that underwrites influencer commerce campaigns and tokenizes them into fixed-duration yield products. Depositors earn transparent, asset-backed returns.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-reveal data-delay="2">
+            <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>What are PT and YT tokens?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>PT (Principal Token) represents your original deposit, redeemable 1:1 at maturity. YT (Yield Token) represents the right to receive yield from the underlying commerce deal and can be traded.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-reveal data-delay="3">
+            <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>How are deals underwritten?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>Each deal is structured with inventory collateral, platform receivables, and KOL performance guarantees. Risk parameters are transparently disclosed before allocation.</p>
+            </div>
+          </div>
+          <div class="faq-item" data-reveal data-delay="4">
+            <button class="faq-q" onclick="this.parentElement.classList.toggle('open')">
+              <span>What happens at maturity?</span>
+              <span class="faq-icon">+</span>
+            </button>
+            <div class="faq-a">
+              <p>At maturity, PT holders redeem their principal in full. YT holders receive their accumulated yield. The deal settles based on the actual commerce campaign performance.</p>
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
-    <!-- CTA -->
-    <section class="cta-section">
-      <div class="cta-inner">
-        <span class="cta-glyph serif">兩</span>
-        <h2 class="cta-title">Ready?</h2>
-        <a href="./index.html" class="cta-btn">
-          <span class="mono">ENTER PROTOCOL</span>
+    <!-- ===== CTA (echo-style: big text + colored accent) ===== -->
+    <section class="section-cta">
+      <div class="cta-inner" data-reveal>
+        <h2 class="cta-headline">
+          Real commerce.<br/>
+          <em class="serif gold">Real yield.</em>
+        </h2>
+        <a href="./index.html" class="cta-btn-lg mono">
+          <span>LAUNCH APP</span>
           <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
         </a>
-        <p class="cta-note mono">INVITATION ONLY</p>
       </div>
     </section>
 
-    <!-- Footer -->
+    <!-- ===== FOOTER (echo-style: categorized links) ===== -->
     <footer class="footer">
-      <div class="footer-inner">
-        <span class="footer-logo serif">兩</span>
-        <nav class="footer-links mono">
-          <a href="#">DOCS</a>
-          <a href="#">TERMS</a>
-          <a href="#">TWITTER</a>
-        </nav>
-        <span class="footer-copy mono">TAEL 2026</span>
+      <div class="footer-grid">
+        <div class="footer-col">
+          <span class="footer-col-title mono">Investors</span>
+          <a href="./index.html">Browse deals</a>
+          <a href="#">Documentation</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title mono">Protocols</span>
+          <a href="#">Raise with us</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title mono">Resources</span>
+          <a href="#">Support</a>
+          <a href="#">Brand kit</a>
+        </div>
+        <div class="footer-col">
+          <span class="footer-col-title mono">Legal</span>
+          <a href="#">Terms</a>
+          <a href="#">Privacy</a>
+        </div>
+        <div class="footer-col footer-contact">
+          <a href="#" class="footer-social mono">@taelprotocol</a>
+        </div>
+      </div>
+      <div class="footer-bottom mono">
+        <span>TAEL 2026. All rights reserved.</span>
+        <span>Structured yield. Transparent risk.</span>
       </div>
     </footer>
 
     <script>
-      // ASCII Art Animation
-      const asciiFrames = [
-        `
-    ╔══════════════════════════════════════╗
-    ║                                      ║
-    ║      ████████╗ █████╗ ███████╗██╗    ║
-    ║      ╚══██╔══╝██╔══██╗██╔════╝██║    ║
-    ║         ██║   ███████║█████╗  ██║    ║
-    ║         ██║   ██╔══██║██╔══╝  ██║    ║
-    ║         ██║   ██║  ██║███████╗███████║
-    ║         ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝
-    ║                                      ║
-    ╚══════════════════════════════════════╝
-        `,
-        `
-    ╔══════════════════════════════════════╗
-    ║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║
-    ║░░    ████████╗ █████╗ ███████╗██╗  ░░║
-    ║░░    ╚══██╔══╝██╔══██╗██╔════╝██║  ░░║
-    ║░░       ██║   ███████║█████╗  ██║  ░░║
-    ║░░       ██║   ██╔══██║██╔══╝  ██║  ░░║
-    ║░░       ██║   ██║  ██║███████╗██████║║
-    ║░░       ╚═╝   ╚═╝  ╚═╝╚══════╝╚═════╝║
-    ║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║
-    ╚══════════════════════════════════════╝
-        `,
-        `
-    ╔══════════════════════════════════════╗
-    ║▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓║
-    ║▓▓    ████████╗ █████╗ ███████╗██╗  ▓▓║
-    ║▓▓    ╚══██╔══╝██╔══██╗██╔════╝██║  ▓▓║
-    ║▓▓       ██║   ███████║█████╗  ██║  ▓▓║
-    ║▓▓       ██║   ██╔══██║██╔══╝  ██║  ▓▓║
-    ║▓▓       ██║   ██║  ██║███████╗██████║║
-    ║▓▓       ╚═╝   ╚═╝  ╚═╝╚══════╝╚═════╝║
-    ║▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓║
-    ╚══════════════════════════════════════╝
-        `
-      ];
+      // ===== Scroll Reveal =====
+      function initReveal() {
+        const els = document.querySelectorAll('[data-reveal]');
+        const isMobile = window.innerWidth <= 600;
 
-      const glitchChars = ['█', '▓', '░', '▒', '╔', '╗', '║', '═', '╚', '╝', '┃', '━'];
-      let currentFrame = 0;
-      const asciiEl = document.getElementById('ascii-art');
-
-      function animateAscii() {
-        if (!asciiEl) return;
-        
-        let frame = asciiFrames[currentFrame];
-        
-        // Random glitch effect
-        if (Math.random() > 0.85) {
-          const chars = frame.split('');
-          for (let i = 0; i < 5; i++) {
-            const idx = Math.floor(Math.random() * chars.length);
-            if (chars[idx] !== ' ' && chars[idx] !== '\\n') {
-              chars[idx] = glitchChars[Math.floor(Math.random() * glitchChars.length)];
-            }
-          }
-          frame = chars.join('');
+        if (isMobile) {
+          els.forEach(el => el.classList.add('revealed'));
+        } else {
+          const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+              if (entry.isIntersecting) {
+                const delay = parseInt(entry.target.dataset.delay || '0') * 120;
+                setTimeout(() => entry.target.classList.add('revealed'), delay);
+                observer.unobserve(entry.target);
+              }
+            });
+          }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+          els.forEach(el => observer.observe(el));
         }
-        
-        asciiEl.textContent = frame;
-        currentFrame = (currentFrame + 1) % asciiFrames.length;
       }
 
-      setInterval(animateAscii, 800);
-      animateAscii();
-
-      // Counter animation - smooth count up with easing
-      function countUp(el, target, prefix, decimals, duration) {
+      // ===== Counter Animation =====
+      function countUp(el, target, prefix, suffix, decimals, duration) {
         const start = performance.now();
         function tick(now) {
-          const elapsed = now - start;
-          const progress = Math.min(elapsed / duration, 1);
-          // Cubic ease-out for smooth deceleration
-          const eased = 1 - Math.pow(1 - progress, 4);
+          const p = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - p, 4);
           const current = target * eased;
-          
-          if (decimals > 0) {
-            el.textContent = prefix + current.toFixed(decimals);
-          } else {
-            el.textContent = prefix + Math.floor(current);
-          }
-          
-          if (progress < 1) {
-            requestAnimationFrame(tick);
-          } else {
-            // Ensure final value is exact
-            el.textContent = prefix + (decimals > 0 ? target.toFixed(decimals) : target);
-          }
+          const val = decimals > 0 ? current.toFixed(decimals) : Math.floor(current);
+          el.textContent = prefix + val + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+          else el.textContent = prefix + (decimals > 0 ? target.toFixed(decimals) : target) + suffix;
         }
         requestAnimationFrame(tick);
       }
 
-      // Start counters immediately on load
       function startCounters() {
-        const tvl = document.getElementById('counter-tvl');
-        const apy = document.getElementById('counter-apy');
-        const defaults = document.getElementById('counter-defaults');
-        
-        if (tvl) countUp(tvl, 12.4, '$', 1, 2400);
-        if (apy) countUp(apy, 11.9, '', 1, 2200);
-        if (defaults) countUp(defaults, 0, '', 0, 1000);
+        countUp(document.getElementById('stat-tvl'), 12.4, '$', 'M', 1, 2400);
+        countUp(document.getElementById('stat-apy'), 11.9, '', '%', 1, 2200);
+        countUp(document.getElementById('stat-deals'), 47, '', '', 0, 2000);
+        countUp(document.getElementById('stat-defaults'), 0, '', '', 0, 800);
       }
 
-      // Run on DOMContentLoaded and also with a timeout fallback
-      if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', function() { setTimeout(startCounters, 300); });
-      } else {
-        setTimeout(startCounters, 300);
+      // Run counter when WHY section visible
+      const statsSection = document.querySelector('.section-why');
+      if (statsSection) {
+        const statsObs = new IntersectionObserver((entries) => {
+          if (entries[0].isIntersecting) {
+            setTimeout(startCounters, 400);
+            statsObs.disconnect();
+          }
+        }, { threshold: 0.2 });
+        statsObs.observe(statsSection);
+      }
+      // Also ensure they fire on mobile
+      if (window.innerWidth <= 600) {
+        setTimeout(startCounters, 800);
       }
 
-      // Cursor glow effect
-      const cursorGlow = document.getElementById('cursor-glow');
-      let mouseX = 0, mouseY = 0;
-      let glowX = 0, glowY = 0;
-
-      document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-      });
-
-      function updateGlow() {
-        glowX += (mouseX - glowX) * 0.1;
-        glowY += (mouseY - glowY) * 0.1;
-        
-        if (cursorGlow) {
-          cursorGlow.style.transform = \`translate(\${glowX - 200}px, \${glowY - 200}px)\`;
+      // ===== Sticky Nav Bg =====
+      const nav = document.getElementById('nav');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 60) {
+          nav.classList.add('scrolled');
+        } else {
+          nav.classList.remove('scrolled');
         }
-        
-        requestAnimationFrame(updateGlow);
-      }
-      updateGlow();
+      }, { passive: true });
 
-      // Deal cards hover effect
-      document.querySelectorAll('.deal-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-          card.style.setProperty('--glow', '1');
-        });
-        card.addEventListener('mouseleave', () => {
-          card.style.setProperty('--glow', '0');
-        });
-      });
-
-      // Scroll reveal - on mobile just show everything immediately
-      const revealElements = document.querySelectorAll('.flow-step, .deal-card, .token-box');
-      const isMobileDevice = window.innerWidth <= 600;
-      
-      if (isMobileDevice) {
-        // Mobile: show everything immediately
-        revealElements.forEach(el => el.classList.add('revealed'));
-      } else {
-        // Desktop: use intersection observer
-        const revealObserver = new IntersectionObserver((entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('revealed');
-              revealObserver.unobserve(entry.target);
-            }
-          });
-        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
-
-        revealElements.forEach(el => revealObserver.observe(el));
-      }
+      // Init
+      initReveal();
     </script>
   </body>
 </html>
