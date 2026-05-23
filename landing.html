@@ -2,352 +2,377 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>TAEL — Private Capital. Programmable Returns.</title>
-    <meta name="description" content="Institutional-grade yield protocol for KOL commerce financing. Turn stablecoin liquidity into structured returns from Chinese consumer product launches." />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TAEL</title>
+    <meta name="description" content="Private capital. Programmable returns." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="./landing.css" />
   </head>
   <body>
+    <!-- Cursor glow effect -->
+    <div class="cursor-glow" id="cursor-glow"></div>
+
     <!-- Navigation -->
     <header class="nav">
       <div class="nav-inner">
         <a href="#" class="nav-logo">
           <span class="logo-mark serif">兩</span>
-          <span class="logo-text">Tael</span>
         </a>
-        <nav class="nav-links">
-          <a href="#how-it-works">Protocol</a>
-          <a href="#features">Features</a>
-          <a href="#metrics">Performance</a>
-          <a href="#faq">FAQ</a>
-        </nav>
-        <a href="./index.html" class="nav-cta">
-          <span>Launch App</span>
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M1 7h12M8 2l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
-        </a>
+        <a href="./index.html" class="nav-cta mono">ENTER</a>
       </div>
     </header>
 
-    <!-- Hero Section -->
+    <!-- Hero with ASCII Art -->
     <section class="hero">
-      <div class="hero-inner">
-        <div class="hero-badge mono">
-          <span class="badge-dot"></span>
-          $12.4M Total Volume Processed
-        </div>
-        <h1 class="hero-title">
-          Private capital<br/>
-          <em>meets programmable returns.</em>
-        </h1>
-        <p class="hero-subtitle">
-          Institutional-grade yield infrastructure for KOL commerce financing. 
-          Deploy stablecoin liquidity into curated product launches. 
-          Receive structured principal and yield tokens.
-        </p>
-        <div class="hero-actions">
-          <a href="./index.html" class="btn btn-primary">
-            <span>Enter Protocol</span>
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
-          </a>
-          <a href="#how-it-works" class="btn btn-secondary">
-            <span>How It Works</span>
-          </a>
-        </div>
-        <div class="hero-stats">
-          <div class="hero-stat">
-            <span class="stat-value mono">$9.3M</span>
-            <span class="stat-label">Active AUM</span>
+      <div class="hero-ascii" id="ascii-container">
+        <pre class="ascii-art" id="ascii-art"></pre>
+      </div>
+      <div class="hero-content">
+        <h1 class="hero-title glitch-text" data-text="TAEL">TAEL</h1>
+        <p class="hero-tagline">Private capital<br/><em>programmable returns</em></p>
+        <div class="hero-metrics">
+          <div class="metric-item">
+            <span class="metric-num mono" data-count="12.4">0</span>
+            <span class="metric-unit mono">M</span>
+            <span class="metric-label">TVL</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="hero-stat">
-            <span class="stat-value mono">11.9%</span>
-            <span class="stat-label">Avg. Target APY</span>
+          <div class="metric-divider"></div>
+          <div class="metric-item">
+            <span class="metric-num mono" data-count="11.9">0</span>
+            <span class="metric-unit mono">%</span>
+            <span class="metric-label">APY</span>
           </div>
-          <div class="stat-divider"></div>
-          <div class="hero-stat">
-            <span class="stat-value mono">47</span>
-            <span class="stat-label">Deals Completed</span>
-          </div>
-          <div class="stat-divider"></div>
-          <div class="hero-stat">
-            <span class="stat-value mono">0</span>
-            <span class="stat-label">Principal Defaults</span>
+          <div class="metric-divider"></div>
+          <div class="metric-item">
+            <span class="metric-num mono" data-count="0">0</span>
+            <span class="metric-unit mono"></span>
+            <span class="metric-label">DEFAULTS</span>
           </div>
         </div>
       </div>
-      <div class="hero-visual">
-        <div class="visual-card">
-          <div class="visual-header">
-            <span class="eyebrow mono">LIVE ALLOCATION</span>
-            <span class="badge-live"><span class="live-dot"></span>OPEN</span>
-          </div>
-          <div class="visual-deal">
-            <div class="deal-brand">Philips × Austin Li</div>
-            <div class="deal-product">Smart grooming series</div>
-          </div>
-          <div class="visual-metrics">
-            <div class="vm"><span>APY</span><strong class="mono">8.5%</strong></div>
-            <div class="vm"><span>Duration</span><strong class="mono">90d</strong></div>
-            <div class="vm"><span>Filled</span><strong class="mono">78%</strong></div>
-          </div>
-          <div class="visual-progress">
-            <div class="progress-bar"><div class="progress-fill" style="width:78%"></div></div>
-            <div class="progress-labels mono">
-              <span>$1,950,000</span>
-              <span>of $2,500,000</span>
-            </div>
-          </div>
+      <div class="scroll-indicator">
+        <span class="mono">SCROLL</span>
+        <div class="scroll-line"></div>
+      </div>
+    </section>
+
+    <!-- Marquee Section -->
+    <section class="marquee-section">
+      <div class="marquee">
+        <div class="marquee-content">
+          <span>YIELD INFRASTRUCTURE</span>
+          <span class="marquee-dot"></span>
+          <span>KOL COMMERCE</span>
+          <span class="marquee-dot"></span>
+          <span>STRUCTURED RETURNS</span>
+          <span class="marquee-dot"></span>
+          <span>PT / YT TOKENS</span>
+          <span class="marquee-dot"></span>
+          <span>YIELD INFRASTRUCTURE</span>
+          <span class="marquee-dot"></span>
+          <span>KOL COMMERCE</span>
+          <span class="marquee-dot"></span>
+          <span>STRUCTURED RETURNS</span>
+          <span class="marquee-dot"></span>
+          <span>PT / YT TOKENS</span>
+          <span class="marquee-dot"></span>
         </div>
       </div>
     </section>
 
-    <!-- Trusted By / Social Proof -->
-    <section class="trust-bar">
-      <div class="trust-inner">
-        <span class="trust-label mono">INSTITUTIONAL PARTNERS</span>
-        <div class="trust-logos">
-          <span class="trust-logo">Cumberland</span>
-          <span class="trust-logo">Jump Trading</span>
-          <span class="trust-logo">Amber Group</span>
-          <span class="trust-logo">QCP Capital</span>
-          <span class="trust-logo">Genesis</span>
+    <!-- How it works - Minimal -->
+    <section class="flow-section">
+      <div class="flow-inner">
+        <div class="flow-step">
+          <span class="flow-num mono">01</span>
+          <div class="flow-icon">
+            <svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="20" stroke="currentColor" stroke-width="1" fill="none"/><path d="M24 14v20M14 24h20" stroke="currentColor" stroke-width="1"/></svg>
+          </div>
+          <h3>Deposit</h3>
+          <p>USDT into curated deals</p>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 60 24"><path d="M0 12h52M46 6l8 6-8 6" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+        </div>
+        <div class="flow-step">
+          <span class="flow-num mono">02</span>
+          <div class="flow-icon">
+            <svg viewBox="0 0 48 48"><rect x="8" y="14" width="14" height="20" stroke="currentColor" stroke-width="1" fill="none"/><rect x="26" y="14" width="14" height="20" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+          </div>
+          <h3>Mint</h3>
+          <p>PT + YT tokens</p>
+        </div>
+        <div class="flow-arrow">
+          <svg viewBox="0 0 60 24"><path d="M0 12h52M46 6l8 6-8 6" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+        </div>
+        <div class="flow-step">
+          <span class="flow-num mono">03</span>
+          <div class="flow-icon">
+            <svg viewBox="0 0 48 48"><path d="M14 34V18l10-8 10 8v16" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+          </div>
+          <h3>Earn</h3>
+          <p>Structured returns</p>
         </div>
       </div>
     </section>
 
-    <!-- How It Works -->
-    <section class="section section-dark" id="how-it-works">
-      <div class="section-inner">
-        <div class="section-header">
-          <span class="eyebrow mono">PROTOCOL MECHANICS</span>
-          <h2>How Tael Works</h2>
-          <p class="section-lead">A transparent pipeline from stablecoin deposit to structured yield distribution.</p>
+    <!-- Live Deals Preview -->
+    <section class="deals-section">
+      <div class="deals-header">
+        <span class="eyebrow mono">LIVE ALLOCATIONS</span>
+        <div class="live-indicator">
+          <span class="live-dot"></span>
+          <span class="mono">3 OPEN</span>
         </div>
-        <div class="process-grid">
-          <div class="process-step">
-            <div class="step-number mono">01</div>
-            <h3>Deposit</h3>
-            <p>Deploy USDT/USDC into a curated KOL commerce deal. Each position is collateralized by inventory pledge and brand receivables.</p>
+      </div>
+      <div class="deals-grid">
+        <article class="deal-card" data-apy="8.5" data-fill="78">
+          <div class="deal-top">
+            <span class="deal-badge mono">CLOSING SOON</span>
+            <span class="deal-apy mono">8.5%</span>
           </div>
-          <div class="process-arrow">
-            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h32M28 6l8 6-8 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          <h4 class="deal-name serif">Philips <em>x</em> Austin Li</h4>
+          <div class="deal-bar"><div class="deal-fill" style="--fill: 78%"></div></div>
+          <div class="deal-meta mono">
+            <span>$1.95M / $2.5M</span>
+            <span>90d</span>
           </div>
-          <div class="process-step">
-            <div class="step-number mono">02</div>
-            <h3>Mint</h3>
-            <p>Receive PT (Principal Token) for 1:1 redemption and YT (Yield Token) representing your yield rights. Two tokens, one position.</p>
+        </article>
+        <article class="deal-card" data-apy="11.2" data-fill="45">
+          <div class="deal-top">
+            <span class="deal-badge mono">NEW</span>
+            <span class="deal-apy mono">11.2%</span>
           </div>
-          <div class="process-arrow">
-            <svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h32M28 6l8 6-8 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+          <h4 class="deal-name serif">Anker <em>x</em> Viya</h4>
+          <div class="deal-bar"><div class="deal-fill" style="--fill: 45%"></div></div>
+          <div class="deal-meta mono">
+            <span>$675K / $1.5M</span>
+            <span>60d</span>
           </div>
-          <div class="process-step">
-            <div class="step-number mono">03</div>
-            <h3>Earn</h3>
-            <p>Hold to maturity for principal + accrued yield, or trade YT on our exchange to lock in profits early.</p>
+        </article>
+        <article class="deal-card" data-apy="9.8" data-fill="23">
+          <div class="deal-top">
+            <span class="deal-badge mono">OPEN</span>
+            <span class="deal-apy mono">9.8%</span>
           </div>
-        </div>
-        <div class="token-explainer">
-          <div class="token-card">
-            <div class="token-badge pt mono">PT</div>
-            <div class="token-info">
-              <h4>Principal Token</h4>
-              <p>Stable leg. 1:1 redeemable against your deposit at maturity. Can be wrapped into tUSD for immediate liquidity.</p>
-            </div>
+          <h4 class="deal-name serif">Xiaomi <em>x</em> Li Jiaqi</h4>
+          <div class="deal-bar"><div class="deal-fill" style="--fill: 23%"></div></div>
+          <div class="deal-meta mono">
+            <span>$460K / $2M</span>
+            <span>120d</span>
           </div>
-          <div class="token-card">
-            <div class="token-badge yt mono">YT</div>
-            <div class="token-info">
-              <h4>Yield Token</h4>
-              <p>Yield leg. Accrues deal performance. Tradeable on the YT exchange before maturity to lock in or hedge returns.</p>
-            </div>
-          </div>
-        </div>
+        </article>
       </div>
     </section>
 
-    <!-- Features -->
-    <section class="section" id="features">
-      <div class="section-inner">
-        <div class="section-header">
-          <span class="eyebrow mono">INFRASTRUCTURE</span>
-          <h2>Built for Institutional Standards</h2>
-          <p class="section-lead">Every component designed for transparency, security, and composability.</p>
+    <!-- Token Section -->
+    <section class="token-section">
+      <div class="token-visual">
+        <div class="token-box pt">
+          <span class="token-label mono">PT</span>
+          <span class="token-name">Principal</span>
+          <span class="token-desc">1:1 redeemable</span>
         </div>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="4" y="4" width="24" height="24" stroke="currentColor" stroke-width="1.5"/><path d="M4 12h24M12 12v16" stroke="currentColor" stroke-width="1.5"/></svg>
-            </div>
-            <h3>Curated Deal Flow</h3>
-            <p>Every allocation is vetted through our deal desk. Brand verification, KOL track record, and inventory collateralization reviewed before listing.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><circle cx="16" cy="16" r="12" stroke="currentColor" stroke-width="1.5"/><path d="M16 10v6l4 4" stroke="currentColor" stroke-width="1.5"/></svg>
-            </div>
-            <h3>Real-Time Settlement</h3>
-            <p>Live fill feed shows allocation velocity. Instant PT/YT minting on deposit. No waiting periods, no manual processing.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M8 24V12l8-8 8 8v12" stroke="currentColor" stroke-width="1.5"/><path d="M12 24v-8h8v8" stroke="currentColor" stroke-width="1.5"/></svg>
-            </div>
-            <h3>Principal Protection</h3>
-            <p>Inventory pledge plus brand receivable assignment. Structured waterfall ensures principal recovery before yield distribution.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M4 16h6l4-8 4 16 4-8h6" stroke="currentColor" stroke-width="1.5"/></svg>
-            </div>
-            <h3>YT Exchange</h3>
-            <p>Trade yield tokens before maturity. Lock in gains, hedge exposure, or acquire discounted yield from other allocators.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><rect x="6" y="6" width="8" height="8" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="6" width="8" height="8" stroke="currentColor" stroke-width="1.5"/><rect x="6" y="18" width="8" height="8" stroke="currentColor" stroke-width="1.5"/><rect x="18" y="18" width="8" height="8" stroke="currentColor" stroke-width="1.5"/></svg>
-            </div>
-            <h3>OTC Desk Network</h3>
-            <p>Vetted fiat conversion partners in Hong Kong and Shenzhen. Competitive rates, transparent spreads, verified settlement paths.</p>
-          </div>
-          <div class="feature-card">
-            <div class="feature-icon">
-              <svg width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 4v24M4 16h24" stroke="currentColor" stroke-width="1.5"/><circle cx="16" cy="16" r="6" stroke="currentColor" stroke-width="1.5"/></svg>
-            </div>
-            <h3>Full Transparency</h3>
-            <p>Deal documentation, KOL history, counterparty verification, and real-time funding progress. No black boxes.</p>
-          </div>
+        <div class="token-connector">
+          <span class="connector-line"></span>
+          <span class="connector-text mono">YOUR DEPOSIT</span>
+          <span class="connector-line"></span>
         </div>
-      </div>
-    </section>
-
-    <!-- Metrics / Performance -->
-    <section class="section section-dark" id="metrics">
-      <div class="section-inner">
-        <div class="section-header">
-          <span class="eyebrow mono">TRACK RECORD</span>
-          <h2>Performance Speaks</h2>
-          <p class="section-lead">Consistent returns across 47 completed deals since protocol launch.</p>
-        </div>
-        <div class="metrics-grid">
-          <div class="metric-card metric-large">
-            <span class="metric-value mono">$12.4M</span>
-            <span class="metric-label">Total Volume</span>
-            <span class="metric-sub">Lifetime deposits processed</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-value mono">11.2%</span>
-            <span class="metric-label">Realized APY</span>
-            <span class="metric-sub">Weighted average</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-value mono">72 days</span>
-            <span class="metric-label">Avg. Duration</span>
-            <span class="metric-sub">Deal maturity</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-value mono">100%</span>
-            <span class="metric-label">Principal Return</span>
-            <span class="metric-sub">Zero defaults</span>
-          </div>
-          <div class="metric-card">
-            <span class="metric-value mono">4.2 hrs</span>
-            <span class="metric-label">Avg. Fill Time</span>
-            <span class="metric-sub">Allocation velocity</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- FAQ -->
-    <section class="section" id="faq">
-      <div class="section-inner section-narrow">
-        <div class="section-header">
-          <span class="eyebrow mono">QUESTIONS</span>
-          <h2>Frequently Asked</h2>
-        </div>
-        <div class="faq-list">
-          <details class="faq-item">
-            <summary>What is KOL commerce financing?</summary>
-            <p>Key Opinion Leaders (KOLs) in China drive massive product launches through livestream commerce. Brands need working capital to produce inventory before launch. Tael provides that capital through structured deals, earning yield from the revenue generated by successful launches.</p>
-          </details>
-          <details class="faq-item">
-            <summary>How is principal protected?</summary>
-            <p>Each deal is backed by inventory pledge (physical goods as collateral) and brand receivable assignment (contractual claim on revenue). The yield waterfall prioritizes principal return before any profit distribution.</p>
-          </details>
-          <details class="faq-item">
-            <summary>What are PT and YT tokens?</summary>
-            <p>When you deposit, you receive two tokens: PT (Principal Token) represents your 1:1 redeemable deposit, and YT (Yield Token) represents your rights to the deal&apos;s yield. You can hold both to maturity or trade YT separately.</p>
-          </details>
-          <details class="faq-item">
-            <summary>What currencies are accepted?</summary>
-            <p>The protocol accepts USDT and USDC. Our OTC Desk network handles fiat conversion to CNY for brand disbursement and back to stablecoin for your returns.</p>
-          </details>
-          <details class="faq-item">
-            <summary>Is Tael open to everyone?</summary>
-            <p>Currently, Tael operates on an invitation-only basis for qualified allocators. This ensures appropriate risk understanding and maintains deal quality. Request access through our application process.</p>
-          </details>
-          <details class="faq-item">
-            <summary>What happens if a deal underperforms?</summary>
-            <p>The structured waterfall protects principal first. In the rare case of underperformance, yield distribution is reduced proportionally while principal redemption remains prioritized through the collateral structure.</p>
-          </details>
+        <div class="token-box yt">
+          <span class="token-label mono">YT</span>
+          <span class="token-name">Yield</span>
+          <span class="token-desc">Tradeable rights</span>
         </div>
       </div>
     </section>
 
     <!-- CTA -->
-    <section class="section section-cta">
-      <div class="section-inner">
-        <div class="cta-content">
-          <span class="eyebrow mono">GET STARTED</span>
-          <h2>Ready to allocate?</h2>
-          <p>Join institutional allocators earning structured returns from the world&apos;s largest commerce ecosystem.</p>
-          <div class="cta-actions">
-            <a href="./index.html" class="btn btn-primary btn-large">
-              <span>Enter Protocol</span>
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M2 8h12M9 3l5 5-5 5" stroke="currentColor" stroke-width="1.5"/></svg>
-            </a>
-          </div>
-          <p class="cta-note mono">Invitation required. Request access for qualification review.</p>
-        </div>
+    <section class="cta-section">
+      <div class="cta-inner">
+        <span class="cta-glyph serif">兩</span>
+        <h2 class="cta-title">Ready?</h2>
+        <a href="./index.html" class="cta-btn">
+          <span class="mono">ENTER PROTOCOL</span>
+          <svg width="20" height="20" viewBox="0 0 20 20"><path d="M4 10h12M11 5l5 5-5 5" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+        </a>
+        <p class="cta-note mono">INVITATION ONLY</p>
       </div>
     </section>
 
     <!-- Footer -->
     <footer class="footer">
       <div class="footer-inner">
-        <div class="footer-brand">
-          <span class="logo-mark serif">兩</span>
-          <span class="logo-text">Tael</span>
-          <span class="footer-tagline">Private capital. Programmable returns.</span>
-        </div>
-        <div class="footer-links">
-          <div class="footer-col">
-            <span class="footer-heading mono">Protocol</span>
-            <a href="#how-it-works">How It Works</a>
-            <a href="#features">Features</a>
-            <a href="#metrics">Performance</a>
-          </div>
-          <div class="footer-col">
-            <span class="footer-heading mono">Resources</span>
-            <a href="#">Documentation</a>
-            <a href="#">Risk Disclosure</a>
-            <a href="#">Terms of Service</a>
-          </div>
-          <div class="footer-col">
-            <span class="footer-heading mono">Connect</span>
-            <a href="#">Twitter</a>
-            <a href="#">Telegram</a>
-            <a href="#">Contact</a>
-          </div>
-        </div>
-        <div class="footer-bottom">
-          <span class="footer-copy mono">TAEL PROTOCOL · 2026</span>
-          <span class="footer-legal mono">PRIVATE · INVITATION ONLY · NOT FOR DISTRIBUTION</span>
-        </div>
+        <span class="footer-logo serif">兩</span>
+        <nav class="footer-links mono">
+          <a href="#">DOCS</a>
+          <a href="#">TERMS</a>
+          <a href="#">TWITTER</a>
+        </nav>
+        <span class="footer-copy mono">TAEL 2026</span>
       </div>
     </footer>
+
+    <script>
+      // ASCII Art Animation
+      const asciiFrames = [
+        `
+    ╔══════════════════════════════════════╗
+    ║                                      ║
+    ║      ████████╗ █████╗ ███████╗██╗    ║
+    ║      ╚══██╔══╝██╔══██╗██╔════╝██║    ║
+    ║         ██║   ███████║█████╗  ██║    ║
+    ║         ██║   ██╔══██║██╔══╝  ██║    ║
+    ║         ██║   ██║  ██║███████╗███████║
+    ║         ╚═╝   ╚═╝  ╚═╝╚══════╝╚══════╝
+    ║                                      ║
+    ╚══════════════════════════════════════╝
+        `,
+        `
+    ╔══════════════════════════════════════╗
+    ║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║
+    ║░░    ████████╗ █████╗ ███████╗██╗  ░░║
+    ║░░    ╚══██╔══╝██╔══██╗██╔════╝██║  ░░║
+    ║░░       ██║   ███████║█████╗  ██║  ░░║
+    ║░░       ██║   ██╔══██║██╔══╝  ██║  ░░║
+    ║░░       ██║   ██║  ██║███████╗██████║║
+    ║░░       ╚═╝   ╚═╝  ╚═╝╚══════╝╚═════╝║
+    ║░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░║
+    ╚══════════════════════════════════════╝
+        `,
+        `
+    ╔══════════════════════════════════════╗
+    ║▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓║
+    ║▓▓    ████████╗ █████╗ ███████╗██╗  ▓▓║
+    ║▓▓    ╚══██╔══╝██╔══██╗██╔════╝██║  ▓▓║
+    ║▓▓       ██║   ███████║█████╗  ██║  ▓▓║
+    ║▓▓       ██║   ██╔══██║██╔══╝  ██║  ▓▓║
+    ║▓▓       ██║   ██║  ██║███████╗██████║║
+    ║▓▓       ╚═╝   ╚═╝  ╚═╝╚══════╝╚═════╝║
+    ║▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓║
+    ╚══════════════════════════════════════╝
+        `
+      ];
+
+      const glitchChars = ['█', '▓', '░', '▒', '╔', '╗', '║', '═', '╚', '╝', '┃', '━'];
+      let currentFrame = 0;
+      const asciiEl = document.getElementById('ascii-art');
+
+      function animateAscii() {
+        if (!asciiEl) return;
+        
+        let frame = asciiFrames[currentFrame];
+        
+        // Random glitch effect
+        if (Math.random() > 0.85) {
+          const chars = frame.split('');
+          for (let i = 0; i < 5; i++) {
+            const idx = Math.floor(Math.random() * chars.length);
+            if (chars[idx] !== ' ' && chars[idx] !== '\\n') {
+              chars[idx] = glitchChars[Math.floor(Math.random() * glitchChars.length)];
+            }
+          }
+          frame = chars.join('');
+        }
+        
+        asciiEl.textContent = frame;
+        currentFrame = (currentFrame + 1) % asciiFrames.length;
+      }
+
+      setInterval(animateAscii, 800);
+      animateAscii();
+
+      // Counter animation
+      function animateCounters() {
+        document.querySelectorAll('[data-count]').forEach(el => {
+          const target = parseFloat(el.dataset.count);
+          const duration = 2000;
+          const start = performance.now();
+          
+          function update(now) {
+            const elapsed = now - start;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = target * eased;
+            
+            if (target === 0) {
+              el.textContent = '0';
+            } else if (target < 1) {
+              el.textContent = current.toFixed(1);
+            } else if (target < 100) {
+              el.textContent = current.toFixed(1);
+            } else {
+              el.textContent = Math.floor(current).toLocaleString();
+            }
+            
+            if (progress < 1) {
+              requestAnimationFrame(update);
+            }
+          }
+          
+          requestAnimationFrame(update);
+        });
+      }
+
+      // Intersection observer for counters
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateCounters();
+            observer.disconnect();
+          }
+        });
+      }, { threshold: 0.5 });
+
+      const heroMetrics = document.querySelector('.hero-metrics');
+      if (heroMetrics) observer.observe(heroMetrics);
+
+      // Cursor glow effect
+      const cursorGlow = document.getElementById('cursor-glow');
+      let mouseX = 0, mouseY = 0;
+      let glowX = 0, glowY = 0;
+
+      document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+      });
+
+      function updateGlow() {
+        glowX += (mouseX - glowX) * 0.1;
+        glowY += (mouseY - glowY) * 0.1;
+        
+        if (cursorGlow) {
+          cursorGlow.style.transform = \`translate(\${glowX - 200}px, \${glowY - 200}px)\`;
+        }
+        
+        requestAnimationFrame(updateGlow);
+      }
+      updateGlow();
+
+      // Deal cards hover effect
+      document.querySelectorAll('.deal-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+          card.style.setProperty('--glow', '1');
+        });
+        card.addEventListener('mouseleave', () => {
+          card.style.setProperty('--glow', '0');
+        });
+      });
+
+      // Scroll reveal
+      const revealElements = document.querySelectorAll('.flow-step, .deal-card, .token-box');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry, index) => {
+          if (entry.isIntersecting) {
+            setTimeout(() => {
+              entry.target.classList.add('revealed');
+            }, index * 100);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      revealElements.forEach(el => revealObserver.observe(el));
+    </script>
   </body>
 </html>
