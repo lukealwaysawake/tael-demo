@@ -34,6 +34,14 @@ body {
   font-family: "DM Sans", system-ui, sans-serif;
 }
 
+/* Prevent body scroll when mobile modal is open */
+body.modal-open {
+  overflow: hidden;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
 * {
   border-radius: 0 !important;
 }
@@ -1119,6 +1127,12 @@ body:has(#account.active) .hero-sheet {
 
 .badge.locked {
   color: var(--ink-soft);
+}
+
+.badge.filled {
+  color: var(--sage);
+  background: rgba(142, 179, 125, 0.12);
+  border-color: rgba(142, 179, 125, 0.3);
 }
 
 .badge.active::before {
@@ -4238,6 +4252,71 @@ body:has(#account.active) .hero-sheet {
 .progress-fill.fill-gold { background: var(--gold); }
 .progress-fill.fill-amber { background: var(--amber); }
 .progress-fill.fill-sage { background: var(--sage); }
+.progress-fill.fill-filled { background: linear-gradient(90deg, var(--sage), rgba(142, 179, 125, 0.7)); }
+
+/* ============ FILLED DEAL STYLES ============ */
+.deal-card.is-filled {
+  opacity: 0.7;
+  border-color: var(--line);
+  background: linear-gradient(165deg, rgba(142, 179, 125, 0.04) 0%, var(--bg-card) 40%);
+}
+
+.deal-card.is-filled:hover {
+  opacity: 0.85;
+  border-color: rgba(142, 179, 125, 0.3);
+}
+
+.detail-shell.is-filled .product-overlay {
+  background: linear-gradient(to top, rgba(142, 179, 125, 0.15) 0%, transparent 50%);
+}
+
+.filled-notice {
+  text-align: center;
+  padding: 32px 20px;
+}
+
+.filled-message {
+  margin-top: 20px;
+}
+
+.filled-icon {
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 16px;
+  border-radius: 50%;
+  background: rgba(142, 179, 125, 0.15);
+  border: 1px solid rgba(142, 179, 125, 0.3);
+  color: var(--sage);
+  font-size: 24px;
+  line-height: 48px;
+}
+
+.filled-message h3 {
+  font-size: 18px;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.filled-message p {
+  font-size: 13px;
+  color: var(--ink-faint);
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.mobile-allocate-summary.filled {
+  background: rgba(142, 179, 125, 0.05);
+  border-top-color: rgba(142, 179, 125, 0.2);
+}
+
+.filled-badge {
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+  padding: 8px 16px;
+  border: 1px solid rgba(142, 179, 125, 0.3);
+  background: rgba(142, 179, 125, 0.08);
+}
 
 /* ============ SNIPPET STAT GRID UPDATES ============ */
 .snippet-stat-grid {
