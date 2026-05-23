@@ -252,7 +252,7 @@ const deals = [
     brandShort: "Xiaomi",
     brandRevenue: "$51B",
     brandValuation: "$62B",
-    kol: "@SmartLife刘",
+    kol: "@SmartLife��",
     kolName: "Liu SmartLife",
     kolFollowers: "16.2M",
     kolAvgViews: "4.5M",
@@ -686,7 +686,8 @@ function shortTicker(deal) {
 }
 
 function tokenLabel(kind, symbol) {
-  return (kind === "PT" ? PT_GLYPH : YT_GLYPH) + kind + "-" + symbol;
+  if (kind === "PT") return PT_GLYPH + "tUSD-" + symbol;
+  return YT_GLYPH + "YT-" + symbol;
 }
 
 function formatAmountField(value) {
