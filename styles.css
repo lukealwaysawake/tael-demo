@@ -1884,33 +1884,75 @@ body:has(#account.active) .hero-sheet {
 .ticket-stack,
 .ticket-receive-card {
   display: grid;
-  gap: 14px;
+  gap: 16px;
 }
 
 .ticket-receive-card {
-  padding: 14px;
-  border: 1px solid var(--line);
-  background: rgba(10, 9, 8, 0.88);
+  padding: 20px;
+  border: 1px solid rgba(212, 168, 83, 0.2);
+  background: linear-gradient(135deg, rgba(212, 168, 83, 0.06) 0%, rgba(10, 9, 8, 0.95) 100%);
+  border-radius: 12px;
+}
+
+.ticket-receive-head {
+  margin-bottom: 8px;
+}
+
+.ticket-note {
+  color: var(--ink-soft);
+  font-size: 13px;
+}
+
+.ticket-metrics {
+  display: grid;
+  gap: 0;
+}
+
+.ticket-metric {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ticket-metric:last-child {
+  border-bottom: none;
+}
+
+.ticket-metric span {
+  font-size: 12px;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+
+.ticket-metric strong {
+  font-size: 15px;
+  color: var(--ink);
 }
 
 .quick-picks {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .quick-pick {
-  padding: 6px 10px;
+  padding: 10px 16px;
   border: 1px solid var(--line);
   color: var(--ink-soft);
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
   text-transform: uppercase;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  border-radius: 8px;
+  transition: all 150ms ease;
 }
 
 .quick-pick:hover {
-  color: #ebe3cd;
-  border-color: var(--line-strong);
+  color: var(--gold);
+  border-color: var(--gold);
+  background: rgba(212, 168, 83, 0.1);
 }
 
 .ticket-lock-row {
@@ -2158,14 +2200,16 @@ body:has(#account.active) .hero-sheet {
   flex: 1;
   width: 100%;
   margin: 0;
-  padding: 8px 0;
+  padding: 12px 0;
   border: 0;
-  border-bottom: 1px solid var(--line-strong);
+  border-bottom: 2px solid var(--line-strong);
   background: transparent;
-  color: #ebe3cd;
-  font-size: 30px;
+  color: var(--gold);
+  font-size: 32px;
   font-family: "JetBrains Mono", monospace;
+  font-weight: 500;
   min-width: 0;
+  transition: border-color 150ms ease;
 }
 
 .ticket-input:focus {
@@ -2177,7 +2221,8 @@ body:has(#account.active) .hero-sheet {
   display: flex;
   align-items: baseline;
   gap: 8px;
-  margin: 14px 0;
+  margin: 16px 0;
+  padding: 8px 0;
 }
 
 .ticket-currency {
@@ -2186,9 +2231,12 @@ body:has(#account.active) .hero-sheet {
 }
 
 .ticket-unit {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--ink-faint);
-  letter-spacing: 0.16em;
+  letter-spacing: 0.12em;
+  background: rgba(255, 255, 255, 0.05);
+  padding: 4px 8px;
+  border-radius: 4px;
 }
 
 .ticket-metrics,
