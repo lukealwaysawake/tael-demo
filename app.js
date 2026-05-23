@@ -968,43 +968,161 @@ function markStepCompleted(stepId) {
   return ["compose", "review", "sign", "confirmed"].indexOf(state.depositStep) >= ["compose", "review", "sign", "confirmed"].indexOf(stepId);
 }
 
-function openEducationModal() {
+function hasDismissedPtytGuide() {
+  try { return localStorage.getItem("tael_ptyt_dismissed") === "1"; } catch { return false; }
+}
+
+function dismissPtytGuide() {
+  try { localStorage.setItem("tael_ptyt_dismissed", "1"); } catch {}
+}
+
+function openEducationModal(forceShow) {
+  if (!forceShow && hasDismissedPtytGuide()) return;
   state.educationSeen = true;
   saveSessionState();
+  
+  const deal = activeDeal();
+  const ptSymbol = deal ? shortTicker(deal) : "XX";
+  
   const slides = [
     {
       title: "Two tokens. One position.",
+      icon: "兩",
       body:
-        '<div class="education-slide"><p class="detail-copy">Every dollar deposited into TAEL produces two separate tokens. One represents your principal. The other carries your yield.</p><div class="education-diagram"><div><strong class="serif">$1</strong><span class="mono">YOU DEPOSIT</span></div><div class="education-arrow mono">→</div><div class="education-stack"><div class="education-token pt"><span class="mono">PT</span><em>principal layer</em></div><div class="education-token yt"><span class="mono">YT</span><em>yield layer</em></div></div></div><p class="detail-copy">Held together, PT and YT are your full position. Separated, they become tools.</p></div>'
+        '<div class="education-slide">' +
+          '<p class="detail-copy">Every dollar deposited into TAEL produces <strong>two separate tokens</strong>. One represents your principal. The other carries your yield.</p>' +
+          '<div class="education-diagram-v2">' +
+            '<div class="edu-deposit-box"><span class="edu-amount serif">$1</span><span class="edu-label mono">YOUR DEPOSIT</span></div>' +
+            '<div class="edu-flow-arrow"><svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h32M28 6l8 6-8 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>' +
+            '<div class="edu-token-output">' +
+              '<div class="edu-token-card pt"><div class="edu-token-badge mono">PT</div><div class="edu-token-info"><strong>Principal Token</strong><span>1:1 redeemable at maturity</span></div></div>' +
+              '<div class="edu-token-card yt"><div class="edu-token-badge mono">YT</div><div class="edu-token-info"><strong>Yield Token</strong><span>Tradeable yield rights</span></div></div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="detail-copy edu-highlight">Held together, PT + YT = your full position. Separated, they become tools.</p>' +
+        '</div>'
     },
     {
       title: "PT — the principal layer.",
+      icon: "PT",
       body:
-        '<div class="education-slide"><p class="detail-copy">PT is the stable, redeemable leg of your position. It maps to principal redemption and can also be wrapped into tUSD as reusable stable balance.</p><div class="pull-note"><div class="eyebrow">Example</div><p>Deposit $100,000. You receive 100,000 ' + tokenLabel("PT", shortTicker(activeDeal())) + '. At maturity PT redeems against principal terms, or can be wrapped earlier into tUSD.</p></div><p class="detail-copy italic-note">Think of PT as your money, locked but structurally reclaimable.</p></div>'
+        '<div class="education-slide">' +
+          '<div class="edu-token-hero pt"><span class="mono">PT</span></div>' +
+          '<p class="detail-copy">PT is the <strong>stable, redeemable</strong> leg of your position. It maps to principal redemption and can also be wrapped into tUSD as reusable stable balance.</p>' +
+          '<div class="edu-example-card">' +
+            '<div class="edu-example-header"><span class="eyebrow">EXAMPLE</span></div>' +
+            '<div class="edu-example-body">' +
+              '<div class="edu-example-row"><span>You deposit</span><strong class="mono">$100,000</strong></div>' +
+              '<div class="edu-example-row"><span>You receive</span><strong class="mono">100,000 ' + tokenLabel("PT", ptSymbol) + '</strong></div>' +
+              '<div class="edu-example-row"><span>At maturity</span><strong>Redeems against principal terms</strong></div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="detail-copy edu-note"><em>Think of PT as your money — locked but structurally reclaimable.</em></p>' +
+        '</div>'
     },
     {
       title: "YT — the yield layer.",
+      icon: "YT",
       body:
-        '<div class="education-slide"><p class="detail-copy">YT accrues the realized upside of the deal. It is the tradeable cashflow strip and the piece that moves more aggressively with implied APY.</p><div class="pull-note"><div class="eyebrow">Example</div><p>That same $100,000 deposit mints 100,000 ' + tokenLabel("YT", shortTicker(activeDeal())) + '. Hold it to maturity for accrued yield, or sell it earlier on the YT exchange.</p></div><p class="detail-copy italic-note">Think of YT as future profit, made liquid before the deal is over.</p></div>'
+        '<div class="education-slide">' +
+          '<div class="edu-token-hero yt"><span class="mono">YT</span></div>' +
+          '<p class="detail-copy">YT accrues the <strong>realized upside</strong> of the deal. It is the tradeable cashflow strip and the piece that moves more aggressively with implied APY.</p>' +
+          '<div class="edu-example-card">' +
+            '<div class="edu-example-header"><span class="eyebrow">EXAMPLE</span></div>' +
+            '<div class="edu-example-body">' +
+              '<div class="edu-example-row"><span>Same deposit mints</span><strong class="mono">100,000 ' + tokenLabel("YT", ptSymbol) + '</strong></div>' +
+              '<div class="edu-example-row"><span>Hold to maturity</span><strong>Receive accrued yield</strong></div>' +
+              '<div class="edu-example-row"><span>Or sell early</span><strong>Lock in profit on YT exchange</strong></div>' +
+            '</div>' +
+          '</div>' +
+          '<p class="detail-copy edu-note"><em>Think of YT as future profit — made liquid before the deal is over.</em></p>' +
+        '</div>'
     },
     {
-      title: "Three actions from any position.",
+      title: "Three actions. Your choice.",
+      icon: "→",
       body:
-        '<div class="education-slide"><p class="detail-copy">Hold is the default. Wrap and trade are optional tools, not obligations.</p><div class="education-actions-grid"><div><div class="mono gold-text">HOLD</div><p>Keep PT and YT to maturity.</p></div><div><div class="mono gold-text">WRAP</div><p>Convert PT into tUSD stable balance.</p></div><div><div class="mono gold-text">TRADE</div><p>Sell YT before maturity to lock or hedge yield.</p></div></div><p class="detail-copy italic-note">Allocate first. Manage principal and yield only when it serves your view.</p></div>'
+        '<div class="education-slide">' +
+          '<p class="detail-copy">Hold is the default. Wrap and trade are optional tools, not obligations.</p>' +
+          '<div class="edu-actions-grid">' +
+            '<div class="edu-action-card">' +
+              '<div class="edu-action-icon">◯</div>' +
+              '<div class="edu-action-title mono">HOLD</div>' +
+              '<p>Keep PT + YT together until maturity. Collect principal and accrued yield.</p>' +
+            '</div>' +
+            '<div class="edu-action-card">' +
+              '<div class="edu-action-icon">⊕</div>' +
+              '<div class="edu-action-title mono">WRAP</div>' +
+              '<p>Convert PT into tUSD stable balance for liquidity before maturity.</p>' +
+            '</div>' +
+            '<div class="edu-action-card">' +
+              '<div class="edu-action-icon">⇄</div>' +
+              '<div class="edu-action-title mono">TRADE</div>' +
+              '<p>Sell YT to lock in yield or hedge against deal performance.</p>' +
+            '</div>' +
+          '</div>' +
+          '<p class="detail-copy edu-highlight">Allocate first. Manage principal and yield only when it serves your view.</p>' +
+        '</div>'
     }
   ];
+  
   let slide = 0;
+  let dontShowAgain = hasDismissedPtytGuide();
+  
   const renderSlide = () => {
     const current = slides[slide];
+    const isLast = slide === slides.length - 1;
+    
     modal.innerHTML =
-      '<div class="modal-shell education-modal"><p class="eyebrow">On PT and YT</p><h3>' + current.title + '</h3><div class="modal-copy-wrap">' + current.body + '</div><div class="education-footer"><div class="education-progress">' + slides.map((_, idx) => '<span class="education-dot' + (idx === slide ? ' active' : idx < slide ? ' done' : '') + '"></span>').join("") + '</div><div class="modal-actions">' + (slide > 0 ? '<button class="secondary-button" id="edu-back">Back</button>' : '<button class="secondary-button" id="modal-cancel">Close</button>') + '<button class="action-button" id="edu-next">' + (slide === slides.length - 1 ? 'Got it' : 'Next') + '</button></div></div></div>';
+      '<div class="modal-shell education-modal-v2">' +
+        '<button class="edu-close-btn" id="modal-close-x" aria-label="Close">✕</button>' +
+        '<div class="edu-header">' +
+          '<div class="edu-icon serif">' + current.icon + '</div>' +
+          '<p class="eyebrow">UNDERSTANDING PT / YT</p>' +
+          '<h3>' + current.title + '</h3>' +
+        '</div>' +
+        '<div class="edu-content">' + current.body + '</div>' +
+        '<div class="edu-footer">' +
+          '<div class="edu-progress">' +
+            slides.map((_, idx) => '<button class="edu-dot' + (idx === slide ? ' active' : idx < slide ? ' done' : '') + '" data-slide="' + idx + '" aria-label="Go to slide ' + (idx + 1) + '"></button>').join("") +
+            '<span class="edu-progress-text mono">' + (slide + 1) + ' / ' + slides.length + '</span>' +
+          '</div>' +
+          (isLast ? '<label class="edu-dismiss-check"><input type="checkbox" id="edu-dont-show"' + (dontShowAgain ? ' checked' : '') + ' /><span>Don&apos;t show this again</span></label>' : '') +
+          '<div class="edu-nav">' +
+            (slide > 0 ? '<button class="secondary-button" id="edu-back">Back</button>' : '<button class="secondary-button" id="modal-cancel">Close</button>') +
+            '<button class="action-button" id="edu-next">' + (isLast ? 'Got it' : 'Next') + '</button>' +
+          '</div>' +
+        '</div>' +
+      '</div>';
+    
     modal.showModal();
+    
+    // Event handlers
+    document.getElementById("modal-close-x").addEventListener("click", () => modal.close());
     const closeBtn = document.getElementById("modal-cancel");
     if (closeBtn) closeBtn.addEventListener("click", () => modal.close());
     const backBtn = document.getElementById("edu-back");
     if (backBtn) backBtn.addEventListener("click", () => { slide -= 1; renderSlide(); });
+    
+    // Progress dots navigation
+    modal.querySelectorAll(".edu-dot").forEach(dot => {
+      dot.addEventListener("click", () => {
+        slide = parseInt(dot.dataset.slide, 10);
+        renderSlide();
+      });
+    });
+    
+    // Don't show again checkbox
+    const dontShowCheck = document.getElementById("edu-dont-show");
+    if (dontShowCheck) {
+      dontShowCheck.addEventListener("change", () => {
+        dontShowAgain = dontShowCheck.checked;
+      });
+    }
+    
     document.getElementById("edu-next").addEventListener("click", () => {
-      if (slide === slides.length - 1) {
+      if (isLast) {
+        if (dontShowAgain) dismissPtytGuide();
         modal.close();
         return;
       }
@@ -1012,6 +1130,7 @@ function openEducationModal() {
       renderSlide();
     });
   };
+  
   renderSlide();
 }
 
