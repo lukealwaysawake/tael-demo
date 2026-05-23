@@ -3400,11 +3400,47 @@ h3 {
 
   body[data-page="deal"] .detail-page-frame {
     max-width: none;
-    padding-bottom: calc(132px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: calc(160px + env(safe-area-inset-bottom, 0px));
   }
 
   body[data-page="deal"] .detail-page-panel {
     min-height: 100vh;
+  }
+
+  /* Add padding to main content */
+  body[data-page="deal"] .detail-main-column {
+    padding: 0 16px;
+  }
+
+  body[data-page="deal"] .detail-header-block {
+    padding: 0 16px;
+  }
+
+  body[data-page="deal"] .detail-mobile-bar {
+    margin-left: -16px;
+    margin-right: -16px;
+    width: calc(100% + 32px);
+  }
+
+  /* Keep snippet-stat-grid as 2x2 on mobile */
+  body[data-page="deal"] .snippet-stat-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    margin: 0 -16px;
+    width: calc(100% + 32px);
+  }
+
+  body[data-page="deal"] .snippet-stat-card {
+    padding: 14px 16px;
+  }
+
+  body[data-page="deal"] .snippet-stat-card span {
+    font-size: 9px;
+    margin-bottom: 6px;
+  }
+
+  body[data-page="deal"] .snippet-stat-card strong {
+    font-size: 16px;
   }
 
   .detail-shell,
@@ -3518,6 +3554,27 @@ h3 {
     display: none;
   }
 
+  /* Show step progress bar on mobile */
+  .step-bars {
+    display: flex;
+    gap: 4px;
+    margin-bottom: 8px;
+  }
+
+  .step-bar {
+    height: 3px;
+    flex: 1;
+    background: var(--line);
+  }
+
+  .step-bar.done {
+    background: var(--gold);
+  }
+
+  .step-bar.active {
+    background: var(--gold);
+  }
+
   .step-current {
     display: grid;
     gap: 8px;
@@ -3612,10 +3669,14 @@ h3 {
   .metric-grid,
   .balance-grid,
   .account-grid,
-  .snippet-stat-grid,
   .exchange-grid,
   .desk-grid {
     grid-template-columns: 1fr;
+  }
+
+  /* Keep snippet-stat-grid 2x2 even on small screens */
+  .snippet-stat-grid {
+    grid-template-columns: 1fr 1fr;
   }
 
   .hero-metrics {
@@ -3691,12 +3752,33 @@ h3 {
 
   .ticket-metric {
     grid-template-columns: 1fr;
-    gap: 6px;
+    gap: 4px;
+    padding: 12px 0;
+  }
+
+  .ticket-metric span {
+    font-size: 10px;
   }
 
   .ticket-metric strong {
     justify-self: start;
     text-align: left;
+    font-size: 13px;
+  }
+
+  /* Better layout for project financing structure on mobile */
+  body[data-page="deal"] .ticket-metrics {
+    border: 1px solid var(--line);
+    background: var(--surface);
+  }
+
+  body[data-page="deal"] .ticket-metrics .ticket-metric {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  body[data-page="deal"] .ticket-metrics .ticket-metric:last-child {
+    border-bottom: none;
   }
 
   .detail-copy {
@@ -3718,7 +3800,14 @@ h3 {
   }
 
   .step-bars {
-    display: none;
+    display: flex;
+    gap: 4px;
+    margin-bottom: 6px;
+  }
+
+  .step-bar {
+    height: 3px;
+    flex: 1;
   }
 
   .step-current {
