@@ -169,14 +169,14 @@ a {
 /* Desktop: centered container with elegant side margins */
 @media (min-width: 1024px) {
   .page-shell {
-    padding: 0 48px 48px;
+    padding: 0 20px 48px;
     background: linear-gradient(
       90deg,
       var(--bg) 0%,
-      var(--bg) calc(50% - 560px),
-      transparent calc(50% - 560px),
-      transparent calc(50% + 560px),
-      var(--bg) calc(50% + 560px),
+      var(--bg) calc(50% - 600px),
+      transparent calc(50% - 600px),
+      transparent calc(50% + 600px),
+      var(--bg) calc(50% + 600px),
       var(--bg) 100%
     );
   }
@@ -198,7 +198,7 @@ a {
 
 .artifact-bar {
   display: block;
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: var(--space-4) 0 0;
   border: none;
@@ -360,7 +360,7 @@ html[lang="zh"] .step-labels {
 }
 
 .content-frame {
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
   padding-top: 40px;
   padding-bottom: 96px;
@@ -380,7 +380,7 @@ html[lang="zh"] .step-labels {
 
 .live-ticker-shell,
 .urgency-shell {
-  max-width: 1120px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
@@ -1021,6 +1021,110 @@ body:has(#account.active) .hero-sheet {
 
 .deal-card:last-child {
   margin-bottom: 0;
+}
+
+/* Simplified 2-line deal card layout */
+.deal-card-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.deal-card-left {
+  flex: 1;
+  min-width: 0;
+}
+
+.deal-card-title {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.deal-card-title .serif {
+  font-family: 'Instrument Serif', serif;
+  font-size: 18px;
+  color: var(--ink);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.deal-card-title .serif .x {
+  font-style: italic;
+  color: var(--ink-faint);
+}
+
+.deal-card-meta {
+  font-size: 11px;
+  color: var(--ink-faint);
+  letter-spacing: 0.02em;
+}
+
+.deal-card-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-shrink: 0;
+}
+
+.deal-card-apy {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+}
+
+.deal-card-apy .gold {
+  font-size: 18px;
+  color: var(--gold);
+}
+
+.deal-card-apy .label {
+  font-size: 9px;
+  color: var(--ink-faint);
+  letter-spacing: 0.1em;
+}
+
+.deal-card-progress {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  width: 100px;
+}
+
+.deal-card-progress .progress-track {
+  width: 100%;
+}
+
+.deal-card-progress .mono {
+  font-size: 10px;
+  color: var(--ink-faint);
+}
+
+.deal-card-right .badge {
+  min-width: 80px;
+  text-align: center;
+  justify-content: center;
+}
+
+/* Mobile: stack vertically */
+@media (max-width: 640px) {
+  .deal-card-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+  
+  .deal-card-right {
+    justify-content: space-between;
+  }
+  
+  .deal-card-progress {
+    width: 80px;
+  }
 }
 
 .deal-chevron {

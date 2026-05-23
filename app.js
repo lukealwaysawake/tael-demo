@@ -1389,8 +1389,6 @@ function renderNav() {
 
 function renderDeals() {
   renderMarketsControls();
-  const curve = document.getElementById("yield-curve-shell");
-  if (curve) curve.innerHTML = yieldCurveSvg();
   const el = document.getElementById("deal-list");
   if (!el) return;
   const animateCards = !PLAYED_ANIMATIONS.has("markets-cards");
@@ -1410,28 +1408,20 @@ function renderDeals() {
     const displayStatusClass = isFilled ? "filled" : deal.statusClass;
     const fillColor = isFilled ? "fill-filled" : deal.statusClass === "active" ? "fill-sage" : deal.statusClass === "soon" ? "fill-amber" : deal.statusClass === "fast" ? "fill-gold" : "fill-cream";
     return '<button class="deal-card status-' + displayStatusClass + ' ' + (deal.id === state.activeDealId ? "active" : "") + ' ' + (isFilled ? "is-filled" : "") + '" data-deal="' + deal.id + '">' +
-      '<div class="deal-top">' +
-        '<div class="deal-badges">' +
-          '<span class="badge ' + displayStatusClass + '">' + displayStatus + '</span>' +
-          '<span class="badge risk">Risk ' + deal.risk + '</span>' +
+      '<div class="deal-card-row">' +
+        '<div class="deal-card-left">' +
+          '<div class="deal-card-title">' +
+            '<span class="serif">' + deal.brandShort + ' <span class="x">×</span> ' + deal.kolName + '</span>' +
+            '<span class="deal-card-meta mono">' + deal.duration + 'd · ' + deal.category + '</span>' +
+          '</div>' +
         '</div>' +
-        '<span class="deal-chevron mono" style="font-size:14px;color:var(--ink-faint);">›</span>' +
-      '</div>' +
-      '<div style="margin:10px 0 4px;">' +
-        '<div class="serif" style="color:#ebe3cd;font-size:clamp(18px,2.5vw,22px);line-height:1.2;">' + deal.brandShort + ' <span style="font-style:italic;color:var(--ink-soft);">×</span> ' + deal.kolName + '</div>' +
-        '<div class="mono" style="font-size:11px;color:var(--ink-soft);margin-top:4px;letter-spacing:0.02em;">' + deal.product + ' · ' + deal.category + '</div>' +
-      '</div>' +
-      '<div class="deal-stats">' +
-        '<div class="deal-stat"><span>APY</span><strong class="mono gold" style="color:var(--gold);">' + pct(animatedApy) + '</strong></div>' +
-        '<div class="deal-stat"><span>LOCK</span><strong class="mono">' + deal.duration + 'd</strong></div>' +
-        '<div class="deal-stat"><span>FILLED</span><strong class="mono">' + Math.round(animatedProgress) + '%</strong></div>' +
-        '<div class="deal-stat"><span>' + (isFilled ? "STATUS" : "CLOSES IN") + '</span><strong class="mono" style="' + (isClosingSoon ? 'color:var(--rust);' : '') + (isFilled ? 'color:var(--sage);' : '') + '">' + (isFilled ? "COMPLETE" : closeLabel) + '</strong></div>' +
-      '</div>' +
-      '<div style="margin-top:14px;">' +
-        '<div class="progress-track"><div class="progress-fill ' + fillColor + '" style="width:' + Math.min(100, animatedProgress) + '%"></div></div>' +
-        '<div style="display:flex;justify-content:space-between;margin-top:6px;">' +
-          '<span class="mono" style="font-size:10px;color:var(--ink-faint);">' + money(deal.filled) + ' <span style="color:var(--ink-soft);">of</span> ' + money(deal.target) + '</span>' +
-          '<span class="mono" style="font-size:10px;color:' + (isFilled ? 'var(--sage)' : 'var(--ink-faint)') + ';">' + (isFilled ? "Fully funded" : money(remaining) + ' remaining') + '</span>' +
+        '<div class="deal-card-right">' +
+          '<div class="deal-card-apy"><span class="mono gold">' + pct(animatedApy) + '</span><span class="label">APY</span></div>' +
+          '<div class="deal-card-progress">' +
+            '<div class="progress-track"><div class="progress-fill ' + fillColor + '" style="width:' + Math.min(100, animatedProgress) + '%"></div></div>' +
+            '<span class="mono">' + Math.round(animatedProgress) + '% filled</span>' +
+          '</div>' +
+          '<span class="badge ' + displayStatusClass + '">' + displayStatus + '</span>' +
         '</div>' +
       '</div>' +
     '</button>';
