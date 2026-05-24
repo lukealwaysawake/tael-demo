@@ -1774,6 +1774,8 @@ body:has(#account.active) .hero-sheet {
   padding: var(--space-4) var(--space-4);
   background: var(--surface);
   transition: background 200ms ease;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .snippet-stat-card:hover {
@@ -1797,6 +1799,9 @@ body:has(#account.active) .hero-sheet {
   font-size: 18px;
   font-weight: 600;
   letter-spacing: -0.02em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .snippet-stat-card small {
@@ -1804,6 +1809,9 @@ body:has(#account.active) .hero-sheet {
   margin-top: var(--space-2);
   color: var(--ink-soft);
   font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* tUSD highlight card */
