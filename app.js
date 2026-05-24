@@ -409,15 +409,6 @@ const deals = [
   }
 ];
 
-const desks = [
-  { id: "sz", name: "Shenzhen Bridge OTC", region: "Shenzhen", currency: "CNY", fee: "0.25%", capacity: "$200K–$10M", response: "30 min", rating: "4.95★", trades: "3,401", terms: "Escrow release within 2h. Dispute SLA 24h.", collateral: "USDT escrow + bank receipt proof", process: ["Vault locks USDT", "Desk posts quote", "Escrow accepts winning desk", "Fiat receipt uploaded", "USDT released"] },
-  { id: "hk", name: "HK Settlement Co.", region: "Hong Kong", currency: "HKD", fee: "0.20%", capacity: "$500K–$50M", response: "45 min", rating: "4.97★", trades: "2,789", terms: "Institutional mandate desk with dual approval escrow.", collateral: "Dual sign-off settlement with fiat SWIFT proof", process: ["Mandate issued", "Desk quote accepted", "Custodian confirms receipt", "Vault release"] },
-  { id: "sg", name: "Saigon Yellow Desk", region: "Ho Chi Minh", currency: "VND", fee: "0.30%", capacity: "$50K–$2M", response: "2 h", rating: "4.90★", trades: "1,247", terms: "Vietnam distribution specialist. Partial release supported.", collateral: "Tranche release with invoice checkpoints", process: ["Bid", "Partial escrow release", "Invoice attestation", "Final release"] },
-  { id: "kr", name: "Seoul KRW Desk", region: "Seoul", currency: "KRW", fee: "0.40%", capacity: "$50K–$3M", response: "1 h", rating: "4.85★", trades: "1,103", terms: "KRW settlement with documented release windows.", collateral: "Escrow + domestic fiat transfer screenshot proof", process: ["Desk quote", "Escrow accepted", "KRW transfer proof", "Release"] },
-  { id: "th", name: "Bangkok OTC Pro", region: "Bangkok", currency: "THB", fee: "0.45%", capacity: "$100K–$5M", response: "1 h", rating: "4.80★", trades: "892", terms: "Regional consumer import desk with same-day fiat release.", collateral: "USDT collateral hold until fiat settles", process: ["Win quote", "Fiat send", "Escrow release"] },
-  { id: "ph", name: "Manila Quick Cash", region: "Manila", currency: "PHP", fee: "0.55%", capacity: "$20K–$500K", response: "4 h", rating: "4.60★", trades: "521", terms: "Smaller tickets, slower response, wider spread.", collateral: "Escrow receipt + compliance review", process: ["Quote", "Manual review", "Transfer", "Release"] }
-];
-
 const exchangeRows = [
   { dealId: "philips-liaustin", bid: 0.92, ask: 0.95, impliedApy: 10.4, vol24h: 310000 },
   { dealId: "anker-techbro", bid: 0.88, ask: 0.91, impliedApy: 13.1, vol24h: 228000 },
@@ -438,7 +429,6 @@ const activityLog = [];
 const state = {
   activeSection: "markets",
   activeDealId: null,
-  activeDeskId: null,
   sort: "closing",
   riskFilter: "all",
   durationFilter: "all",
@@ -1259,14 +1249,6 @@ function activeDeal() {
   return deals.find((deal) => deal.id === state.activeDealId);
 }
 
-function activeDesk() {
-  return desks.find((desk) => desk.id === state.activeDeskId);
-}
-
-function getDeskByName(name) {
-  return desks.find((desk) => desk.name === name);
-}
-
 function totalPortfolioValue() {
   return positions.reduce((sum, pos) => sum + pos.pt + pos.yt * pos.mark + pos.accruedYield, 0) + wallet.usdt + wallet.tusd;
 }
@@ -1673,7 +1655,6 @@ function renderDetail() {
   const projectedYield = state.draftAmount * (deal.apy / 100) * (deal.duration / 365);
   const tokenCode = deal.brandShort.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase();
   const ptStableSymbol = "t" + deal.brandShort.replace(/[^A-Za-z]/g, "").slice(0, 3).toUpperCase();
-  const desk = getDeskByName(deal.otcDesk);
   const container = document.getElementById("deal-detail") || document.getElementById("deal-page-detail");
   if (!container) return;
   const lockLabel = deal.status === "ACTIVE" ? "active accrual" : deal.lockDate;
@@ -1762,7 +1743,7 @@ function renderDetail() {
           '<div class="detail-block"><p class="eyebrow">Counterparties</p><div class="counterparty-grid"><article class="counterparty-card"><div class="counterparty-label">Brand</div><h4>' + (deal.counterparties[0] || deal.brand) + '</h4><p class="mono">CN · Verified entity</p></article><button class="counterparty-card counterparty-button" type="button" id="open-kol-drawer"><div class="counterparty-label">KOL</div><h4>' + deal.kolName + '</h4><p class="mono">' + deal.kolFollowers + ' followers · ' + deal.heroStat + '</p></button></div></div>' +
           '<div class="detail-block"><p class="eyebrow">Documents</p><div class="document-list">' + deal.docs.map((doc, docIdx) => '<button class="document-row" type="button" data-doc-index="' + docIdx + '"><span><strong>' + doc.name + '</strong><small>' + doc.detail + '</small></span><em class="mono">' + doc.status + '</em></button>').join("") + '</div></div>' +
           '<div class="detail-block"><p class="eyebrow">Project financing structure</p><div class="ticket-metrics">' + metricRows([["Stablecoin deposit", "USDT / USDC"],["PT output", tokenLabel("PT", ptStableSymbol) + " / 1:1 claim"],["YT output", tokenLabel("YT", shortTicker(deal)) + " / tradable yield leg"],["Principal coverage", deal.principalCoverage],["Yield waterfall", deal.revenueShare]]) + '</div></div>' +
-          '<div class="detail-block"><p class="eyebrow">OTC desk & timeline</p><div class="ticket-metrics"><div class="ticket-metric"><span>Winning desk</span><strong class="mono">' + deal.otcDesk + '</strong></div><div class="ticket-metric"><span>Escrow path</span><strong class="mono">' + (desk ? desk.collateral : "USDT escrow") + '</strong></div>' + deal.timeline.map((row) => '<div class="ticket-metric"><span>' + row[0] + '</span><strong class="mono">' + row[1] + '</strong></div>').join("") + '</div></div>' +
+          '<div class="detail-block"><p class="eyebrow">Timeline</p><div class="ticket-metrics">' + deal.timeline.map((row) => '<div class="ticket-metric"><span>' + row[0] + '</span><strong class="mono">' + row[1] + '</strong></div>').join("") + '</div></div>' +
         '</section>' +
         '<aside class="detail-side-column">' +
           mobileAllocateSummary +
@@ -2168,41 +2149,6 @@ function renderAccount() {
   });
 }
 
-function renderDesk() {
-  const animatedDesks = getAnimatedValue("desk-stat-active", desks.length, { entryMs: 1000 });
-  const animatedRegions = getAnimatedValue("desk-stat-regions", 6, { entryMs: 900, delayMs: 100 });
-  const animatedSpread = getAnimatedValue("desk-stat-spread", 20.8, { entryMs: 1100, delayMs: 180 });
-  const animatedTrades = getAnimatedValue("desk-stat-trades", 9900, { entryMs: 1200, delayMs: 260 });
-  document.getElementById("desk-list").innerHTML =
-    '<div class="snippet-stat-grid desk-stat-grid"><article class="snippet-stat-card"><span>ACTIVE DESKS</span><strong class="mono">' + Math.round(animatedDesks) + '</strong></article><article class="snippet-stat-card"><span>REGIONS</span><strong class="mono">' + Math.round(animatedRegions) + '</strong></article><article class="snippet-stat-card"><span>AVG SPREAD</span><strong class="mono">' + animatedSpread.toFixed(1) + ' bps</strong></article><article class="snippet-stat-card"><span>TOTAL TRADES · 30D</span><strong class="mono">' + (animatedTrades >= 1000 ? (animatedTrades / 1000).toFixed(1) + 'K+' : Math.round(animatedTrades)) + '</strong></article></div><div class="desk-card-list">' +
-      desks.map((desk) => '<button class="desk-card" data-desk="' + desk.id + '"><div class="desk-card-head"><div><h3>' + desk.name + '</h3><div class="meta-row"><span>' + desk.region + '</span><span>' + desk.currency + '</span><span>' + desk.rating + '</span></div></div><span class="badge open">Verified</span></div><div class="deal-stats"><div class="deal-stat"><span>SPREAD</span><strong class="mono">' + desk.fee + '</strong></div><div class="deal-stat"><span>FEE</span><strong class="mono">' + desk.response + '</strong></div><div class="deal-stat"><span>CAPACITY</span><strong class="mono">' + desk.capacity + '</strong></div><div class="deal-stat"><span>RESPONSE</span><strong class="mono">' + desk.collateral + '</strong></div></div></button>').join("") +
-    '</div>';
-
-  const desk = activeDesk();
-  document.getElementById("desk-detail").innerHTML =
-    '<div class="desk-detail-card"><p class="eyebrow">Desk detail</p><h3>' + desk.name + '</h3><div class="snippet-stat-grid detail-mini-grid"><article class="snippet-stat-card"><span>SPREAD</span><strong class="mono">' + desk.fee + '</strong></article><article class="snippet-stat-card"><span>SERVICE FEE</span><strong class="mono">' + desk.response + '</strong></article><article class="snippet-stat-card"><span>MAX TICKET</span><strong class="mono">' + desk.capacity + '</strong></article><article class="snippet-stat-card"><span>COMPLETION</span><strong class="mono">' + desk.rating + '</strong></article></div><div class="ticket-metrics">' +
-      metricRows([
-        ["Region / currency", desk.region + " / " + desk.currency],
-        ["Fee / response", desk.fee + " / " + desk.response],
-        ["Capacity", desk.capacity],
-        ["Escrow collateral", desk.collateral]
-      ]) +
-    '</div><div class="detail-block"><p class="eyebrow">Escrow terms</p><p class="detail-copy">' + desk.terms + '</p></div><div class="detail-block"><p class="eyebrow">Recent quotes</p><div class="ticket-metrics">' + desk.process.map((step, idx) => '<div class="ticket-metric"><span>' + step + '</span><strong class="mono">0' + (idx + 1) + '</strong></div>').join("") + '</div></div><button class="action-button" id="desk-quote">Request quote</button></div>';
-
-  document.querySelectorAll("[data-desk]").forEach((node) => {
-    node.addEventListener("click", () => {
-      state.activeDeskId = node.dataset.desk;
-      renderDesk();
-    });
-  });
-  document.getElementById("desk-quote").addEventListener("click", () => {
-    openModal({
-      title: "OTC quote requested",
-      body: desk.name + " would submit a spread + escrow SLA quote to compete for the deal mandate. In live product, desks win based on spread, reliability, and release terms."
-    });
-  });
-}
-
 function openModal({ title, body, bodyHtml, confirmLabel, onConfirm }) {
   state.pendingAction = typeof onConfirm === "function" ? onConfirm : null;
   modal.innerHTML =
@@ -2242,10 +2188,9 @@ function renderAll() {
   renderNav();
   if (pageType === "home") {
     if (state.activeSection === "markets") renderDeals();
-    if (state.activeSection === "portfolio") renderPortfolio();
-    if (state.activeSection === "exchange") renderExchange();
-    if (state.activeSection === "desk") renderDesk();
-    if (state.activeSection === "account") renderAccount();
+  if (state.activeSection === "portfolio") renderPortfolio();
+  if (state.activeSection === "exchange") renderExchange();
+  if (state.activeSection === "account") renderAccount();
   } else {
     renderDetail();
   }
