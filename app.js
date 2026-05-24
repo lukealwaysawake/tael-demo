@@ -1030,7 +1030,7 @@ function openEducationModal(forceShow) {
       body:
         '<div class="education-slide">' +
           '<div class="edu-token-hero pt"><span class="mono">PT</span></div>' +
-          '<p class="detail-copy">PT is the <strong>stable, redeemable</strong> leg of your position. It maps to principal redemption and can also be wrapped into tUSD as reusable stable balance.</p>' +
+          '<p class="detail-copy">PT is the <strong>stable, redeemable</strong> leg of your position. It maps to principal redemption and can be wrapped into tUSD — a PT-backed stablecoin reusable across the protocol.</p>' +
           '<div class="edu-example-card">' +
             '<div class="edu-example-header"><span class="eyebrow">EXAMPLE</span></div>' +
             '<div class="edu-example-body">' +
@@ -1075,7 +1075,7 @@ function openEducationModal(forceShow) {
             '<div class="edu-action-card">' +
               '<div class="edu-action-icon">⊕</div>' +
               '<div class="edu-action-title mono">WRAP</div>' +
-              '<p>Convert PT into tUSD stable balance for liquidity before maturity.</p>' +
+              '<p>Convert PT into tUSD, our PT-backed stablecoin, for liquidity before maturity.</p>' +
             '</div>' +
             '<div class="edu-action-card">' +
               '<div class="edu-action-icon">⇄</div>' +
@@ -1962,7 +1962,7 @@ function wrapPt(position) {
   renderAll();
   openModal({
     title: "PT wrapped",
-    body: money(amount) + " of PT was wrapped into tUSD-style stable balance for demo purposes. This shows the V2 concept where principal claims become reusable stable collateral."
+    body: money(amount) + " of PT was wrapped into tUSD, a PT-backed stablecoin. tUSD can be used as collateral or liquidity across the protocol without waiting for maturity."
   });
 }
 
@@ -1999,7 +1999,7 @@ function renderPortfolio() {
   if (!summary) return;
   summary.innerHTML =
     '<div class="portfolio-headline"><p class="eyebrow">Your ledger</p><h2>' + money(animatedTotal, 2) + '</h2><div class="mono positive">+' + money(totalYield, 2) + ' accrued</div></div>' +
-    '<div class="snippet-stat-grid portfolio-stat-grid"><article class="snippet-stat-card"><span>USDT</span><strong class="mono">' + money(animatedUsdt) + '</strong><small>Available</small></article><article class="snippet-stat-card"><span>tUSD</span><strong class="mono">' + money(animatedTusd, 2) + '</strong><small>PT-backed stable</small></article><article class="snippet-stat-card"><span>PT basket</span><strong class="mono">' + money(animatedPt) + '</strong><small>Across active deals</small></article><article class="snippet-stat-card"><span>YT mark</span><strong class="mono">' + money(animatedYt, 2) + '</strong><small>Mark-to-market</small></article></div>';
+    '<div class="snippet-stat-grid portfolio-stat-grid"><article class="snippet-stat-card"><span>USDT</span><strong class="mono">' + money(animatedUsdt) + '</strong><small>Available</small></article><article class="snippet-stat-card"><span>tUSD</span><strong class="mono">' + money(animatedTusd, 2) + '</strong><small>PT-backed stablecoin</small></article><article class="snippet-stat-card"><span>PT basket</span><strong class="mono">' + money(animatedPt) + '</strong><small>Across active deals</small></article><article class="snippet-stat-card"><span>YT mark</span><strong class="mono">' + money(animatedYt, 2) + '</strong><small>Mark-to-market</small></article></div>';
 
   const animatePortfolioCards = !PLAYED_ANIMATIONS.has("portfolio-cards");
   if (animatePortfolioCards && positions.length) {
