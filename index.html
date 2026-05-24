@@ -155,29 +155,24 @@
               <div class="balance-grid" id="portfolio-summary"></div>
               <div id="position-list" class="position-list"></div>
             </section>
-
-            <section class="panel wallet-panel">
-              <div class="panel-head">
-                <div>
-                  <p class="eyebrow">Wallet</p>
-                  <h2>Stablecoins</h2>
-                </div>
-              </div>
-              <div id="wallet-actions"></div>
-            </section>
           </div>
         </section>
 
         <section id="exchange" class="section">
-          <section class="panel">
-            <div class="panel-head">
-              <div>
-                <p class="eyebrow serif-italic">Yield token market</p>
-                <h2>YT Exchange</h2>
+          <div class="panel-grid exchange-layout">
+            <section class="panel exchange-list-panel">
+              <div class="panel-head">
+                <div>
+                  <p class="eyebrow serif-italic">Yield token market</p>
+                  <h2>YT Exchange</h2>
+                </div>
               </div>
-            </div>
-            <div id="exchange-table"></div>
-          </section>
+              <div id="exchange-table"></div>
+            </section>
+            <section class="panel exchange-detail-panel" id="exchange-detail-panel" style="display:none;">
+              <div id="exchange-detail"></div>
+            </section>
+          </div>
         </section>
 
         <section id="account" class="section">
