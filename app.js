@@ -410,11 +410,11 @@ const deals = [
 ];
 
 const exchangeRows = [
-  { dealId: "philips-liaustin", bid: 0.92, ask: 0.95, impliedApy: 10.4, vol24h: 310000 },
-  { dealId: "anker-techbro", bid: 0.88, ask: 0.91, impliedApy: 13.1, vol24h: 228000 },
-  { dealId: "perfectdiary-cherry", bid: 1.04, ask: 1.08, impliedApy: 19.8, vol24h: 442000 },
-  { dealId: "xiaomi-smartlife", bid: 0.81, ask: 0.84, impliedApy: 11.0, vol24h: 184000 },
-  { dealId: "bear-foodie", bid: 1.09, ask: 1.12, impliedApy: 22.6, vol24h: 520000 }
+  { dealId: "philips-liaustin", bid: 0.92, ask: 0.95, impliedApy: 10.4, vol24h: 310000, liquidity: 1250000, priceHistory: [0.89, 0.91, 0.90, 0.93, 0.92, 0.94, 0.95], apyChange: 0.8 },
+  { dealId: "anker-techbro", bid: 0.88, ask: 0.91, impliedApy: 13.1, vol24h: 228000, liquidity: 890000, priceHistory: [0.85, 0.84, 0.87, 0.86, 0.89, 0.88, 0.91], apyChange: 1.2 },
+  { dealId: "perfectdiary-cherry", bid: 1.04, ask: 1.08, impliedApy: 19.8, vol24h: 442000, liquidity: 2100000, priceHistory: [0.98, 1.01, 1.03, 1.02, 1.05, 1.06, 1.08], apyChange: 2.1 },
+  { dealId: "xiaomi-smartlife", bid: 0.81, ask: 0.84, impliedApy: 11.0, vol24h: 184000, liquidity: 720000, priceHistory: [0.78, 0.80, 0.79, 0.82, 0.81, 0.83, 0.84], apyChange: -0.5 },
+  { dealId: "bear-foodie", bid: 1.09, ask: 1.12, impliedApy: 22.6, vol24h: 520000, liquidity: 3200000, priceHistory: [1.02, 1.05, 1.07, 1.06, 1.09, 1.10, 1.12], apyChange: 3.4 }
 ];
 
 const positions = [];
@@ -2039,53 +2039,96 @@ function renderPortfolio() {
 
 function renderExchange() {
   const totalVol = exchangeRows.reduce((sum, row) => sum + row.vol24h, 0);
+  const totalLiquidity = exchangeRows.reduce((sum, row) => sum + row.liquidity, 0);
   const avgApy = exchangeRows.reduce((sum, row) => sum + row.impliedApy, 0) / exchangeRows.length;
   const myMap = new Map(positions.map((position) => [position.dealId, position.yt]));
   const animatedVol = getAnimatedValue("exchange-stat-vol", totalVol, { entryMs: 1200 });
-  const animatedApy = getAnimatedValue("exchange-stat-apy", avgApy, { entryMs: 1000, delayMs: 100 });
-  const animatedBooks = getAnimatedValue("exchange-stat-books", exchangeRows.length, { entryMs: 900, delayMs: 180 });
-  const animatedPositions = getAnimatedValue("exchange-stat-my", positions.filter((position) => position.yt > 0).length, { entryMs: 900, delayMs: 260 });
+  const animatedLiq = getAnimatedValue("exchange-stat-liq", totalLiquidity, { entryMs: 1100, delayMs: 80 });
+  const animatedApy = getAnimatedValue("exchange-stat-apy", avgApy, { entryMs: 1000, delayMs: 160 });
+  const animatedBooks = getAnimatedValue("exchange-stat-books", exchangeRows.length, { entryMs: 900, delayMs: 240 });
   
-  const isMobile = window.innerWidth <= 720;
+  // Generate mini sparkline SVG
+  function sparkline(data, isPositive) {
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const range = max - min || 1;
+    const w = 80, h = 32;
+    const points = data.map((v, i) => {
+      const x = (i / (data.length - 1)) * w;
+      const y = h - ((v - min) / range) * h;
+      return x + ',' + y;
+    }).join(' ');
+    const color = isPositive ? 'var(--sage)' : 'var(--rust)';
+    return '<svg class="sparkline-svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none"><polyline points="' + points + '" fill="none" stroke="' + color + '" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
   
-  // Mobile: card-based layout
-  const mobileCards = exchangeRows.map((row) => {
+  // Pendle-style market cards
+  const marketCards = exchangeRows.map((row) => {
     const deal = deals.find((item) => item.id === row.dealId);
     const myYt = myMap.get(row.dealId) || 0;
-    return '<button class="exchange-card status-' + deal.statusClass + '" data-exchange="' + row.dealId + '">' +
-      '<div class="exchange-card-header">' +
-        '<div class="brand-inline">' + brandMark(deal, true) + '<div><strong>' + deal.brandShort + '</strong><span class="meta-sub">' + deal.kolName + '</span></div></div>' +
-        '<div class="exchange-card-apy"><span class="apy-value mono">' + pct(row.impliedApy) + '</span><span class="apy-label mono">APY</span></div>' +
+    const daysLeft = deal.duration - Math.floor((Date.now() - new Date(deal.created).getTime()) / (1000 * 60 * 60 * 24));
+    const isPositive = row.apyChange >= 0;
+    const ticker = 'YT-' + deal.brandShort.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase();
+    
+    return '<button class="yt-market-card" data-exchange="' + row.dealId + '">' +
+      '<div class="yt-card-header">' +
+        '<div class="yt-card-brand">' +
+          brandMark(deal, true) +
+          '<div class="yt-card-title">' +
+            '<strong>' + ticker + '</strong>' +
+            '<span class="yt-card-meta">' + deal.brandShort + ' x ' + deal.kolName + '</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="yt-card-maturity"><span class="mono">' + daysLeft + 'd</span><span>left</span></div>' +
       '</div>' +
-      '<div class="exchange-card-grid">' +
-        '<div class="exchange-card-stat"><span class="stat-label">Bid</span><span class="stat-value mono">' + row.bid.toFixed(4) + '</span></div>' +
-        '<div class="exchange-card-stat"><span class="stat-label">Ask</span><span class="stat-value mono">' + row.ask.toFixed(4) + '</span></div>' +
-        '<div class="exchange-card-stat"><span class="stat-label">24h Vol</span><span class="stat-value mono">' + money(row.vol24h) + '</span></div>' +
-        '<div class="exchange-card-stat"><span class="stat-label">My YT</span><span class="stat-value mono' + (myYt > 0 ? ' has-position' : '') + '">' + money(myYt) + '</span></div>' +
+      '<div class="yt-card-chart">' +
+        sparkline(row.priceHistory, isPositive) +
+        '<div class="yt-card-price"><span class="mono">' + row.ask.toFixed(4) + '</span><span class="yt-price-change ' + (isPositive ? 'positive' : 'negative') + '">' + (isPositive ? '+' : '') + row.apyChange.toFixed(1) + '%</span></div>' +
       '</div>' +
+      '<div class="yt-card-stats">' +
+        '<div class="yt-stat"><span>Implied APY</span><strong class="mono ' + (row.impliedApy > 15 ? 'highlight-apy' : '') + '">' + pct(row.impliedApy) + '</strong></div>' +
+        '<div class="yt-stat"><span>Liquidity</span><strong class="mono">' + money(row.liquidity) + '</strong></div>' +
+        '<div class="yt-stat"><span>24h Vol</span><strong class="mono">' + money(row.vol24h) + '</strong></div>' +
+        '<div class="yt-stat"><span>Bid / Ask</span><strong class="mono">' + row.bid.toFixed(2) + ' / ' + row.ask.toFixed(2) + '</strong></div>' +
+      '</div>' +
+      (myYt > 0 ? '<div class="yt-card-position"><span>Your position</span><strong class="mono">' + money(myYt) + ' YT</strong></div>' : '') +
     '</button>';
   }).join("");
   
-  // Desktop: table layout
-  const desktopTable = '<div class="data-table-card"><div class="table-head exchange-grid"><div>Market</div><div>Implied APY</div><div>Bid</div><div>Ask</div><div>24h Vol</div><div>My YT</div></div>' +
-    '<div class="table-body">' +
-      exchangeRows.map((row) => {
-        const deal = deals.find((item) => item.id === row.dealId);
-        return '<button class="exchange-row exchange-grid status-' + deal.statusClass + '" data-exchange="' + row.dealId + '"><div><div class="brand-inline">' + brandMark(deal, true) + '<div>' + deal.brandShort + '</div></div><div class="meta-row"><span>' + deal.kolName + '</span></div></div><div class="mono">' + pct(row.impliedApy) + '</div><div class="mono">' + row.bid.toFixed(4) + '</div><div class="mono">' + row.ask.toFixed(4) + '</div><div class="mono">' + money(row.vol24h) + '</div><div class="mono">' + money(myMap.get(row.dealId) || 0) + '</div></button>';
-      }).join("") +
-    '</div></div>';
-  
   document.getElementById("exchange-table").innerHTML =
-    '<div class="snippet-stat-grid exchange-stat-grid"><article class="snippet-stat-card"><span>TOTAL YT VOL · 24H</span><strong class="mono">' + money(animatedVol) + '</strong></article><article class="snippet-stat-card"><span>AVG IMPLIED APY</span><strong class="mono">' + pct(animatedApy) + '</strong></article><article class="snippet-stat-card"><span>BOOKS</span><strong class="mono">' + Math.round(animatedBooks) + '</strong></article><article class="snippet-stat-card"><span>YOUR YT POSITIONS</span><strong class="mono">' + Math.round(animatedPositions) + '</strong></article></div>' +
-    (isMobile ? '<div class="exchange-cards-grid">' + mobileCards + '</div>' : desktopTable);
+    '<div class="exchange-overview">' +
+      '<div class="exchange-stats-row">' +
+        '<article class="exchange-stat-pill"><span>Total Liquidity</span><strong class="mono">' + money(animatedLiq) + '</strong></article>' +
+        '<article class="exchange-stat-pill"><span>24h Volume</span><strong class="mono">' + money(animatedVol) + '</strong></article>' +
+        '<article class="exchange-stat-pill"><span>Avg APY</span><strong class="mono">' + pct(animatedApy) + '</strong></article>' +
+        '<article class="exchange-stat-pill"><span>Markets</span><strong class="mono">' + Math.round(animatedBooks) + '</strong></article>' +
+      '</div>' +
+    '</div>' +
+    '<div class="yt-markets-grid">' + marketCards + '</div>';
 
   document.querySelectorAll("[data-exchange]").forEach((node) => {
     node.addEventListener("click", () => {
       const row = exchangeRows.find((item) => item.dealId === node.dataset.exchange);
       const deal = deals.find((item) => item.id === node.dataset.exchange);
+      const ticker = 'YT-' + deal.brandShort.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase();
       openModal({
-        title: "Order ticket · YT-" + deal.brandShort.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase(),
-        body: deal.brand + " yield stream. Bid " + row.bid.toFixed(4) + " / ask " + row.ask.toFixed(4) + ". Implied APY " + pct(row.impliedApy) + "."
+        title: "Trade " + ticker,
+        bodyHtml: '<div class="trade-modal-content">' +
+          '<div class="trade-modal-header">' +
+            '<div class="trade-pair">' + brandMark(deal, true) + '<div><strong>' + ticker + '</strong><span>' + deal.brandShort + '</span></div></div>' +
+            '<div class="trade-apy"><span class="mono">' + pct(row.impliedApy) + '</span><span>APY</span></div>' +
+          '</div>' +
+          '<div class="trade-orderbook">' +
+            '<div class="orderbook-side bid"><span>BID</span><strong class="mono">' + row.bid.toFixed(4) + '</strong></div>' +
+            '<div class="orderbook-spread"><span>Spread</span><strong class="mono">' + ((row.ask - row.bid) * 100).toFixed(1) + '%</strong></div>' +
+            '<div class="orderbook-side ask"><span>ASK</span><strong class="mono">' + row.ask.toFixed(4) + '</strong></div>' +
+          '</div>' +
+          '<div class="trade-info">' +
+            '<div class="trade-info-row"><span>Liquidity</span><strong class="mono">' + money(row.liquidity) + '</strong></div>' +
+            '<div class="trade-info-row"><span>24h Volume</span><strong class="mono">' + money(row.vol24h) + '</strong></div>' +
+            '<div class="trade-info-row"><span>Maturity</span><strong class="mono">' + maturityDateStr(deal) + '</strong></div>' +
+          '</div>' +
+        '</div>'
       });
     });
   });
