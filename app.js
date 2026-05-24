@@ -1457,6 +1457,10 @@ function renderDeals() {
           '</div>' +
         '</div>' +
         '<p class="deal-card-desc">' + (deal.description || deal.thesis.slice(0, 120) + '...') + '</p>' +
+        '<div class="deal-card-highlights">' +
+          '<span class="highlight-tag category">' + deal.category + '</span>' +
+          '<span class="highlight-tag hero">' + deal.heroStat + '</span>' +
+        '</div>' +
       '</div>' +
       '<div class="deal-card-footer">' +
         '<div class="deal-card-stat"><span>Duration</span><strong class="mono">' + deal.duration + 'd</strong></div>' +
@@ -1467,6 +1471,8 @@ function renderDeals() {
       '<div class="deal-card-progress-bar">' +
         '<div class="progress-track"><div class="progress-fill ' + fillColor + '" style="width:' + Math.min(100, animatedProgress) + '%"></div></div>' +
       '</div>' +
+      (deal.recentDeposits && deal.recentDeposits.length > 0 ? 
+        '<div class="deal-card-activity"><span class="activity-dot"></span><span class="activity-text">' + deal.recentDeposits[0] + '</span></div>' : '') +
     '</button>';
   }).join("");
 
