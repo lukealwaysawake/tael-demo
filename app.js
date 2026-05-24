@@ -1002,34 +1002,34 @@ function openEducationModal(forceShow) {
       icon: "兩",
       body:
         '<div class="education-slide">' +
-          '<p class="detail-copy">Every dollar deposited into TAEL produces <strong>two separate tokens</strong>. One represents your principal. The other carries your yield.</p>' +
+          '<p class="detail-copy">Every dollar deposited into TAEL produces <strong>two separate tokens</strong>. One represents your stable value. The other carries your yield.</p>' +
           '<div class="education-diagram-v2">' +
             '<div class="edu-deposit-box"><span class="edu-amount serif">$1</span><span class="edu-label mono">YOUR DEPOSIT</span></div>' +
             '<div class="edu-flow-arrow"><svg width="40" height="24" viewBox="0 0 40 24"><path d="M0 12h32M28 6l8 6-8 6" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></div>' +
             '<div class="edu-token-output">' +
-              '<div class="edu-token-card pt"><div class="edu-token-badge mono">PT</div><div class="edu-token-info"><strong>Principal Token</strong><span>1:1 redeemable at maturity</span></div></div>' +
+              '<div class="edu-token-card pt"><div class="edu-token-badge mono">tUSD</div><div class="edu-token-info"><strong>Stable Token</strong><span>1:1 redeemable stablecoin</span></div></div>' +
               '<div class="edu-token-card yt"><div class="edu-token-badge mono">YT</div><div class="edu-token-info"><strong>Yield Token</strong><span>Tradeable yield rights</span></div></div>' +
             '</div>' +
           '</div>' +
-          '<p class="detail-copy edu-highlight">Held together, PT + YT = your full position. Separated, they become tools.</p>' +
+          '<p class="detail-copy edu-highlight">Held together, tUSD + YT = your full position. Separated, they become tools.</p>' +
         '</div>'
     },
     {
-      title: "PT — the principal layer.",
-      icon: "PT",
+      title: "tUSD — the stable layer.",
+      icon: "t$",
       body:
         '<div class="education-slide">' +
-          '<div class="edu-token-hero pt"><span class="mono">PT</span></div>' +
-          '<p class="detail-copy">PT is the <strong>stable, redeemable</strong> leg of your position. It maps to principal redemption and can be wrapped into tUSD — a PT-backed stablecoin reusable across the protocol.</p>' +
+          '<div class="edu-token-hero pt"><span class="mono">tUSD</span></div>' +
+          '<p class="detail-copy">tUSD is the <strong>stable, redeemable</strong> leg of your position. It\'s a stablecoin backed by deal principal — usable as collateral or liquidity across the protocol.</p>' +
           '<div class="edu-example-card">' +
             '<div class="edu-example-header"><span class="eyebrow">EXAMPLE</span></div>' +
             '<div class="edu-example-body">' +
               '<div class="edu-example-row"><span>You deposit</span><strong class="mono">$100,000</strong></div>' +
-              '<div class="edu-example-row"><span>You receive</span><strong class="mono">100,000 ' + tokenLabel("PT", ptSymbol) + '</strong></div>' +
-              '<div class="edu-example-row"><span>At maturity</span><strong>Redeems against principal terms</strong></div>' +
+              '<div class="edu-example-row"><span>You receive</span><strong class="mono">100,000 tUSD + YT</strong></div>' +
+              '<div class="edu-example-row"><span>At maturity</span><strong>tUSD redeems 1:1 for USDT</strong></div>' +
             '</div>' +
           '</div>' +
-          '<p class="detail-copy edu-note"><em>Think of PT as your money — locked but structurally reclaimable.</em></p>' +
+          '<p class="detail-copy edu-note"><em>Think of tUSD as your money — liquid and structurally reclaimable.</em></p>' +
         '</div>'
     },
     {
@@ -1055,25 +1055,25 @@ function openEducationModal(forceShow) {
       icon: "→",
       body:
         '<div class="education-slide">' +
-          '<p class="detail-copy">Hold is the default. Wrap and trade are optional tools, not obligations.</p>' +
+          '<p class="detail-copy">Hold is the default. Trade YT is an optional tool, not an obligation.</p>' +
           '<div class="edu-actions-grid">' +
             '<div class="edu-action-card">' +
               '<div class="edu-action-icon">◯</div>' +
               '<div class="edu-action-title mono">HOLD</div>' +
-              '<p>Keep PT + YT together until maturity. Collect principal and accrued yield.</p>' +
-            '</div>' +
-            '<div class="edu-action-card">' +
-              '<div class="edu-action-icon">⊕</div>' +
-              '<div class="edu-action-title mono">WRAP</div>' +
-              '<p>Convert PT into tUSD, our PT-backed stablecoin, for liquidity before maturity.</p>' +
+              '<p>Keep tUSD + YT together until maturity. Collect stable value and accrued yield.</p>' +
             '</div>' +
             '<div class="edu-action-card">' +
               '<div class="edu-action-icon">⇄</div>' +
-              '<div class="edu-action-title mono">TRADE</div>' +
-              '<p>Sell YT to lock in yield or hedge against deal performance.</p>' +
+              '<div class="edu-action-title mono">TRADE YT</div>' +
+              '<p>Sell YT to lock in yield early or hedge against deal performance.</p>' +
+            '</div>' +
+            '<div class="edu-action-card">' +
+              '<div class="edu-action-icon">⊕</div>' +
+              '<div class="edu-action-title mono">USE tUSD</div>' +
+              '<p>Use tUSD as collateral or liquidity across the protocol before maturity.</p>' +
             '</div>' +
           '</div>' +
-          '<p class="detail-copy edu-highlight">Allocate first. Manage principal and yield only when it serves your view.</p>' +
+          '<p class="detail-copy edu-highlight">Allocate first. Manage tUSD and YT only when it serves your view.</p>' +
         '</div>'
     }
   ];
@@ -1494,8 +1494,8 @@ function renderDepositSidebar() {
 
   const receiptSummary =
     receiptRow("Deal", deal.brandShort + " × " + deal.kolName) +
-    receiptRow("Principal", money(state.draftAmount), true) +
-    receiptRow("PT to mint", money(state.draftAmount) + " " + tokenLabel("PT", shortTicker(deal))) +
+    receiptRow("Amount", money(state.draftAmount), true) +
+    receiptRow("tUSD to mint", money(state.draftAmount) + " tUSD") +
     receiptRow("YT to mint", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
     receiptRow("Target APY", pct(deal.apy)) +
     receiptRow("Locks until", maturityDateStr(deal)) +
@@ -1507,7 +1507,7 @@ function renderDepositSidebar() {
   } else if (state.depositStep === "compose") {
     ticketBody =
       stepIndicator +
-      '<div class="ticket-stack"><div class="ticket-head-row"><div class="funding-line"><span>Amount · USDT</span><strong class="mono">BAL ' + money(wallet.usdt) + '</strong></div><button class="help-chip mono" id="sidebar-ptyt-guide" type="button">? PT / YT</button></div><div class="ticket-amount-row"><span class="mono ticket-currency">$</span><input id="sidebar-deposit-amount" class="ticket-input" type="text" inputmode="numeric" value="' + formatAmountField(state.draftAmount) + '" /><span class="mono ticket-unit">USDT</span></div><div class="quick-picks"><button class="quick-pick" type="button" data-sidebar-quick="25000">$25K</button><button class="quick-pick" type="button" data-sidebar-quick="100000">$100K</button><button class="quick-pick" type="button" data-sidebar-quick="250000">$250K</button></div><div class="ticket-section-line"></div><div class="ticket-receive-card"><div class="ticket-receive-head"><div><div class="eyebrow">You receive</div><div class="serif italic ticket-note">two tokens, one position</div></div></div><div class="ticket-metrics"><div class="ticket-metric"><span>' + tokenLabel("PT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>' + tokenLabel("YT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>Projected yield</span><strong class="mono">' + money(projectedYield, 2) + '</strong></div><div class="ticket-metric"><span>At maturity</span><strong class="mono">' + money(state.draftAmount + projectedYield, 2) + '</strong></div></div></div><button class="action-button" id="sidebar-continue-review">Continue to review</button><p class="ticket-disclaimer">Each deposited dollar produces a principal leg and a yield leg. Review the terms before locking.</p></div>';
+      '<div class="ticket-stack"><div class="ticket-head-row"><div class="funding-line"><span>Amount · USDT</span><strong class="mono">BAL ' + money(wallet.usdt) + '</strong></div><button class="help-chip mono" id="sidebar-ptyt-guide" type="button">? tUSD / YT</button></div><div class="ticket-amount-row"><span class="mono ticket-currency">$</span><input id="sidebar-deposit-amount" class="ticket-input" type="text" inputmode="numeric" value="' + formatAmountField(state.draftAmount) + '" /><span class="mono ticket-unit">USDT</span></div><div class="quick-picks"><button class="quick-pick" type="button" data-sidebar-quick="25000">$25K</button><button class="quick-pick" type="button" data-sidebar-quick="100000">$100K</button><button class="quick-pick" type="button" data-sidebar-quick="250000">$250K</button></div><div class="ticket-section-line"></div><div class="ticket-receive-card"><div class="ticket-receive-head"><div><div class="eyebrow">You receive</div><div class="serif italic ticket-note">two tokens, one position</div></div></div><div class="ticket-metrics"><div class="ticket-metric"><span>' + tokenLabel("PT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>' + tokenLabel("YT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>Projected yield</span><strong class="mono">' + money(projectedYield, 2) + '</strong></div><div class="ticket-metric"><span>At maturity</span><strong class="mono">' + money(state.draftAmount + projectedYield, 2) + '</strong></div></div></div><button class="action-button" id="sidebar-continue-review">Continue to review</button><p class="ticket-disclaimer">Each deposited dollar produces a principal leg and a yield leg. Review the terms before locking.</p></div>';
   } else if (state.depositStep === "review") {
     ticketBody =
       stepIndicator +
@@ -1520,16 +1520,16 @@ function renderDepositSidebar() {
       stepIndicator +
       '<div class="signing-state"><div class="signing-orbit"><svg width="96" height="96" viewBox="0 0 96 96"><circle cx="48" cy="48" r="46" fill="none" stroke="rgba(232,224,207,0.12)" stroke-width="1"></circle><circle cx="48" cy="48" r="46" fill="none" stroke="var(--gold)" stroke-width="1" stroke-dasharray="289" stroke-dashoffset="289" class="signing-draw"></circle></svg><div class="signing-glyph serif">兩</div></div><div class="serif italic signing-title">Locking allocation…</div><div class="mono signing-meta">AWAITING RECEIPT</div></div>';
   } else {
-    ticketBody =
-      stepIndicator +
-      '<div class="ticket-stack fade-up"><div class="receipt-asterism mono">* * *</div><div class="mono receipt-title">ALLOCATION RECEIPT</div><div class="serif italic receipt-ref">Ref. ' + generateRef(deal, state.draftAmount) + '</div><div class="receipt-card">' +
-      receiptRow("Deal", deal.brandShort + " × " + deal.kolName) +
-      receiptRow("Principal", money(state.draftAmount), true) +
-      receiptRow("PT minted", money(state.draftAmount) + " " + tokenLabel("PT", shortTicker(deal))) +
-      receiptRow("YT minted", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
-      receiptRow("Locked at", nowHkt()) +
-      receiptRow("Matures", maturityDateStr(deal)) +
-      '</div><div class="serif italic receipt-foot">A copy of this receipt is reflected in Account → Activity Log.</div><div class="review-actions"><button class="action-button" id="sidebar-view-portfolio">View in portfolio</button><button class="secondary-button" id="sidebar-receipt-close">Close</button></div></div>';
+  ticketBody =
+  stepIndicator +
+  '<div class="ticket-stack fade-up"><div class="receipt-asterism mono">* * *</div><div class="mono receipt-title">ALLOCATION RECEIPT</div><div class="serif italic receipt-ref">Ref. ' + generateRef(deal, state.draftAmount) + '</div><div class="receipt-card">' +
+  receiptRow("Deal", deal.brandShort + " × " + deal.kolName) +
+  receiptRow("Amount", money(state.draftAmount), true) +
+  receiptRow("tUSD minted", money(state.draftAmount) + " tUSD") +
+  receiptRow("YT minted", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
+  receiptRow("Locked at", nowHkt()) +
+  receiptRow("Matures", maturityDateStr(deal)) +
+  '</div><div class="serif italic receipt-foot">A copy of this receipt is reflected in Account → Activity Log.</div><div class="review-actions"><button class="action-button" id="sidebar-view-portfolio">View in portfolio</button><button class="secondary-button" id="sidebar-receipt-close">Close</button></div></div>';
   }
 
   container.innerHTML =
@@ -1671,8 +1671,8 @@ function renderDetail() {
     : '<div class="step-indicator"><div class="step-bars">' + steps.map((item, idx) => '<span class="step-bar ' + (idx < stepIdx ? "done" : idx === stepIdx ? "active" : "upcoming") + '"></span>').join("") + '</div><div class="step-labels mono">' + steps.map((item, idx) => '<span class="' + (idx < stepIdx ? "done" : idx === stepIdx ? "active" : "upcoming") + '">' + item[1] + '</span>').join("") + '</div><div class="step-current mono"><span>' + String(stepIdx + 1).padStart(2, "0") + ' · ' + steps[stepIdx][1].split(' · ')[1] + '</span><span>' + (stepIdx + 1) + ' / ' + steps.length + '</span></div></div>';
   const receiptSummary =
     receiptRow("Deal", deal.brandShort + " × " + deal.kolName) +
-    receiptRow("Principal", money(state.draftAmount), true) +
-    receiptRow("PT to mint", money(state.draftAmount) + " " + tokenLabel("PT", shortTicker(deal))) +
+    receiptRow("Amount", money(state.draftAmount), true) +
+    receiptRow("tUSD to mint", money(state.draftAmount) + " tUSD") +
     receiptRow("YT to mint", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
     receiptRow("Target APY", pct(deal.apy)) +
     receiptRow("Locks until", maturityDateStr(deal)) +
@@ -1683,7 +1683,7 @@ function renderDetail() {
   } else if (state.depositStep === "compose") {
     ticketBody =
       stepIndicator +
-      '<div class="ticket-stack"><div class="ticket-head-row"><div class="funding-line"><span>Amount · USDT</span><strong class="mono">BAL ' + money(wallet.usdt) + '</strong></div><button class="help-chip mono" id="ptyt-guide" type="button">? PT / YT</button></div><div class="ticket-amount-row"><span class="mono ticket-currency">$</span><input id="deposit-amount" class="ticket-input" type="text" inputmode="numeric" value="' + formatAmountField(state.draftAmount) + '" /><span class="mono ticket-unit">USDT</span></div><div class="quick-picks"><button class="quick-pick" type="button" data-quick="25000">$25K</button><button class="quick-pick" type="button" data-quick="100000">$100K</button><button class="quick-pick" type="button" data-quick="250000">$250K</button></div><div class="ticket-section-line"></div><div class="ticket-receive-card"><div class="ticket-receive-head"><div><div class="eyebrow">You receive</div><div class="serif italic ticket-note">two tokens, one position</div></div></div><div class="ticket-metrics"><div class="ticket-metric"><span>' + tokenLabel("PT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>' + tokenLabel("YT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>Projected yield</span><strong class="mono">' + money(projectedYield, 2) + '</strong></div><div class="ticket-metric"><span>At maturity</span><strong class="mono">' + money(state.draftAmount + projectedYield, 2) + '</strong></div></div></div><button class="action-button" id="continue-review">Continue to review</button><p class="ticket-disclaimer">Each deposited dollar produces a principal leg and a yield leg. Review the terms before locking the allocation.</p></div>';
+      '<div class="ticket-stack"><div class="ticket-head-row"><div class="funding-line"><span>Amount · USDT</span><strong class="mono">BAL ' + money(wallet.usdt) + '</strong></div><button class="help-chip mono" id="ptyt-guide" type="button">? tUSD / YT</button></div><div class="ticket-amount-row"><span class="mono ticket-currency">$</span><input id="deposit-amount" class="ticket-input" type="text" inputmode="numeric" value="' + formatAmountField(state.draftAmount) + '" /><span class="mono ticket-unit">USDT</span></div><div class="quick-picks"><button class="quick-pick" type="button" data-quick="25000">$25K</button><button class="quick-pick" type="button" data-quick="100000">$100K</button><button class="quick-pick" type="button" data-quick="250000">$250K</button></div><div class="ticket-section-line"></div><div class="ticket-receive-card"><div class="ticket-receive-head"><div><div class="eyebrow">You receive</div><div class="serif italic ticket-note">two tokens, one position</div></div></div><div class="ticket-metrics"><div class="ticket-metric"><span>' + tokenLabel("PT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>' + tokenLabel("YT", tokenCode) + '</span><strong class="mono">' + money(state.draftAmount) + '</strong></div><div class="ticket-metric"><span>Projected yield</span><strong class="mono">' + money(projectedYield, 2) + '</strong></div><div class="ticket-metric"><span>At maturity</span><strong class="mono">' + money(state.draftAmount + projectedYield, 2) + '</strong></div></div></div><button class="action-button" id="continue-review">Continue to review</button><p class="ticket-disclaimer">Each deposited dollar produces a principal leg and a yield leg. Review the terms before locking the allocation.</p></div>';
   } else if (state.depositStep === "review") {
     ticketBody =
       stepIndicator +
@@ -1700,12 +1700,12 @@ function renderDetail() {
       stepIndicator +
       '<div class="ticket-stack fade-up"><div class="receipt-asterism mono">* * *</div><div class="mono receipt-title">ALLOCATION RECEIPT</div><div class="serif italic receipt-ref">Ref. ' + generateRef(deal, state.draftAmount) + '</div><div class="receipt-card">' +
       receiptRow("Deal", deal.brandShort + " × " + deal.kolName) +
-      receiptRow("Principal", money(state.draftAmount), true) +
-      receiptRow("PT minted", money(state.draftAmount) + " " + tokenLabel("PT", shortTicker(deal))) +
-      receiptRow("YT minted", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
-      receiptRow("Locked at", nowHkt()) +
-      receiptRow("Matures", maturityDateStr(deal)) +
-      '</div><div class="serif italic receipt-foot">A copy of this receipt is reflected in Account → Activity Log.</div><div class="review-actions"><button class="action-button" id="view-portfolio">View in portfolio</button><button class="secondary-button" id="receipt-close">Close</button></div></div>';
+  receiptRow("Amount", money(state.draftAmount), true) +
+  receiptRow("tUSD minted", money(state.draftAmount) + " tUSD") +
+  receiptRow("YT minted", money(state.draftAmount) + " " + tokenLabel("YT", shortTicker(deal))) +
+  receiptRow("Locked at", nowHkt()) +
+  receiptRow("Matures", maturityDateStr(deal)) +
+  '</div><div class="serif italic receipt-foot">A copy of this receipt is reflected in Account → Activity Log.</div><div class="review-actions"><button class="action-button" id="view-portfolio">View in portfolio</button><button class="secondary-button" id="receipt-close">Close</button></div></div>';
   }
 
   const isMobileDetail = pageType === "deal" && window.innerWidth <= 767;
@@ -1742,7 +1742,7 @@ function renderDetail() {
           '<div class="asterism mono">* * *</div>' +
           '<div class="detail-block"><p class="eyebrow">Counterparties</p><div class="counterparty-grid"><article class="counterparty-card"><div class="counterparty-label">Brand</div><h4>' + (deal.counterparties[0] || deal.brand) + '</h4><p class="mono">CN · Verified entity</p></article><button class="counterparty-card counterparty-button" type="button" id="open-kol-drawer"><div class="counterparty-label">KOL</div><h4>' + deal.kolName + '</h4><p class="mono">' + deal.kolFollowers + ' followers · ' + deal.heroStat + '</p></button></div></div>' +
           '<div class="detail-block"><p class="eyebrow">Documents</p><div class="document-list">' + deal.docs.map((doc, docIdx) => '<button class="document-row" type="button" data-doc-index="' + docIdx + '"><span><strong>' + doc.name + '</strong><small>' + doc.detail + '</small></span><em class="mono">' + doc.status + '</em></button>').join("") + '</div></div>' +
-          '<div class="detail-block"><p class="eyebrow">Project financing structure</p><div class="ticket-metrics">' + metricRows([["Stablecoin deposit", "USDT / USDC"],["PT output", tokenLabel("PT", ptStableSymbol) + " / 1:1 claim"],["YT output", tokenLabel("YT", shortTicker(deal)) + " / tradable yield leg"],["Principal coverage", deal.principalCoverage],["Yield waterfall", deal.revenueShare]]) + '</div></div>' +
+          '<div class="detail-block"><p class="eyebrow">Project financing structure</p><div class="ticket-metrics">' + metricRows([["Stablecoin deposit", "USDT / USDC"],["tUSD output", "1:1 stable token"],["YT output", tokenLabel("YT", shortTicker(deal)) + " / tradable yield"],["Coverage", deal.principalCoverage],["Yield waterfall", deal.revenueShare]]) + '</div></div>' +
           '<div class="detail-block"><p class="eyebrow">Timeline</p><div class="ticket-metrics">' + deal.timeline.map((row) => '<div class="ticket-metric"><span>' + row[0] + '</span><strong class="mono">' + row[1] + '</strong></div>').join("") + '</div></div>' +
         '</section>' +
         '<aside class="detail-side-column">' +
@@ -1982,8 +1982,7 @@ function renderPortfolio() {
     '<div class="portfolio-headline"><p class="eyebrow">Your ledger</p><h2>' + money(animatedTotal, 2) + '</h2><div class="mono positive">+' + money(totalYield, 2) + ' accrued</div></div>' +
     '<div class="snippet-stat-grid portfolio-stat-grid">' +
       '<article class="snippet-stat-card"><span>USDT</span><strong class="mono">' + money(animatedUsdt) + '</strong><small>Available balance</small></article>' +
-      '<article class="snippet-stat-card tusd-highlight"><span>tUSD</span><strong class="mono">' + money(animatedTusd, 2) + '</strong><small>PT-backed stablecoin</small><div class="tusd-badge">Core Asset</div></article>' +
-      '<article class="snippet-stat-card"><span>PT</span><strong class="mono">' + money(animatedPt) + '</strong><small>Principal tokens</small></article>' +
+      '<article class="snippet-stat-card tusd-highlight"><span>tUSD</span><strong class="mono">' + money(animatedTusd + animatedPt, 2) + '</strong><small>Stable value</small><div class="tusd-badge">Core Asset</div></article>' +
       '<article class="snippet-stat-card"><span>YT</span><strong class="mono">' + money(animatedYt, 2) + '</strong><small>Yield tokens</small></article>' +
     '</div>';
 
@@ -2002,10 +2001,10 @@ function renderPortfolio() {
 
 document.getElementById("wallet-actions").innerHTML =
 '<div class="wallet-actions-grid">' +
-  '<div class="wallet-action-row tusd-row"><span>tUSD</span><strong class="mono">PT-backed stablecoin (1 PT = 1 tUSD)</strong></div>' +
-  '<div class="wallet-action-row"><span>PT (Principal Token)</span><strong class="mono">1:1 redeemable at maturity</strong></div>' +
+  '<div class="wallet-action-row tusd-row"><span>tUSD</span><strong class="mono">Stable token · 1:1 redeemable at maturity</strong></div>' +
   '<div class="wallet-action-row"><span>YT (Yield Token)</span><strong class="mono">Tradable yield rights</strong></div>' +
-  '<div class="wallet-action-row"><span>Liquidity</span><strong class="mono">tUSD unlocks PT before maturity</strong></div>' +
+  '<div class="wallet-action-row"><span>How it works</span><strong class="mono">Deposit → tUSD + YT minted</strong></div>' +
+  '<div class="wallet-action-row"><span>At maturity</span><strong class="mono">tUSD redeems 1:1 for USDT</strong></div>' +
   '</div>';
 
   document.querySelectorAll("[data-wrap]").forEach((node) => {
