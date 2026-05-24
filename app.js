@@ -1999,7 +1999,12 @@ function renderPortfolio() {
   if (!summary) return;
   summary.innerHTML =
     '<div class="portfolio-headline"><p class="eyebrow">Your ledger</p><h2>' + money(animatedTotal, 2) + '</h2><div class="mono positive">+' + money(totalYield, 2) + ' accrued</div></div>' +
-    '<div class="snippet-stat-grid portfolio-stat-grid"><article class="snippet-stat-card"><span>USDT</span><strong class="mono">' + money(animatedUsdt) + '</strong><small>Available</small></article><article class="snippet-stat-card"><span>tUSD</span><strong class="mono">' + money(animatedTusd, 2) + '</strong><small>PT-backed stablecoin</small></article><article class="snippet-stat-card"><span>PT basket</span><strong class="mono">' + money(animatedPt) + '</strong><small>Across active deals</small></article><article class="snippet-stat-card"><span>YT mark</span><strong class="mono">' + money(animatedYt, 2) + '</strong><small>Mark-to-market</small></article></div>';
+    '<div class="snippet-stat-grid portfolio-stat-grid">' +
+      '<article class="snippet-stat-card"><span>USDT</span><strong class="mono">' + money(animatedUsdt) + '</strong><small>Available balance</small></article>' +
+      '<article class="snippet-stat-card tusd-highlight"><span>tUSD</span><strong class="mono">' + money(animatedTusd, 2) + '</strong><small>PT-backed stablecoin</small><div class="tusd-badge">Core Asset</div></article>' +
+      '<article class="snippet-stat-card"><span>PT</span><strong class="mono">' + money(animatedPt) + '</strong><small>Principal tokens</small></article>' +
+      '<article class="snippet-stat-card"><span>YT</span><strong class="mono">' + money(animatedYt, 2) + '</strong><small>Yield tokens</small></article>' +
+    '</div>';
 
   const animatePortfolioCards = !PLAYED_ANIMATIONS.has("portfolio-cards");
   if (animatePortfolioCards && positions.length) {
@@ -2014,13 +2019,13 @@ function renderPortfolio() {
     return '<article class="position-card status-' + deal.statusClass + ' ' + (animatePortfolioCards ? 'card-entry' : '') + ' ' + (expanded ? 'expanded' : '') + '" style="' + (animatePortfolioCards ? 'animation-delay:' + (idx * 100) + 'ms' : '') + '"><button class="position-card-head" data-expand="' + position.dealId + '"><div class="deal-badges"><span class="badge ' + deal.statusClass + '">' + deal.status + '</span><span class="badge risk">Risk ' + deal.risk + '</span></div><span class="deal-chevron mono">→</span></button><h3>' + deal.brandShort + ' <span>×</span> ' + deal.kolName + '</h3><div class="meta-row"><span>' + deal.product + '</span><span>' + formatDurationLabel(position.days) + ' to maturity</span></div><div class="deal-stats"><div class="deal-stat"><span>PRINCIPAL</span><strong class="mono">' + money(position.principal) + '</strong></div><div class="deal-stat"><span>PT BAL</span><strong class="mono">' + money(position.pt) + '</strong></div><div class="deal-stat"><span>YT BAL · MARK</span><strong class="mono">' + money(position.yt) + ' · ' + position.mark.toFixed(4) + '</strong></div><div class="deal-stat"><span>ACCRUED</span><strong class="mono">' + money(position.accruedYield, 2) + '</strong></div></div><div class="position-progress"><div class="funding-line"><span>Yield accrual</span><span class="mono">target ' + money(targetYield, 0) + '</span></div><div class="progress-track"><div class="progress-fill" style="width:' + yieldPct + '%"></div></div></div><div class="position-actions"><button class="inline-button" data-wrap="' + position.dealId + '">Wrap PT → tUSD</button><button class="inline-button" data-sell="' + position.dealId + '">Sell YT</button><button class="inline-button" data-focus="' + position.dealId + '">View project</button></div>' + (expanded ? '<div class="position-inline-panel"><div class="position-inline-grid"><div class="position-inline-block"><p class="eyebrow">Timeline</p><div class="activity-log"><div class="activity-row"><strong>Allocated</strong><span>' + shortDateTime(Date.now() - 86400000 * 5) + ' · ' + money(position.principal) + '</span></div><div class="activity-row"><strong>Wrapped</strong><span>' + money(position.wrapped || 0) + ' PT into tUSD</span></div><div class="activity-row"><strong>Yield state</strong><span>' + money(position.accruedYield, 2) + ' accrued so far</span></div></div></div><div class="position-inline-block"><p class="eyebrow">Yield sparkline</p><svg viewBox="0 0 240 70" class="mini-spark"><polyline fill="none" stroke="var(--gold)" stroke-width="1.5" points="0,58 40,52 80,46 120,39 160,30 200,18 240,12" /></svg><div class="review-actions"><button class="secondary-button" data-settle="' + position.dealId + '">Settle now</button></div></div></div></div>' : '') + '</article>';
   }).join("") : '<div class="empty-positions"><div><div class="mono empty-kicker">YOUR LEDGER</div><p>Your ledger begins here.</p><div class="detail-copy">Allocate to a curated deal to open your first position. Each allocation mints PT and YT, and the resulting tokens, accrued yield, and statements all appear here.</div><button class="inline-button" id="browse-open-deals">Browse open allocations →</button><div class="empty-asof serif italic">as of ' + formatHktAsOf().replace("as of ", "") + '</div></div></div>';
 
-  document.getElementById("wallet-actions").innerHTML =
-    '<div class="wallet-actions-grid">' +
-      '<div class="wallet-action-row"><span>Principal token layer</span><strong class="mono">PT = 1:1 backed claim</strong></div>' +
-      '<div class="wallet-action-row"><span>Yield token layer</span><strong class="mono">YT = tradable cashflow strip</strong></div>' +
-      '<div class="wallet-action-row"><span>V2 stable abstraction</span><strong class="mono">Wrap PT into reusable stable balance</strong></div>' +
-      '<div class="wallet-action-row"><span>Why this matters</span><strong class="mono">Public PF + RWA + yield market</strong></div>' +
-    '</div>';
+document.getElementById("wallet-actions").innerHTML =
+'<div class="wallet-actions-grid">' +
+  '<div class="wallet-action-row tusd-row"><span>tUSD</span><strong class="mono">PT-backed stablecoin (1 PT = 1 tUSD)</strong></div>' +
+  '<div class="wallet-action-row"><span>PT (Principal Token)</span><strong class="mono">1:1 redeemable at maturity</strong></div>' +
+  '<div class="wallet-action-row"><span>YT (Yield Token)</span><strong class="mono">Tradable yield rights</strong></div>' +
+  '<div class="wallet-action-row"><span>Liquidity</span><strong class="mono">tUSD unlocks PT before maturity</strong></div>' +
+  '</div>';
 
   document.querySelectorAll("[data-wrap]").forEach((node) => {
     node.addEventListener("click", () => {

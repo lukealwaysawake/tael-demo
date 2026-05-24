@@ -1806,6 +1806,36 @@ body:has(#account.active) .hero-sheet {
   font-size: 11px;
 }
 
+/* tUSD highlight card */
+.snippet-stat-card.tusd-highlight {
+  background: linear-gradient(135deg, rgba(212, 175, 55, 0.08) 0%, var(--surface) 100%);
+  border: 1px solid var(--gold-dim);
+  position: relative;
+}
+
+.snippet-stat-card.tusd-highlight span {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.snippet-stat-card.tusd-highlight strong {
+  color: var(--gold);
+}
+
+.tusd-badge {
+  display: inline-block;
+  margin-top: 8px;
+  padding: 2px 8px;
+  background: rgba(212, 175, 55, 0.15);
+  border: 1px solid var(--gold-dim);
+  border-radius: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
 .detail-title {
   font-size: clamp(28px, 4vw, 42px);
   line-height: 1.08;
@@ -2353,6 +2383,24 @@ body:has(#account.active) .hero-sheet {
 .table-body .meta-row,
 .position-row .meta-row {
   color: var(--ink-soft);
+}
+
+/* tUSD row highlight */
+.wallet-action-row.tusd-row {
+  background: linear-gradient(90deg, rgba(212, 175, 55, 0.08) 0%, transparent 100%);
+  border-left: 2px solid var(--gold);
+  padding-left: 14px;
+  margin-left: -16px;
+  width: calc(100% + 16px);
+}
+
+.wallet-action-row.tusd-row span {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.wallet-action-row.tusd-row strong {
+  color: var(--gold);
 }
 
 .ticket-metric span {
