@@ -410,11 +410,41 @@ const deals = [
 ];
 
 const exchangeRows = [
-  { dealId: "philips-liaustin", bid: 0.92, ask: 0.95, impliedApy: 10.4, vol24h: 310000, liquidity: 1250000, priceHistory: [0.89, 0.91, 0.90, 0.93, 0.92, 0.94, 0.95], apyChange: 0.8 },
-  { dealId: "anker-techbro", bid: 0.88, ask: 0.91, impliedApy: 13.1, vol24h: 228000, liquidity: 890000, priceHistory: [0.85, 0.84, 0.87, 0.86, 0.89, 0.88, 0.91], apyChange: 1.2 },
-  { dealId: "perfectdiary-cherry", bid: 1.04, ask: 1.08, impliedApy: 19.8, vol24h: 442000, liquidity: 2100000, priceHistory: [0.98, 1.01, 1.03, 1.02, 1.05, 1.06, 1.08], apyChange: 2.1 },
-  { dealId: "xiaomi-smartlife", bid: 0.81, ask: 0.84, impliedApy: 11.0, vol24h: 184000, liquidity: 720000, priceHistory: [0.78, 0.80, 0.79, 0.82, 0.81, 0.83, 0.84], apyChange: -0.5 },
-  { dealId: "bear-foodie", bid: 1.09, ask: 1.12, impliedApy: 22.6, vol24h: 520000, liquidity: 3200000, priceHistory: [1.02, 1.05, 1.07, 1.06, 1.09, 1.10, 1.12], apyChange: 3.4 }
+  { 
+    dealId: "philips-liaustin", bid: 0.92, ask: 0.95, impliedApy: 10.4, vol24h: 310000, liquidity: 1250000, 
+    priceHistory: [0.89, 0.91, 0.90, 0.93, 0.92, 0.94, 0.95], apyChange: 0.8,
+    priceHistory30d: [0.82, 0.84, 0.85, 0.83, 0.86, 0.87, 0.85, 0.88, 0.89, 0.87, 0.90, 0.89, 0.91, 0.90, 0.92, 0.91, 0.93, 0.92, 0.94, 0.93, 0.95, 0.94, 0.96, 0.95, 0.94, 0.95, 0.94, 0.95, 0.94, 0.95],
+    apyHistory: [9.2, 9.5, 9.8, 10.1, 9.9, 10.2, 10.4, 10.1, 10.3, 10.5, 10.2, 10.4, 10.6, 10.3, 10.4],
+    trades: [{ type: 'buy', amount: 12500, price: 0.94, time: '2m ago' }, { type: 'sell', amount: 8200, price: 0.95, time: '5m ago' }, { type: 'buy', amount: 25000, price: 0.93, time: '12m ago' }, { type: 'sell', amount: 15800, price: 0.94, time: '18m ago' }, { type: 'buy', amount: 9500, price: 0.92, time: '25m ago' }]
+  },
+  { 
+    dealId: "anker-techbro", bid: 0.88, ask: 0.91, impliedApy: 13.1, vol24h: 228000, liquidity: 890000, 
+    priceHistory: [0.85, 0.84, 0.87, 0.86, 0.89, 0.88, 0.91], apyChange: 1.2,
+    priceHistory30d: [0.78, 0.79, 0.80, 0.79, 0.81, 0.82, 0.80, 0.83, 0.82, 0.84, 0.83, 0.85, 0.84, 0.86, 0.85, 0.87, 0.86, 0.88, 0.87, 0.89, 0.88, 0.90, 0.89, 0.91, 0.90, 0.89, 0.90, 0.91, 0.90, 0.91],
+    apyHistory: [11.5, 11.8, 12.1, 12.4, 12.2, 12.6, 12.8, 12.5, 12.9, 13.0, 12.8, 13.1, 13.2, 12.9, 13.1],
+    trades: [{ type: 'sell', amount: 18000, price: 0.91, time: '1m ago' }, { type: 'buy', amount: 22000, price: 0.90, time: '8m ago' }, { type: 'buy', amount: 14500, price: 0.89, time: '15m ago' }, { type: 'sell', amount: 31000, price: 0.90, time: '22m ago' }, { type: 'buy', amount: 8800, price: 0.88, time: '30m ago' }]
+  },
+  { 
+    dealId: "perfectdiary-cherry", bid: 1.04, ask: 1.08, impliedApy: 19.8, vol24h: 442000, liquidity: 2100000, 
+    priceHistory: [0.98, 1.01, 1.03, 1.02, 1.05, 1.06, 1.08], apyChange: 2.1,
+    priceHistory30d: [0.88, 0.90, 0.91, 0.93, 0.92, 0.95, 0.94, 0.97, 0.96, 0.98, 0.97, 1.00, 0.99, 1.01, 1.00, 1.02, 1.01, 1.04, 1.03, 1.05, 1.04, 1.06, 1.05, 1.07, 1.06, 1.08, 1.07, 1.08, 1.07, 1.08],
+    apyHistory: [16.2, 16.8, 17.3, 17.9, 18.2, 18.5, 18.9, 19.1, 19.4, 19.6, 19.3, 19.7, 19.9, 19.6, 19.8],
+    trades: [{ type: 'buy', amount: 45000, price: 1.07, time: '30s ago' }, { type: 'buy', amount: 28000, price: 1.06, time: '3m ago' }, { type: 'sell', amount: 35000, price: 1.08, time: '7m ago' }, { type: 'buy', amount: 52000, price: 1.05, time: '14m ago' }, { type: 'sell', amount: 19500, price: 1.07, time: '21m ago' }]
+  },
+  { 
+    dealId: "xiaomi-smartlife", bid: 0.81, ask: 0.84, impliedApy: 11.0, vol24h: 184000, liquidity: 720000, 
+    priceHistory: [0.78, 0.80, 0.79, 0.82, 0.81, 0.83, 0.84], apyChange: -0.5,
+    priceHistory30d: [0.85, 0.84, 0.86, 0.85, 0.84, 0.83, 0.85, 0.84, 0.82, 0.83, 0.81, 0.82, 0.80, 0.81, 0.79, 0.80, 0.78, 0.79, 0.80, 0.81, 0.80, 0.82, 0.81, 0.83, 0.82, 0.84, 0.83, 0.84, 0.83, 0.84],
+    apyHistory: [12.1, 11.9, 11.7, 11.5, 11.3, 11.1, 10.9, 11.0, 11.2, 10.8, 10.9, 11.1, 10.8, 11.0, 11.0],
+    trades: [{ type: 'sell', amount: 9200, price: 0.84, time: '4m ago' }, { type: 'buy', amount: 11500, price: 0.83, time: '11m ago' }, { type: 'sell', amount: 7800, price: 0.84, time: '19m ago' }, { type: 'buy', amount: 14200, price: 0.82, time: '28m ago' }, { type: 'sell', amount: 6500, price: 0.83, time: '35m ago' }]
+  },
+  { 
+    dealId: "bear-foodie", bid: 1.09, ask: 1.12, impliedApy: 22.6, vol24h: 520000, liquidity: 3200000, 
+    priceHistory: [1.02, 1.05, 1.07, 1.06, 1.09, 1.10, 1.12], apyChange: 3.4,
+    priceHistory30d: [0.92, 0.94, 0.96, 0.95, 0.98, 0.97, 1.00, 0.99, 1.02, 1.01, 1.03, 1.02, 1.05, 1.04, 1.06, 1.05, 1.07, 1.06, 1.09, 1.08, 1.10, 1.09, 1.11, 1.10, 1.12, 1.11, 1.12, 1.11, 1.12, 1.12],
+    apyHistory: [18.5, 19.2, 19.8, 20.3, 20.8, 21.2, 21.6, 21.9, 22.1, 22.3, 22.0, 22.4, 22.5, 22.4, 22.6],
+    trades: [{ type: 'buy', amount: 62000, price: 1.11, time: '1m ago' }, { type: 'buy', amount: 38000, price: 1.10, time: '6m ago' }, { type: 'sell', amount: 45000, price: 1.12, time: '10m ago' }, { type: 'buy', amount: 71000, price: 1.09, time: '17m ago' }, { type: 'sell', amount: 28000, price: 1.11, time: '24m ago' }]
+  }
 ];
 
 const positions = [];
@@ -429,6 +459,7 @@ const activityLog = [];
 const state = {
   activeSection: "markets",
   activeDealId: null,
+  activeExchangeId: null,
   sort: "closing",
   riskFilter: "all",
   durationFilter: "all",
@@ -2108,28 +2139,193 @@ function renderExchange() {
 
   document.querySelectorAll("[data-exchange]").forEach((node) => {
     node.addEventListener("click", () => {
-      const row = exchangeRows.find((item) => item.dealId === node.dataset.exchange);
-      const deal = deals.find((item) => item.id === node.dataset.exchange);
-      const ticker = 'YT-' + deal.brandShort.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase();
-      openModal({
-        title: "Trade " + ticker,
-        bodyHtml: '<div class="trade-modal-content">' +
-          '<div class="trade-modal-header">' +
-            '<div class="trade-pair">' + brandMark(deal, true) + '<div><strong>' + ticker + '</strong><span>' + deal.brandShort + '</span></div></div>' +
-            '<div class="trade-apy"><span class="mono">' + pct(row.impliedApy) + '</span><span>APY</span></div>' +
+      state.activeExchangeId = node.dataset.exchange;
+      renderExchangeDetail();
+    });
+  });
+  
+  // Render detail if one is selected
+  if (state.activeExchangeId) {
+    renderExchangeDetail();
+  } else {
+    document.getElementById("exchange-detail-panel").style.display = "none";
+  }
+}
+
+function renderExchangeDetail() {
+  const row = exchangeRows.find((item) => item.dealId === state.activeExchangeId);
+  const deal = deals.find((item) => item.id === state.activeExchangeId);
+  if (!row || !deal) return;
+  
+  const detailPanel = document.getElementById("exchange-detail-panel");
+  const detailContent = document.getElementById("exchange-detail");
+  detailPanel.style.display = "block";
+  
+  const ticker = 'YT-' + deal.brandShort.replace(/[^A-Za-z]/g, '').slice(0, 3).toUpperCase();
+  const daysLeft = deal.duration - Math.floor((Date.now() - new Date(deal.created).getTime()) / (1000 * 60 * 60 * 24));
+  const myYt = positions.find(p => p.dealId === state.activeExchangeId)?.yt || 0;
+  const isPositive = row.apyChange >= 0;
+  const spread = ((row.ask - row.bid) / row.ask * 100).toFixed(2);
+  
+  // Generate large price chart SVG
+  function priceChart(data) {
+    const min = Math.min(...data) * 0.98;
+    const max = Math.max(...data) * 1.02;
+    const range = max - min || 1;
+    const w = 400, h = 160;
+    const points = data.map((v, i) => {
+      const x = (i / (data.length - 1)) * w;
+      const y = h - ((v - min) / range) * h;
+      return x + ',' + y;
+    });
+    const areaPoints = points.join(' ') + ' ' + w + ',' + h + ' 0,' + h;
+    const linePoints = points.join(' ');
+    const color = row.apyChange >= 0 ? 'var(--sage)' : 'var(--rust)';
+    const gradientId = 'priceGrad-' + state.activeExchangeId;
+    return '<svg class="price-chart-svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' +
+      '<defs><linearGradient id="' + gradientId + '" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="' + color + '" stop-opacity="0.3"/><stop offset="100%" stop-color="' + color + '" stop-opacity="0"/></linearGradient></defs>' +
+      '<polygon points="' + areaPoints + '" fill="url(#' + gradientId + ')"/>' +
+      '<polyline points="' + linePoints + '" fill="none" stroke="' + color + '" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>' +
+      '<circle cx="' + (w) + '" cy="' + (h - ((data[data.length - 1] - min) / range) * h) + '" r="4" fill="' + color + '"/>' +
+    '</svg>';
+  }
+  
+  // Generate APY chart
+  function apyChart(data) {
+    const min = Math.min(...data) * 0.9;
+    const max = Math.max(...data) * 1.1;
+    const range = max - min || 1;
+    const w = 400, h = 80;
+    const barWidth = w / data.length - 2;
+    const bars = data.map((v, i) => {
+      const x = i * (w / data.length) + 1;
+      const barH = ((v - min) / range) * h;
+      const y = h - barH;
+      return '<rect x="' + x + '" y="' + y + '" width="' + barWidth + '" height="' + barH + '" fill="var(--gold)" opacity="' + (0.3 + (i / data.length) * 0.7) + '" rx="2"/>';
+    }).join('');
+    return '<svg class="apy-chart-svg" viewBox="0 0 ' + w + ' ' + h + '" preserveAspectRatio="none">' + bars + '</svg>';
+  }
+  
+  // Trades list
+  const tradesHtml = row.trades.map(t => 
+    '<div class="trade-row ' + t.type + '">' +
+      '<span class="trade-type mono">' + t.type.toUpperCase() + '</span>' +
+      '<span class="trade-amount mono">' + money(t.amount) + ' YT</span>' +
+      '<span class="trade-price mono">@ ' + t.price.toFixed(4) + '</span>' +
+      '<span class="trade-time">' + t.time + '</span>' +
+    '</div>'
+  ).join('');
+  
+  detailContent.innerHTML =
+    '<div class="yt-detail-view">' +
+      '<div class="yt-detail-header">' +
+        '<button class="yt-detail-back" id="exchange-back"><svg width="20" height="20" viewBox="0 0 20 20"><path d="M12 4L6 10L12 16" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>' +
+        '<div class="yt-detail-brand">' +
+          brandMark(deal, true) +
+          '<div class="yt-detail-title">' +
+            '<strong>' + ticker + '</strong>' +
+            '<span>' + deal.brandShort + ' x ' + deal.kolName + '</span>' +
           '</div>' +
-          '<div class="trade-orderbook">' +
-            '<div class="orderbook-side bid"><span>BID</span><strong class="mono">' + row.bid.toFixed(4) + '</strong></div>' +
-            '<div class="orderbook-spread"><span>Spread</span><strong class="mono">' + ((row.ask - row.bid) * 100).toFixed(1) + '%</strong></div>' +
-            '<div class="orderbook-side ask"><span>ASK</span><strong class="mono">' + row.ask.toFixed(4) + '</strong></div>' +
+        '</div>' +
+        '<div class="yt-detail-maturity"><span class="mono">' + daysLeft + 'd</span><span>to maturity</span></div>' +
+      '</div>' +
+      
+      '<div class="yt-detail-price-section">' +
+        '<div class="yt-detail-price-header">' +
+          '<div class="yt-detail-current-price">' +
+            '<span class="price-label">Current Price</span>' +
+            '<div class="price-value"><strong class="mono">' + row.ask.toFixed(4) + '</strong><span class="price-change ' + (isPositive ? 'positive' : 'negative') + '">' + (isPositive ? '+' : '') + row.apyChange.toFixed(1) + '%</span></div>' +
           '</div>' +
-          '<div class="trade-info">' +
-            '<div class="trade-info-row"><span>Liquidity</span><strong class="mono">' + money(row.liquidity) + '</strong></div>' +
-            '<div class="trade-info-row"><span>24h Volume</span><strong class="mono">' + money(row.vol24h) + '</strong></div>' +
-            '<div class="trade-info-row"><span>Maturity</span><strong class="mono">' + maturityDateStr(deal) + '</strong></div>' +
+          '<div class="yt-detail-implied-apy">' +
+            '<span class="price-label">Implied APY</span>' +
+            '<strong class="mono highlight-apy">' + pct(row.impliedApy) + '</strong>' +
           '</div>' +
-        '</div>'
-      });
+        '</div>' +
+        '<div class="yt-detail-chart-container">' +
+          '<div class="chart-timeframe"><button class="active">30D</button><button>7D</button><button>24H</button></div>' +
+          priceChart(row.priceHistory30d) +
+        '</div>' +
+      '</div>' +
+      
+      '<div class="yt-detail-stats-grid">' +
+        '<div class="yt-detail-stat"><span>Liquidity</span><strong class="mono">' + money(row.liquidity) + '</strong></div>' +
+        '<div class="yt-detail-stat"><span>24h Volume</span><strong class="mono">' + money(row.vol24h) + '</strong></div>' +
+        '<div class="yt-detail-stat"><span>Spread</span><strong class="mono">' + spread + '%</strong></div>' +
+        '<div class="yt-detail-stat"><span>Maturity</span><strong class="mono">' + maturityDateStr(deal) + '</strong></div>' +
+      '</div>' +
+      
+      '<div class="yt-detail-orderbook">' +
+        '<p class="eyebrow">Order Book</p>' +
+        '<div class="orderbook-visual">' +
+          '<div class="orderbook-side-visual bid">' +
+            '<div class="orderbook-bar" style="width: 75%"></div>' +
+            '<div class="orderbook-info"><span>BID</span><strong class="mono">' + row.bid.toFixed(4) + '</strong></div>' +
+          '</div>' +
+          '<div class="orderbook-spread-visual"><span class="mono">' + spread + '%</span></div>' +
+          '<div class="orderbook-side-visual ask">' +
+            '<div class="orderbook-bar" style="width: 85%"></div>' +
+            '<div class="orderbook-info"><span>ASK</span><strong class="mono">' + row.ask.toFixed(4) + '</strong></div>' +
+          '</div>' +
+        '</div>' +
+      '</div>' +
+      
+      '<div class="yt-detail-apy-section">' +
+        '<p class="eyebrow">APY History (15D)</p>' +
+        apyChart(row.apyHistory) +
+        '<div class="apy-range"><span class="mono">' + Math.min(...row.apyHistory).toFixed(1) + '%</span><span class="mono">' + Math.max(...row.apyHistory).toFixed(1) + '%</span></div>' +
+      '</div>' +
+      
+      '<div class="yt-detail-trades">' +
+        '<p class="eyebrow">Recent Trades</p>' +
+        '<div class="trades-list">' + tradesHtml + '</div>' +
+      '</div>' +
+      
+      (myYt > 0 ? '<div class="yt-detail-position"><p class="eyebrow">Your Position</p><div class="position-amount"><strong class="mono">' + money(myYt) + ' YT</strong><span>≈ ' + money(myYt * row.ask) + ' tUSD</span></div></div>' : '') +
+      
+      '<div class="yt-detail-actions">' +
+        '<button class="action-button" id="yt-buy-btn">Buy YT</button>' +
+        '<button class="secondary-button" id="yt-sell-btn">Sell YT</button>' +
+      '</div>' +
+    '</div>';
+  
+  // Event listeners
+  document.getElementById("exchange-back").addEventListener("click", () => {
+    state.activeExchangeId = null;
+    document.getElementById("exchange-detail-panel").style.display = "none";
+  });
+  
+  document.getElementById("yt-buy-btn").addEventListener("click", () => {
+    openModal({
+      title: "Buy " + ticker,
+      bodyHtml: '<div class="trade-form">' +
+        '<div class="form-row"><label>Amount (tUSD)</label><input type="number" class="trade-input mono" value="10000" id="buy-amount"></div>' +
+        '<div class="form-summary">' +
+          '<div class="summary-row"><span>Price</span><strong class="mono">' + row.ask.toFixed(4) + '</strong></div>' +
+          '<div class="summary-row"><span>You receive</span><strong class="mono" id="buy-receive">~' + Math.floor(10000 / row.ask).toLocaleString() + ' YT</strong></div>' +
+          '<div class="summary-row"><span>Implied APY</span><strong class="mono highlight-apy">' + pct(row.impliedApy) + '</strong></div>' +
+        '</div>' +
+      '</div>',
+      confirmLabel: "Confirm Buy",
+      onConfirm: () => {
+        openModal({ title: "Order Submitted", body: "Your buy order for " + ticker + " has been submitted. In live product, this would execute against the AMM liquidity pool." });
+      }
+    });
+  });
+  
+  document.getElementById("yt-sell-btn").addEventListener("click", () => {
+    openModal({
+      title: "Sell " + ticker,
+      bodyHtml: '<div class="trade-form">' +
+        '<div class="form-row"><label>Amount (YT)</label><input type="number" class="trade-input mono" value="' + (myYt > 0 ? myYt : 5000) + '" id="sell-amount"></div>' +
+        '<div class="form-summary">' +
+          '<div class="summary-row"><span>Price</span><strong class="mono">' + row.bid.toFixed(4) + '</strong></div>' +
+          '<div class="summary-row"><span>You receive</span><strong class="mono">~' + money((myYt > 0 ? myYt : 5000) * row.bid) + ' tUSD</strong></div>' +
+        '</div>' +
+      '</div>',
+      confirmLabel: "Confirm Sell",
+      onConfirm: () => {
+        openModal({ title: "Order Submitted", body: "Your sell order for " + ticker + " has been submitted. In live product, this would execute against the AMM liquidity pool." });
+      }
     });
   });
 }
