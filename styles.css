@@ -4038,8 +4038,6 @@ body:has(#account.active) .hero-sheet {
     font-size: 9px;
     letter-spacing: 0.1em;
   }
-}
-
   .panel-head h2,
   .panel-head h3 {
     line-height: 1.12;

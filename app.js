@@ -1472,14 +1472,7 @@ function renderDeals() {
 
   el.querySelectorAll("[data-deal]").forEach((node) => {
     node.addEventListener("click", () => {
-      const isMobile = window.innerWidth <= 1120;
-      if (isMobile) {
-        window.location.href = './deal.html?deal=' + encodeURIComponent(node.dataset.deal);
-      } else {
-        state.activeDealId = node.dataset.deal;
-        renderDeals();
-        renderDepositSidebar();
-      }
+      window.location.href = './deal.html?deal=' + encodeURIComponent(node.dataset.deal);
     });
   });
 
