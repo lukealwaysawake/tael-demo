@@ -1491,7 +1491,7 @@ function renderDeals() {
 
   el.querySelectorAll("[data-deal]").forEach((node) => {
     node.addEventListener("click", () => {
-      window.location.href = './deal.html?deal=' + encodeURIComponent(node.dataset.deal);
+      navigateToDeal(node.dataset.deal);
     });
   });
 
@@ -1779,7 +1779,7 @@ function renderDetail() {
         '<aside class="detail-side-column">' +
           mobileAllocateSummary +
           (isFilled 
-            ? '<div class="sticky-ticket filled-notice"><p class="eyebrow">Allocation closed</p><div class="filled-message"><div class="filled-icon">✓</div><h3>This deal is fully funded</h3><p>No more allocations are being accepted. Check back for similar opportunities or browse other active deals.</p><a href="./index.html" class="action-button">Browse active deals</a></div></div>'
+            ? '<div class="sticky-ticket filled-notice"><p class="eyebrow">Allocation closed</p><div class="filled-message"><div class="filled-icon">✓</div><h3>This deal is fully funded</h3><p>No more allocations are being accepted. Check back for similar opportunities or browse other active deals.</p><a href="/app" class="action-button">Browse active deals</a></div></div>'
             : '<div class="sticky-ticket"><p class="eyebrow">Allocate</p>' + ticketBody + '</div>') +
           '<div class="detail-block side-mini-block"><p class="eyebrow">Recent activity</p><div class="ticket-metrics">' + deal.recentDeposits.slice(0, 4).map((item) => '<div class="ticket-metric"><span>' + item + '</span><strong class="mono">FCFS</strong></div>').join("") + '</div></div>' +
           '<div class="detail-block side-mini-block"><p class="eyebrow">Risk notes</p><div class="ticket-metrics">' + deal.riskNotes.map((item) => '<div class="ticket-metric"><span>' + item + '</span><strong class="mono">' + deal.risk + '</strong></div>').join("") + '</div></div>' +
@@ -1789,9 +1789,9 @@ function renderDetail() {
 
   const input = document.getElementById("deposit-amount");
   const mobileBack = document.getElementById("detail-mobile-back");
-  if (mobileBack) mobileBack.addEventListener("click", () => { window.location.href = "./index.html"; });
+  if (mobileBack) mobileBack.addEventListener("click", () => { window.location.href = "/app"; });
   const mobileClose = document.getElementById("detail-mobile-close");
-  if (mobileClose) mobileClose.addEventListener("click", () => { window.location.href = "./index.html"; });
+  if (mobileClose) mobileClose.addEventListener("click", () => { window.location.href = "/app"; });
   
   // Mobile allocate panel toggle
   const toggleAllocate = document.getElementById("toggle-allocate-panel");
@@ -1894,7 +1894,7 @@ function renderDetail() {
         state.activeSection = "portfolio";
         renderAll();
       } else {
-        window.location.href = "./index.html?section=portfolio";
+        window.location.href = "/app/portfolio";
       }
     });
   }
@@ -2399,16 +2399,53 @@ function openModal({ title, body, bodyHtml, confirmLabel, onConfirm }) {
   }
 }
 
-function syncInitialDealRoute() {
+function syncInitialRoute() {
+  const path = window.location.pathname;
   const params = new URLSearchParams(window.location.search);
+  
+  // Handle /app/:section URLs
+  const appMatch = path.match(/^\/app(?:\/([^/]+))?$/);
+  if (appMatch) {
+    const section = appMatch[1];
+    if (section && ["markets", "portfolio", "exchange", "account"].includes(section)) {
+      state.activeSection = section;
+    }
+  }
+  
+  // Handle /deal/:id URLs
+  const dealMatch = path.match(/^\/deal\/([^/]+)$/);
+  if (dealMatch) {
+    const dealId = decodeURIComponent(dealMatch[1]);
+    if (deals.some((deal) => deal.id === dealId)) {
+      state.activeDealId = dealId;
+    }
+  }
+  
+  // Fallback: legacy query params
   const requested = params.get("deal");
   const requestedSection = params.get("section");
   if (requested && deals.some((deal) => deal.id === requested)) {
     state.activeDealId = requested;
   }
-  if (requestedSection && ["markets", "portfolio", "exchange", "desk", "account"].includes(requestedSection)) {
+  if (requestedSection && ["markets", "portfolio", "exchange", "account"].includes(requestedSection)) {
     state.activeSection = requestedSection;
   }
+}
+
+function navigateTo(section) {
+  state.activeSection = section;
+  const newUrl = "/app/" + section;
+  history.pushState({ section: section }, "", newUrl);
+  renderAll();
+}
+
+function navigateToDeal(dealId) {
+  const newUrl = "/deal/" + encodeURIComponent(dealId);
+  window.location.href = newUrl;
+}
+
+function navigateToApp() {
+  window.location.href = "/app";
 }
 
 function renderAll() {
@@ -2429,8 +2466,7 @@ function renderAll() {
 
 navEls.forEach((node) => {
   node.addEventListener("click", () => {
-    state.activeSection = node.dataset.section;
-    renderAll();
+    navigateTo(node.dataset.section);
   });
 });
 
@@ -2469,9 +2505,20 @@ document.querySelectorAll(".lang-btn").forEach((btn) => {
   });
 });
 
+// Handle browser back/forward
+window.addEventListener("popstate", (event) => {
+  if (event.state && event.state.section) {
+    state.activeSection = event.state.section;
+    renderAll();
+  } else {
+    syncInitialRoute();
+    renderAll();
+  }
+});
+
 loadSessionState();
 loadRuntime();
-syncInitialDealRoute();
+syncInitialRoute();
 initLiveDealState();
 seedLiveStream();
 startLiveLoops();

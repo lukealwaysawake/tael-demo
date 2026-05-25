@@ -1,3 +1,13 @@
 {
-  "cleanUrls": true
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/", "destination": "/landing.html" },
+    { "source": "/app", "destination": "/index.html" },
+    { "source": "/app/:section", "destination": "/index.html" },
+    { "source": "/deal/:id", "destination": "/deal.html" }
+  ],
+  "redirects": [
+    { "source": "/index", "destination": "/app", "permanent": true },
+    { "source": "/landing", "destination": "/", "permanent": true }
+  ]
 }
