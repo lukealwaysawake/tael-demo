@@ -1,3 +1,110 @@
+// Toast notification system
+function showToast(type, title, message, duration = 4000) {
+  const container = document.getElementById("toast-container");
+  if (!container) return;
+  
+  const icons = {
+    success: '<svg class="toast-icon" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" fill="currentColor"/></svg>',
+    error: '<svg class="toast-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" fill="currentColor"/></svg>',
+    info: '<svg class="toast-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z" fill="currentColor"/></svg>'
+  };
+  
+  const toast = document.createElement("div");
+  toast.className = "toast " + type;
+  toast.innerHTML = icons[type] + '<div class="toast-content"><span class="toast-title">' + title + '</span>' + (message ? '<span class="toast-message">' + message + '</span>' : '') + '</div>';
+  
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.classList.add("toast-out");
+    setTimeout(() => toast.remove(), 200);
+  }, duration);
+}
+
+// Onboarding tour
+const onboardingSteps = [
+  { target: ".deal-card:first-child", title: "Browse Deals", desc: "Each card represents a brand-KOL financing opportunity. Click to see details and allocate.", position: "bottom" },
+  { target: ".search-bar", title: "Search & Filter", desc: "Find deals by brand, KOL name, or category. Use filters to narrow by status or APY.", position: "bottom" },
+  { target: "[data-section='portfolio']", title: "Your Portfolio", desc: "Track your allocations, accrued yields, and token positions here.", position: "top" },
+  { target: "[data-section='exchange']", title: "YT Exchange", desc: "Trade Yield Tokens (YT) on the secondary market to adjust your yield exposure.", position: "top" }
+];
+
+let currentOnboardingStep = 0;
+
+function startOnboarding() {
+  if (localStorage.getItem("tael-onboarding-done")) return;
+  currentOnboardingStep = 0;
+  showOnboardingStep();
+}
+
+function showOnboardingStep() {
+  // Remove existing
+  document.querySelectorAll(".onboarding-overlay, .onboarding-highlight, .onboarding-tooltip").forEach(el => el.remove());
+  
+  if (currentOnboardingStep >= onboardingSteps.length) {
+    localStorage.setItem("tael-onboarding-done", "true");
+    showToast("success", "Tour complete", "You are ready to start investing!");
+    return;
+  }
+  
+  const step = onboardingSteps[currentOnboardingStep];
+  const target = document.querySelector(step.target);
+  if (!target) {
+    currentOnboardingStep++;
+    showOnboardingStep();
+    return;
+  }
+  
+  const rect = target.getBoundingClientRect();
+  
+  // Overlay
+  const overlay = document.createElement("div");
+  overlay.className = "onboarding-overlay";
+  document.body.appendChild(overlay);
+  setTimeout(() => overlay.classList.add("active"), 10);
+  
+  // Highlight
+  const highlight = document.createElement("div");
+  highlight.className = "onboarding-highlight";
+  highlight.style.cssText = "top:" + (rect.top - 4) + "px;left:" + (rect.left - 4) + "px;width:" + (rect.width + 8) + "px;height:" + (rect.height + 8) + "px;";
+  document.body.appendChild(highlight);
+  
+  // Tooltip
+  const tooltip = document.createElement("div");
+  tooltip.className = "onboarding-tooltip";
+  
+  const dots = onboardingSteps.map((_, i) => '<span class="onboarding-dot ' + (i < currentOnboardingStep ? 'done' : i === currentOnboardingStep ? 'active' : '') + '"></span>').join("");
+  
+  tooltip.innerHTML = '<div class="onboarding-step">Step ' + (currentOnboardingStep + 1) + ' of ' + onboardingSteps.length + '</div>' +
+    '<div class="onboarding-title">' + step.title + '</div>' +
+    '<div class="onboarding-desc">' + step.desc + '</div>' +
+    '<div class="onboarding-actions">' +
+      '<button class="onboarding-skip" id="onboarding-skip">Skip tour</button>' +
+      '<button class="onboarding-next" id="onboarding-next">' + (currentOnboardingStep < onboardingSteps.length - 1 ? 'Next' : 'Finish') + '</button>' +
+    '</div>' +
+    '<div class="onboarding-progress">' + dots + '</div>' +
+    '<div class="onboarding-tooltip-arrow ' + step.position + '"></div>';
+  
+  // Position tooltip
+  if (step.position === "bottom") {
+    tooltip.style.cssText = "top:" + (rect.bottom + 16) + "px;left:" + Math.max(16, rect.left + rect.width / 2 - 150) + "px;";
+  } else {
+    tooltip.style.cssText = "top:" + (rect.top - 16) + "px;left:" + Math.max(16, rect.left + rect.width / 2 - 150) + "px;transform:translateY(-100%);";
+  }
+  
+  document.body.appendChild(tooltip);
+  
+  document.getElementById("onboarding-skip").addEventListener("click", () => {
+    localStorage.setItem("tael-onboarding-done", "true");
+    document.querySelectorAll(".onboarding-overlay, .onboarding-highlight, .onboarding-tooltip").forEach(el => el.remove());
+  });
+  
+  document.getElementById("onboarding-next").addEventListener("click", () => {
+    currentOnboardingStep++;
+    showOnboardingStep();
+  });
+}
+
 const deals = [
   {
     id: "philips-liaustin",
@@ -463,6 +570,8 @@ const state = {
   sort: "closing",
   riskFilter: "all",
   durationFilter: "all",
+  searchQuery: "",
+  statusFilter: "all",
   depositStep: "compose",
   draftAmount: 50000,
   termsAck: false,
@@ -1435,7 +1544,49 @@ function renderDeals() {
     PLAYED_ANIMATIONS.add("markets-cards");
     saveSessionState();
   }
-  el.innerHTML = sortDeals(deals).map((deal, idx) => {
+  
+  // Apply search and filter
+  let filteredDeals = deals.filter((deal) => {
+    // Search filter
+    if (state.searchQuery) {
+      const q = state.searchQuery.toLowerCase();
+      const searchable = (deal.brand + deal.brandShort + deal.kolName + deal.category + deal.product).toLowerCase();
+      if (!searchable.includes(q)) return false;
+    }
+    // Status filter
+    if (state.statusFilter === "filling") {
+      return deal.status === "FILLING FAST" || deal.status === "CLOSING SOON" || deal.status === "NEW";
+    } else if (state.statusFilter === "active") {
+      return deal.status === "ACTIVE";
+    } else if (state.statusFilter === "high-apy") {
+      return deal.apy >= 15;
+    }
+    return true;
+  });
+  
+  // Setup search and filter event listeners
+  const searchInput = document.getElementById("deal-search");
+  if (searchInput && !searchInput.dataset.bound) {
+    searchInput.dataset.bound = "true";
+    searchInput.addEventListener("input", (e) => {
+      state.searchQuery = e.target.value;
+      renderDeals();
+    });
+  }
+  
+  const filterChips = document.querySelectorAll(".filter-chip");
+  filterChips.forEach((chip) => {
+    if (!chip.dataset.bound) {
+      chip.dataset.bound = "true";
+      chip.addEventListener("click", () => {
+        state.statusFilter = chip.dataset.filter;
+        filterChips.forEach((c) => c.classList.toggle("active", c.dataset.filter === state.statusFilter));
+        renderDeals();
+      });
+    }
+  });
+  
+  el.innerHTML = sortDeals(filteredDeals).map((deal, idx) => {
     const progress = Math.round((deal.filled / deal.target) * 100);
     const isFilled = deal.filled >= deal.target;
     const animatedProgress = getAnimatedValue("deal-" + deal.id + "-filledpct", progress, { entryMs: 1400, delayMs: idx * 120 });
@@ -1912,11 +2063,32 @@ function renderDetail() {
     saveSessionState();
     setTimeout(() => openEducationModal(), 120);
   }
+  
+  // Update mobile sticky CTA
+  const stickyCta = document.getElementById("mobile-sticky-cta");
+  const stickyApyEl = document.getElementById("sticky-cta-apy");
+  const stickyFilledEl = document.getElementById("sticky-cta-filled");
+  const stickyBtn = document.getElementById("sticky-cta-btn");
+  if (stickyCta && stickyApyEl && stickyFilledEl) {
+    stickyApyEl.textContent = pct(deal.apy) + " APY";
+    stickyFilledEl.textContent = Math.round((deal.filled / deal.target) * 100) + "% filled";
+    if (deal.status === "FILLED" || deal.status === "ACTIVE" || deal.status === "MATURED") {
+      stickyCta.style.display = "none";
+    }
+  }
+  if (stickyBtn) {
+    stickyBtn.addEventListener("click", () => {
+      document.querySelector(".sticky-ticket")?.scrollIntoView({ behavior: "smooth", block: "center" });
+    });
+  }
 }
 
 function performDeposit(dealId, amount) {
   const deal = deals.find((item) => item.id === dealId);
   if (!deal || amount > wallet.usdt || amount <= 0) return;
+  
+  // Show success toast
+  showToast("success", "Deposit confirmed", money(amount) + " allocated to " + deal.brandShort);
   const receiptRef = generateRef(deal, amount);
 
   wallet.usdt -= amount;
@@ -2516,6 +2688,41 @@ window.addEventListener("popstate", (event) => {
   }
 });
 
+// Keyboard shortcuts
+document.addEventListener("keydown", (event) => {
+  // Don't trigger shortcuts when typing in inputs
+  if (event.target.tagName === "INPUT" || event.target.tagName === "TEXTAREA") return;
+  
+  // Esc to close modal
+  if (event.key === "Escape") {
+    const modal = document.getElementById("action-modal");
+    if (modal && modal.open) {
+      modal.close();
+      return;
+    }
+  }
+  
+  // Number keys 1-4 for section navigation
+  if (event.key === "1") {
+    navigateTo("markets");
+  } else if (event.key === "2") {
+    navigateTo("portfolio");
+  } else if (event.key === "3") {
+    navigateTo("exchange");
+  } else if (event.key === "4") {
+    navigateTo("account");
+  }
+  
+  // / to focus search (if exists)
+  if (event.key === "/" && !event.metaKey && !event.ctrlKey) {
+    const searchInput = document.getElementById("deal-search");
+    if (searchInput) {
+      event.preventDefault();
+      searchInput.focus();
+    }
+  }
+});
+
 loadSessionState();
 loadRuntime();
 syncInitialRoute();
@@ -2523,3 +2730,8 @@ initLiveDealState();
 seedLiveStream();
 startLiveLoops();
 renderAll();
+
+// Start onboarding for new users (only on main app page)
+if (pageType === "home" && state.activeSection === "markets") {
+  setTimeout(() => startOnboarding(), 1500);
+}

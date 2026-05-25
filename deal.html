@@ -52,6 +52,15 @@
         <section id="deal-page-detail" class="detail-page-panel"></section>
       </main>
 
+      <!-- Mobile Sticky CTA -->
+      <div class="mobile-sticky-cta" id="mobile-sticky-cta">
+        <div class="sticky-cta-info">
+          <span class="sticky-cta-apy mono" id="sticky-cta-apy">--% APY</span>
+          <span class="sticky-cta-filled" id="sticky-cta-filled">-- filled</span>
+        </div>
+        <button class="action-button sticky-cta-btn" id="sticky-cta-btn">Deposit</button>
+      </div>
+
       <footer style="border-top:1px solid var(--line);margin-top:60px;padding:24px 0;text-align:center;">
         <div style="font-family:'Instrument Serif',serif;font-style:italic;color:var(--ink-faint);font-size:13px;">Tael · 兩</div>
         <div class="mono" style="font-size:9px;color:var(--ink-faint);letter-spacing:0.16em;margin-top:6px;">PRIVATE · INVITATION ONLY · NOT FOR DISTRIBUTION</div>
@@ -59,6 +68,9 @@
     </div>
 
     <dialog id="action-modal" class="action-modal"></dialog>
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="./app.js"></script>
   </body>

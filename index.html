@@ -117,6 +117,21 @@
           <div id="markets-controls-anchor"></div>
           <div id="markets-controls" class="markets-controls"></div>
 
+          <!-- Search Bar -->
+          <div class="search-bar-container">
+            <div class="search-bar">
+              <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z" fill="currentColor"/></svg>
+              <input type="text" id="deal-search" class="search-input" placeholder="Search deals by brand, KOL, or category..." />
+              <span class="search-shortcut mono">/</span>
+            </div>
+            <div class="filter-chips" id="filter-chips">
+              <button class="filter-chip active" data-filter="all">All</button>
+              <button class="filter-chip" data-filter="filling">Filling</button>
+              <button class="filter-chip" data-filter="active">Active</button>
+              <button class="filter-chip" data-filter="high-apy">High APY</button>
+            </div>
+          </div>
+
           <div class="markets-split-layout">
             <section class="panel panel-book markets-list-panel">
               <div class="panel-head">
@@ -191,13 +206,28 @@
     </div>
 
     <div class="mobile-nav">
-      <button class="nav-link active" data-section="markets">Markets</button>
-      <button class="nav-link" data-section="portfolio">Portfolio</button>
-      <button class="nav-link" data-section="exchange">Exchange</button>
-      <button class="nav-link" data-section="account">Account</button>
+      <button class="nav-link active" data-section="markets">
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h2v8H3v-8zm4-6h2v14H7V7zm4-4h2v18h-2V3zm4 8h2v10h-2V11zm4 4h2v6h-2v-6z" fill="currentColor"/></svg>
+        <span>Markets</span>
+      </button>
+      <button class="nav-link" data-section="portfolio">
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z" fill="currentColor"/></svg>
+        <span>Portfolio</span>
+      </button>
+      <button class="nav-link" data-section="exchange">
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M6.99 11L3 15l3.99 4v-3H14v-2H6.99v-3zM21 9l-3.99-4v3H10v2h7.01v3L21 9z" fill="currentColor"/></svg>
+        <span>Exchange</span>
+      </button>
+      <button class="nav-link" data-section="account">
+        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" fill="currentColor"/></svg>
+        <span>Account</span>
+      </button>
     </div>
 
     <dialog id="action-modal" class="action-modal"></dialog>
+    
+    <!-- Toast Container -->
+    <div id="toast-container" class="toast-container"></div>
 
     <script src="./app.js"></script>
   </body>
