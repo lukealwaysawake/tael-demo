@@ -2418,6 +2418,20 @@ function syncInitialRoute() {
     const dealId = decodeURIComponent(dealMatch[1]);
     if (deals.some((deal) => deal.id === dealId)) {
       state.activeDealId = dealId;
+    } else {
+      // Fallback: try numeric index (0-based or 1-based)
+      const idx = parseInt(dealId, 10);
+      if (!isNaN(idx)) {
+        // Support both 0-based and 1-based indexing
+        const deal = deals[idx] || deals[idx - 1];
+        if (deal) {
+          state.activeDealId = deal.id;
+        }
+      }
+      // If still no match, default to first deal
+      if (!state.activeDealId && deals.length > 0) {
+        state.activeDealId = deals[0].id;
+      }
     }
   }
   
